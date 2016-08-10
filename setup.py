@@ -6,6 +6,8 @@ maintainer = 'Timon Tschanz'
 
 tests_require = [
     'plone.app.testing',
+    'ftw.builder',
+    'unittest2'
 ]
 
 setup(name='ftw.referencewidget',
@@ -37,6 +39,7 @@ setup(name='ftw.referencewidget',
       install_requires=[
           'Plone',
           'setuptools',
+          'plone.app.registry'
       ],
 
       extras_require=dict(
