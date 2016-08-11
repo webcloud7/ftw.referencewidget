@@ -8,7 +8,7 @@ from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_NAME
 from plone.app.testing import TEST_USER_ID
 import json
-
+from ftw.referencewidget.tests.views.form import TestView
 
 class TestJsonView(TestCase):
     layer = FTW_REFERENCE_FUNCTIONAL_TESTING
@@ -22,7 +22,10 @@ class TestJsonView(TestCase):
         create(Builder('file'))
 
     def test_get_json_view(self):
-        view = ReferenceJsonEndpoint(self.portal, self.portal.REQUEST)
+        form = TestView(self.portal, self.portal.REQUEST)
+        form.update()
+        widget = form.form_instance.widgets['relation']
+        view = ReferenceJsonEndpoint(widget, widget.request)
         resultstr = view()
         result = json.loads(resultstr)
         self.assertEquals(2, len(result))
@@ -30,7 +33,10 @@ class TestJsonView(TestCase):
         self.assertEquals(0, len(result['file']['children']))
 
     def test_all_selectable(self):
-        view = ReferenceJsonEndpoint(self.portal, self.portal.REQUEST)
+        form = TestView(self.portal, self.portal.REQUEST)
+        form.update()
+        widget = form.form_instance.widgets['relation']
+        view = ReferenceJsonEndpoint(widget, widget.request)
         resultstr = view()
         result = json.loads(resultstr)
         self.assertTrue(result['folder']['selectable'])
@@ -38,10 +44,14 @@ class TestJsonView(TestCase):
         self.assertTrue(result['file']['selectable'])
 
     def test_folder_not_selectable(self):
-        self.portal.REQUEST['widget-overrides'] = {'block_override': ['Folder']}
-        view = ReferenceJsonEndpoint(self.portal, self.portal.REQUEST)
+        form = TestView(self.portal, self.portal.REQUEST)
+        form.update()
+        widget = form.form_instance.widgets['relation']
+        widget.nonselectable = ['Folder']
+        view = ReferenceJsonEndpoint(widget, widget.request)
+
         resultstr = view()
         result = json.loads(resultstr)
-        self.assertTrue(result['folder']['selectable'])
+        self.assertFalse(result['folder']['selectable'])
         self.assertTrue(result['folder']['children']['file']['selectable'])
         self.assertTrue(result['file']['selectable'])

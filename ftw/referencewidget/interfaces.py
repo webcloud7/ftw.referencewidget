@@ -1,5 +1,6 @@
 from zope import schema
 from zope.interface import Interface
+from z3c.form.interfaces import ITextWidget
 
 
 class IReferenceSettings(Interface):
@@ -17,5 +18,5 @@ class IReferenceSettings(Interface):
         title=u"Additional types to block traversel of.", default=())
 
 
-class IReferenceWidget(Interface):
-    pass
+class IReferenceWidget(ITextWidget):
+    """Marker interface for refwidget"""

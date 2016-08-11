@@ -18,7 +18,7 @@ class TestGeneratePathbar(TestCase):
         setRoles(self.portal, TEST_USER_ID, ['Manager'])
         login(self.portal, TEST_USER_NAME)
         self.folder = create(Builder('folder'))
-        self.lower_file = create(Builder('file').within(self.folder))
+        self.lower_file = create(Builder('file').within(self.folder).titled("Test"))
         self.file = create(Builder('file'))
 
     def test_generate_pathbar(self):
@@ -30,3 +30,11 @@ class TestGeneratePathbar(TestCase):
         self.assertEquals("http://nohost/plone", result[0]['url'])
         self.assertEquals("Plone site", result[0]['title'])
 
+    def test_generate_pathbar_multiple(self):
+        self.portal.REQUEST['POST'] = {'origin': '/plone/folder/test'}
+        view = GeneratePathbar(self.portal, self.portal.REQUEST)
+        resultstr = view()
+        result = json.loads(resultstr)
+        self.assertEquals(3, len(result))
+        self.assertEquals("http://nohost/plone/folder/test", result[2]['url'])
+        self.assertEquals("Test", result[2]['title'])

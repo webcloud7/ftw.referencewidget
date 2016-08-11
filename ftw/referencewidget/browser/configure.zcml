@@ -14,7 +14,14 @@
         />
 
     <browser:page
-        for="*"
+        for="ftw.referencewidget.interfaces.IReferenceWidget"
+        name="search_for_refs"
+        class=".search.SearchView"
+        permission="zope2.View"
+        />
+
+    <browser:page
+        for="ftw.referencewidget.interfaces.IReferenceWidget"
         name="generate_pathbar"
         class=".generate_pathbar.GeneratePathbar"
         permission="zope2.View"

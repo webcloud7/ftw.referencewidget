@@ -22,6 +22,11 @@ class FtwReferenceWidgetLayer(PloneSandboxLayer):
             '</configure>',
             context=configurationContext)
 
+        import ftw.referencewidget.tests.views
+        xmlconfig.file('configure.zcml',
+                       ftw.referencewidget.tests.views,
+                       context=configurationContext)
+
     def setUpPloneSite(self, portal):
         # Install into Plone site using portal_setup
         applyProfile(portal, 'plone.app.registry:default')

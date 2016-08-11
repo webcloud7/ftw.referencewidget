@@ -7,11 +7,15 @@ import json
 class GeneratePathbar(BrowserView):
 
     def __call__(self):
-        originpoint = self.context.REQUEST['POST']['origin']
-
-        obj = self.context.unrestrictedTraverse(originpoint)
+        post = self.context.request.get('POST')
+        originpoint = None
+        if post:
+            originpoint = post.get('origin')
+        if not originpoint:
+            obj = self.context.context
+        else:
+            obj = self.context.unrestrictedTraverse(originpoint)
         results = []
-
         while True:
             results.insert(0, {'title': obj.Title(), 'url': obj.absolute_url()})
             if IPloneSiteRoot.providedBy(obj):

@@ -8,6 +8,24 @@
 
     <i18n:registerTranslations directory="locales" />
 
+    <class class="ftw.referencewidget.widget.ReferenceBrowserWidget">
+        <require permission="zope.Public"
+                 interface="ftw.referencewidget.interfaces.IReferenceWidget" />
+    </class>
+
+    <adapter factory="ftw.referencewidget.widget.ReferenceWidgetFactory" />
+
+    <z3c:widgetTemplate
+        mode="input"
+        widget="ftw.referencewidget.interfaces.IReferenceWidget"
+        layer="z3c.form.interfaces.IFormLayer"
+        template="templates/referencewidget_input.pt" />
+
+    <adapter
+        factory=".widget.ReferenceWidgetFactory"
+        provides="z3c.form.interfaces.IFieldWidget"
+        for="z3c.relationfield.interfaces.IRelationList" />
+
     <genericsetup:registerProfile
         name="default"
         title="ftw.referencewidget"

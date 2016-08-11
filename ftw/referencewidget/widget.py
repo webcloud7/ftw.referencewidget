@@ -14,6 +14,7 @@ class ReferenceBrowserWidget(widget.HTMLTextInputWidget, Widget):
     implementsOnly(IReferenceWidget)
 
     klass = u'reference-widget'
+    request = None
     block_traversal = None
     allow_traversal = None
     selectable = None
@@ -29,7 +30,7 @@ class ReferenceBrowserWidget(widget.HTMLTextInputWidget, Widget):
                  nonselectable=[],
                  start='',
                  override=False):
-
+        self.request = request
         self.block_traversal = block_traversal
         self.allow_traversal = allow_traversal
         self.selectable = selectable
@@ -37,17 +38,21 @@ class ReferenceBrowserWidget(widget.HTMLTextInputWidget, Widget):
         self.start = start
         self.override = override
 
+    def update(self):
+        super(ReferenceBrowserWidget, self).update()
+        widget.addFieldClass(self)
+
 
 @adapter(IReferenceWidget, IFormLayer)
 @implementer(IFieldWidget)
-def DateTimePickerWidgetFactory(field,
-                                request,
-                                block_traversal=[],
-                                allow_traversal=[],
-                                selectable=[],
-                                nonselectable=[],
-                                start='',
-                                override=False):
+def ReferenceWidgetFactory(field,
+                           request,
+                           block_traversal=[],
+                           allow_traversal=[],
+                           selectable=[],
+                           nonselectable=[],
+                           start='',
+                           override=False):
     """IFieldWidget factory for DateTimePickerWidget."""
     return FieldWidget(field, ReferenceBrowserWidget(request,
                                                      block_traversal,

@@ -1,8 +1,7 @@
-from ftw.referencewidget.interfaces import IReferenceSettings
-from plone.registry.interfaces import IRegistry
+from ftw.referencewidget.browser.utils import get_selectable_types
+from ftw.referencewidget.browser.utils import get_traversal_types
 from Products.CMFCore.utils import getToolByName
 from Products.Five import BrowserView
-from zope.component import getUtility
 import json
 
 
@@ -10,8 +9,8 @@ class ReferenceJsonEndpoint(BrowserView):
 
     def __call__(self):
         widget = self.context
-        if 'start' in widget.REQUEST['POST'].keys():
-            effective_path = widget.REQUEST['POST']['start']
+        if 'start' in widget.request.get('POST', {}).keys():
+            effective_path = widget.request['POST']['start']
             effective_context = widget.unrestrictedTraverse(effective_path)
         elif not widget.start:
             effective_context = widget.form.context
@@ -20,15 +19,15 @@ class ReferenceJsonEndpoint(BrowserView):
 
         current_depth = len(effective_context.getPhysicalPath())
 
-        query = {'portal_type': self.get_traversal_types(),
+        query = {'portal_type': get_traversal_types(widget),
                  'query': {'path': '/'.join(effective_context.getPhysicalPath()),
                            'depth': 2},
                  'is_folderish': True
                  }
-        catalog = getToolByName(self.context, 'portal_catalog')
+        catalog = getToolByName(self.context.context, 'portal_catalog')
         results_folderish = catalog(query)
 
-        selectable_types = self.get_selectable_types()
+        selectable_types = get_selectable_types(widget)
         query = {'portal_type': selectable_types,
                  'query': {'path': '/'.join(effective_context.getPhysicalPath()),
                            'depth': 2},
@@ -37,7 +36,7 @@ class ReferenceJsonEndpoint(BrowserView):
 
         results_content = catalog(query)
 
-        results = results_folderish.extend(results_content)
+        results = results_folderish + results_content
         result = {}
         for item in results:
             obj_dict = {'path': item.getPath(),
@@ -57,48 +56,3 @@ class ReferenceJsonEndpoint(BrowserView):
                     parent = parent['children'][phys_path[current_depth + counter]]
                 parent['children'][item.id] = obj_dict
         return json.dumps(result)
-
-    def get_traversal_types(self, widget):
-        if widget.override:
-            return widget.allow_traversal
-
-        registry = getUtility(IRegistry)
-        referencesettings = registry.forInterface(IReferenceSettings)
-        portal_props = getToolByName(self.context, 'portal_properties')
-
-        non_selectable = set(portal_props.site_properties.types_not_searched)
-        non_selectable = non_selectable.union(
-            set(referencesettings.block_traversal_additional))
-
-        non_selectable = non_selectable.difference(
-            set(referencesettings.traverse_additional))
-
-        non_selectable = non_selectable.union(set(widget.block_traversal))
-        non_selectable = non_selectable.difference(set(widget.allow_traversal))
-        return self.remove_blacklist_from_types(non_selectable)
-
-    def remove_blacklist_from_types(self, blacklist):
-        portal_types = getToolByName(self.context, 'portal_types')
-        types_to_search = portal_types.keys()
-        for item in blacklist:
-            if portal_types.get(item):
-                types_to_search.remove(item)
-        return types_to_search
-
-    def get_selectable_types(self, widget):
-        if widget.override:
-            return widget.selectable
-
-        registry = getUtility(IRegistry)
-        referencesettings = registry.forInterface(IReferenceSettings)
-        portal_props = getToolByName(self.context, 'portal_properties')
-
-        non_selectable = set(portal_props.site_properties.types_not_searched)
-        non_selectable = non_selectable.union(
-            set(referencesettings.block_additional))
-        non_selectable = non_selectable.difference(
-            set(referencesettings.select_additional))
-
-        non_selectable = non_selectable.union(set(widget.nonselectable))
-        non_selectable = non_selectable.difference(set(widget.selectable))
-        return self.remove_blacklist_from_types(non_selectable)
