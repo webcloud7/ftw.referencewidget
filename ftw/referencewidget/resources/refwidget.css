@@ -1,0 +1,27 @@
+div.refbrowser .listing li {
+    display:block;
+    height: 1.4em;
+}
+
+div.refbrowser .path {
+    background: #ccc;
+    padding: 1em 1em 1em 1em;
+}
+
+div.refbrowser .listing {
+    padding-left: 0.5em;
+    width:100%;
+}
+
+.refbrowser .listing span {
+    padding-left: 0.5em;
+}
+div.refbrowser {
+    position: absolute;
+    left: 15%;
+    width: 70%;
+    top: 20%;
+    background: #ffffff;
+    border: 1px solid black;
+
+}

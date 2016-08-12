@@ -5,7 +5,7 @@
     <include package="Products.CMFCore"/>
 
     <browser:page
-        name="test-form"
+        name="test-refwidget"
         class=".form.TestView"
         for="*"
         permission="cmf.ModifyPortalContent"

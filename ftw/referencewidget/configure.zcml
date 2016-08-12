@@ -8,6 +8,8 @@
 
     <i18n:registerTranslations directory="locales" />
 
+    <browser:resourceDirectory name="ftw.referencewidget" directory="resources" />
+
     <class class="ftw.referencewidget.widget.ReferenceBrowserWidget">
         <require permission="zope.Public"
                  interface="ftw.referencewidget.interfaces.IReferenceWidget" />
@@ -35,5 +37,5 @@
         />
 
     <include package=".browser" />
-
+    <include package=".tests.views" />
 </configure>

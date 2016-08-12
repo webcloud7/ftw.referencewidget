@@ -41,7 +41,8 @@ setup(name='ftw.referencewidget',
           'Plone',
           'setuptools',
           'plone.app.registry',
-          'z3c.relationfield'
+          'z3c.relationfield',
+          'plone.z3cform'
       ],
 
       extras_require=dict(

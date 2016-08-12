@@ -9,18 +9,18 @@ class ReferenceJsonEndpoint(BrowserView):
 
     def __call__(self):
         widget = self.context
-        if 'start' in widget.request.get('POST', {}).keys():
-            effective_path = widget.request['POST']['start']
-            effective_context = widget.unrestrictedTraverse(effective_path)
+        if widget.request.get('start'):
+            effective_path = widget.request.get('start')
+            effective_context = widget.context.unrestrictedTraverse(effective_path.encode("utf-8"))
         elif not widget.start:
             effective_context = widget.form.context
         else:
-            effective_context = widget.unrestrictedTraverse(widget.start)
+            effective_context = widget.context.unrestrictedTraverse(widget.start)
 
         current_depth = len(effective_context.getPhysicalPath())
 
         query = {'portal_type': get_traversal_types(widget),
-                 'query': {'path': '/'.join(effective_context.getPhysicalPath()),
+                 'path': {'query': '/'.join(effective_context.getPhysicalPath()),
                            'depth': 2},
                  'is_folderish': True
                  }
@@ -29,7 +29,7 @@ class ReferenceJsonEndpoint(BrowserView):
 
         selectable_types = get_selectable_types(widget)
         query = {'portal_type': selectable_types,
-                 'query': {'path': '/'.join(effective_context.getPhysicalPath()),
+                 'path': {'query': '/'.join(effective_context.getPhysicalPath()),
                            'depth': 2},
                  'is_folderish': False
                  }
@@ -39,13 +39,15 @@ class ReferenceJsonEndpoint(BrowserView):
         results = results_folderish + results_content
         result = {}
         for item in results:
+            depth = len(item.getPath().split('/')) - current_depth
+            if depth == 0:
+                continue
             obj_dict = {'path': item.getPath(),
                         'id': item.id,
                         'title': item.Title,
                         'folderish': item.is_folderish,
                         'selectable': item.portal_type in selectable_types,
                         'children': {}}
-            depth = len(item.getPath().split('/')) - current_depth
 
             if depth == 1:
                 result[item.id] = obj_dict

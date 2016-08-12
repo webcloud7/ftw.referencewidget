@@ -1,5 +1,6 @@
 from ftw.referencewidget.browser.generate_pathbar import GeneratePathbar
 from ftw.referencewidget.testing import FTW_REFERENCE_FUNCTIONAL_TESTING
+from ftw.referencewidget.tests.views.form import TestView
 from unittest2 import TestCase
 from ftw.builder import Builder
 from ftw.builder import create
@@ -8,7 +9,6 @@ from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_NAME
 from plone.app.testing import TEST_USER_ID
 import json
-
 
 class TestGeneratePathbar(TestCase):
     layer = FTW_REFERENCE_FUNCTIONAL_TESTING
@@ -22,19 +22,25 @@ class TestGeneratePathbar(TestCase):
         self.file = create(Builder('file'))
 
     def test_generate_pathbar(self):
-        self.portal.REQUEST['POST'] = {'origin': '/plone'}
-        view = GeneratePathbar(self.portal, self.portal.REQUEST)
+        form = TestView(self.portal, self.portal.REQUEST)
+        form.update()
+        widget = form.form_instance.widgets['relation']
+        view = GeneratePathbar(widget, widget.request)
         resultstr = view()
         result = json.loads(resultstr)
         self.assertEquals(1, len(result))
-        self.assertEquals("http://nohost/plone", result[0]['url'])
+        self.assertEquals("/plone", result[0]['path'])
         self.assertEquals("Plone site", result[0]['title'])
 
     def test_generate_pathbar_multiple(self):
-        self.portal.REQUEST['POST'] = {'origin': '/plone/folder/test'}
-        view = GeneratePathbar(self.portal, self.portal.REQUEST)
+        form = TestView(self.portal, self.portal.REQUEST)
+        form.update()
+        widget = form.form_instance.widgets['relation']
+
+        widget.request['origin'] = '/plone/folder/test'
+        view = GeneratePathbar(widget, widget.request)
         resultstr = view()
         result = json.loads(resultstr)
         self.assertEquals(3, len(result))
-        self.assertEquals("http://nohost/plone/folder/test", result[2]['url'])
+        self.assertEquals("/plone/folder/test", result[2]['path'])
         self.assertEquals("Test", result[2]['title'])

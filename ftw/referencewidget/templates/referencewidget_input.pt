@@ -34,3 +34,30 @@
                                       class string:browse-${view/klass};"
                         i18n:translate="">Browse</button>
 </div>
+
+<script id="refbrowser-template" type="text/x-handlebars-template">
+    <div class="refbrowser">
+        <div class="path"></div>
+        <div class="listing">
+            <ul></ul>
+        </div>
+        <div class="formcontrols">
+            <button type="submit" class="submit" i18n:translate="">save</button>
+            <button type="cancel" class="cancel" i18n:translate="">cancel</button>
+    </div>
+</script>
+
+<script id="node-template" type="text/x-handlebars-template">
+    <span data-path="{{path}}">{{title}}</span>
+</script>
+
+<script id="listing-template" type="text/x-handlebars-template">
+    <li class="ref_list_entry" data-path="{{path}}" data-id="{{id}}">
+        {{{checkbox}}}
+        <span> {{title}} </span>
+    </li>
+</script>
+
+<script id="checkbox-template" type="text/x-handlebars-template">
+        <input type="checkbox" class="ref-checkbox" name="reference" value="{{path}}" />
+</script>
