@@ -17,6 +17,7 @@
 
     <adapter factory="ftw.referencewidget.widget.ReferenceWidgetFactory" />
 
+
     <z3c:widgetTemplate
         mode="input"
         widget="ftw.referencewidget.interfaces.IReferenceWidget"
@@ -35,6 +36,13 @@
         description="Register ftw.referencewidget generally"
         provides="Products.GenericSetup.interfaces.EXTENSION"
         />
+
+<utility
+    provides="z3c.objpath.interfaces.IObjectPath"
+    factory="ftw.referencewidget.object_path.ObjectPath"
+    />
+
+    <adapter factory=".converter.ReferenceDataConverter" />
 
     <include package=".browser" />
     <include package=".tests.views" />

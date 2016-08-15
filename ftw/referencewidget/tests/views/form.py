@@ -45,8 +45,4 @@ class TestView(FormWrapper):
     form = TestForm
 
     def render(self):
-        if self.form_instance.result_data:
-            self.request.RESPONSE.setHeader('Content-Type', 'application/json')
-            return json.dumps(self.form_instance.result_data)
-        else:
-            return super(TestView, self).render()
+        return super(TestView, self).render()

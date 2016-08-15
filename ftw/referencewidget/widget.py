@@ -7,6 +7,7 @@ from z3c.form.widget import Widget
 from zope.component import adapter
 from zope.interface import implementer
 from zope.interface import implementsOnly
+import json
 
 
 class ReferenceBrowserWidget(widget.HTMLTextInputWidget, Widget):
@@ -41,6 +42,20 @@ class ReferenceBrowserWidget(widget.HTMLTextInputWidget, Widget):
     def update(self):
         super(ReferenceBrowserWidget, self).update()
         widget.addFieldClass(self)
+
+    def js_value(self):
+        result = []
+        if not self.value:
+            return
+        if isinstance(self.value, list):
+            for item in self.value:
+                obj = self.context.unrestrictedTraverse(item.encode('utf8'))
+                result.append({'path': item.encode('utf8'), 'title': obj.title})
+        else:
+                obj = self.context.unrestrictedTraverse(self.value.encode('utf8'))
+                result.append({'path': self.value.encode('utf8'),
+                               'title': obj.title})
+        return json.dumps(result)
 
 
 @adapter(IReferenceWidget, IFormLayer)

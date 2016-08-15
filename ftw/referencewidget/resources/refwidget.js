@@ -3,15 +3,54 @@ $(function() {
     var request_data = {}
     var url = window.location;
     var widget_url = ""
+    var field_id = ""
+    var name = ""
+    var list_template = Handlebars.compile($('#listing-template').html());
+    var checkbox_template = Handlebars.compile($('#checkbox-template').html());
+
+    var selected_containers = $('.selected_items').each(function(){
+        var container = $(this);
+        var data = $(this).data('select');
+        if (data === undefined){
+            return;
+        }
+        data.forEach(function(item){
+            item['title'] = item['title'] + ' (' + item['path'] + ')';
+            item['selectable'] = true;
+            item['selected'] = 'checked="checked"';
+            item['checkbox'] = checkbox_template(item);
+            $(container).find('ul').append(list_template(item));
+        });
+    });
+
+    var fields = $('.referencewidget').each(function(field){
+        field_id = $(this).closest('.field').attr('id');
+        name = $(this).closest('.field').data('fieldname');
+        widget_url = url + "/++widget++" + field_id.replace("formfield-form-widgets-", "");
+
+        $(this).find('input:text').autocomplete({source: widget_url + "/search_for_refs", minLength: 3, select: function(event, ui){
+            var item = ui['item'];
+            item['title'] = item['label']
+            item['path'] = item['value']
+            item['selectable'] = true;
+            item['selected'] = 'checked="checked"';
+            item['checkbox'] = checkbox_template(item);
+            $(this).closest('.field').find('.selected_items ul').append(list_template(item));
+            $(this).val('');
+        }});
+    });
+
     function openOverlay(){
-        var name = $(this).closest('.field').attr('id');
-        widget_url = url + "/++widget++" + name.replace("formfield-form-widgets-", "");
+        field_id = $(this).closest('.field').attr('id');
+        name = $(this).closest('.field').data('fieldname');
+        widget_url = url + "/++widget++" + field_id.replace("formfield-form-widgets-", "");
 
         $('body').append($("#refbrowser-template").html());
         build_pathbar("");
         get_data("");
 //        build_list(request_data);
     }
+
 
 function build_pathbar(path){
     $('.refbrowser .path').empty();
@@ -40,11 +79,15 @@ function switch_level(e){
 function build_list(data){
             $('.refbrowser .listing ul').empty();
             var list_html = "";
-            var list_template = Handlebars.compile($('#listing-template').html());
-            var checkbox_template = Handlebars.compile($('#checkbox-template').html());
             for (var key in data) {
                 if (data.hasOwnProperty(key)) {
                     var item = data[key];
+                    item['selected'] = "";
+                    var is_selected = $('.referencewidget .selected_items li[data-path="' + item['path'] + '"]');
+                    if (is_selected.length > 0) {
+                        item['selected'] = 'checked="checked"';
+                    }
+
                     if (item['selectable']){
                         item['checkbox'] = checkbox_template(item);
                     }
@@ -71,10 +114,27 @@ function jump_to(e){
     get_data(path);
 }
 
+function checkbox_flipped(e){
+    e.stopPropagation();
+    var checkbox = e.currentTarget;
+    if (checkbox.checked === true){
+        var node = $(e.currentTarget.parentNode).clone();
+        $(node).find('input').attr("name", name);
+        text = $.trim(node.find('span').text());
+        text = text + ' (' + node.data('path') + ')';
+        node.find('span').text(text);
+        $('#' + field_id + ' .referencewidget .selected_items ul').append(node)
+    }
+    else {
+        $('#' + field_id + '.referencewidget .selected_items li[data-path="' + $(e.currentTarget.parentNode).data("path") + '"]').remove();
+    }
+}
+
 function registerListingEvents(){
+    $('.refbrowser .listing input.ref-checkbox').bind('change', checkbox_flipped);
     $('.refbrowser button.cancel').bind('click', function(){$('.refbrowser').remove()});
     $('.ref_list_entry').bind('click', switch_level);
-//        $('.refbrowser .listing input.ref-checkbox').bind('change', checkbox_fliped());
+    $('.refbrowser .listing input.ref-checkbox').bind('click', function(e) {e.stopPropagation();})
     }
 
 

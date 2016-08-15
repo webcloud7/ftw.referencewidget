@@ -1,5 +1,6 @@
-<div class="referencewidget">
-<input type="text"
+<div class="referencewidget" tal:attributes="name view/name">
+<div class="selected_items" tal:attributes="data-select view/js_value"><ul></ul></div>
+<input type="text" autocomplete="off"
        tal:attributes="id string:search-${view/id};
                        name string:search-${view/name};
                        class string:search-${view/klass};
@@ -16,7 +17,6 @@
                        onkeypress view/onkeypress;
                        onkeydown view/onkeydown;
                        onkeyup view/onkeyup;
-                       value view/value;
                        disabled view/disabled;
                        tabindex view/tabindex;
                        onfocus view/onfocus;
@@ -42,8 +42,7 @@
             <ul></ul>
         </div>
         <div class="formcontrols">
-            <button type="submit" class="submit" i18n:translate="">save</button>
-            <button type="cancel" class="cancel" i18n:translate="">cancel</button>
+            <button type="cancel" class="cancel" i18n:translate="">close</button>
     </div>
 </script>
 
@@ -59,5 +58,5 @@
 </script>
 
 <script id="checkbox-template" type="text/x-handlebars-template">
-        <input type="checkbox" class="ref-checkbox" name="reference" value="{{path}}" />
+        <input type="checkbox" class="ref-checkbox" {{{selected}}} name="reference" value="{{path}}" />
 </script>

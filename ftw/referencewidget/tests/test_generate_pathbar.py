@@ -10,6 +10,7 @@ from plone.app.testing import TEST_USER_NAME
 from plone.app.testing import TEST_USER_ID
 import json
 
+
 class TestGeneratePathbar(TestCase):
     layer = FTW_REFERENCE_FUNCTIONAL_TESTING
 

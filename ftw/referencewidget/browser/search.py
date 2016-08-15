@@ -7,11 +7,10 @@ import json
 class SearchView(BrowserView):
 
     def __call__(self):
-        post = self.request.get('POST', {})
-        if "search" not in post.keys():
+        search_term = self.request.get('term')
+        if not search_term:
             return json.dumps([])
 
-        search_term = post['search']
         if not search_term.endswith("*"):
             search_term += "*"
         search_types = get_selectable_types(self.context)
@@ -22,6 +21,7 @@ class SearchView(BrowserView):
         json_prep = []
 
         for item in results:
-            json_prep.append({'title': item.Title, 'path': item.getPath()})
+            label = '{0} ({1})'.format(item.Title, item.getPath())
+            json_prep.append({'label': label, 'value': item.getPath()})
 
         return json.dumps(json_prep)

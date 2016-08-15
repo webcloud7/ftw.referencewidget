@@ -42,7 +42,10 @@ setup(name='ftw.referencewidget',
           'setuptools',
           'plone.app.registry',
           'z3c.relationfield',
-          'plone.z3cform'
+          'plone.z3cform',
+          'plone.app.z3cform',
+          'plone.app.intid',
+          'collective.js.jqueryui'
       ],
 
       extras_require=dict(
