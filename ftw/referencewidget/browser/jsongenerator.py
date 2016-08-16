@@ -37,7 +37,8 @@ class ReferenceJsonEndpoint(BrowserView):
         results_content = catalog(query)
 
         results = results_folderish + results_content
-        result = {}
+        lookup_table = {}
+        result = []
         for item in results:
             depth = len(item.getPath().split('/')) - current_depth
             if depth == 0:
@@ -47,14 +48,15 @@ class ReferenceJsonEndpoint(BrowserView):
                         'title': item.Title,
                         'folderish': item.is_folderish,
                         'selectable': item.portal_type in selectable_types,
-                        'children': {}}
+                        'children': []}
 
             if depth == 1:
-                result[item.id] = obj_dict
+                result.append(obj_dict)
+                lookup_table[item['id']] = len(result) - 1
             else:
                 phys_path = item.getPath().split('/')
-                parent = result[phys_path[current_depth]]
+                parent = result[lookup_table[phys_path[current_depth]]]
                 for counter in range(1, depth - 1):
                     parent = parent['children'][phys_path[current_depth + counter]]
-                parent['children'][item.id] = obj_dict
+                parent['children'].append(obj_dict)
         return json.dumps(result)

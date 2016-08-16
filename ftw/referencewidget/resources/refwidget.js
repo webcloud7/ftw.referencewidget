@@ -1,4 +1,7 @@
 $(function() {
+    if ($('.referencewidget').length === 0){
+        return;
+    }
     $('.referencewidget button').bind('click', openOverlay);
     var request_data = {}
     var url = window.location;
@@ -7,7 +10,8 @@ $(function() {
     var name = ""
     var list_template = Handlebars.compile($('#listing-template').html());
     var checkbox_template = Handlebars.compile($('#checkbox-template').html());
-
+    var batchsize = 20;
+    var lookup_table = {}
     var selected_containers = $('.selected_items').each(function(){
         var container = $(this);
         var data = $(this).data('select');
@@ -69,36 +73,72 @@ function build_pathbar(path){
 
 function switch_level(e){
     var ident = $(e.currentTarget).data('id');
-    if (!$.isEmptyObject(request_data[ident]['children'])){
-        build_list(request_data[ident]['children']);
-        build_pathbar(request_data[ident]['path']);
-        get_data(request_data[ident]['path']);
+    var children = request_data[lookup_table[ident]]['children']
+    var path = request_data[lookup_table[ident]]['path']
+    if (!$.isEmptyObject(children)){
+        build_list(children);
+        build_pathbar(path);
+        get_data(path);
     }
 }
 
-function build_list(data){
-            $('.refbrowser .listing ul').empty();
-            var list_html = "";
-            for (var key in data) {
-                if (data.hasOwnProperty(key)) {
-                    var item = data[key];
-                    item['selected'] = "";
-                    var is_selected = $('.referencewidget .selected_items li[data-path="' + item['path'] + '"]');
-                    if (is_selected.length > 0) {
-                        item['selected'] = 'checked="checked"';
-                    }
+function change_page(e){
+    $('.refbrowser_batching .batch').removeClass("active_batch");
+    $(e.currentTarget).addClass("active_batch");
+    rebuild_listing(request_data, parseInt($(e.currentTarget).text()));
+}
 
-                    if (item['selectable']){
-                        item['checkbox'] = checkbox_template(item);
-                    }
-                    list_html += list_template(item);
-                }
+function rebuild_listing(data, page){
+    $('.refbrowser .listing ul').empty();
+
+    if (data.length > batchsize){
+                if (page != undefined){
+            data = data.slice((page -1) * batchsize, page*batchsize);
         }
-            $('.listing ul').append(list_html);
-            registerListingEvents();
+        else {
+            data = data.slice(0, batchsize);
+        }
+    }
+
+    var list_html = "";
+    lookup_table = {}
+    for (var key in data) {
+        if (data.hasOwnProperty(key)) {
+            var item = data[key];
+            lookup_table[item['id']] = key;
+            item['selected'] = "";
+            var is_selected = $('.referencewidget .selected_items li[data-path="' + item['path'] + '"]');
+            if (is_selected.length > 0) {
+                item['selected'] = 'checked="checked"';
+            }
+
+            if (item['selectable']){
+                item['checkbox'] = checkbox_template(item);
+            }
+            list_html += list_template(item);
+        }
+    }
+    $('.listing ul').append(list_html);
+    registerListingEvents();
 
 }
 
+function build_list(data){
+            $('.refbrowser .refbrowser_batching').remove();
+            if (data.length > batchsize){
+                var batch_template = Handlebars.compile($("#batch_template").html());
+                var page_template = Handlebars.compile($("#page_template").html());
+                $('.refbrowser .listing').append(batch_template());
+                var pages = Math.ceil(data.length / batchsize);
+                for (var i=0;i<pages;i++){
+                    $('.refbrowser .listing .refbrowser_batching').append(page_template({'page': i+1}));
+                }
+                $('.refbrowser_batching .batch').bind('click', change_page);
+                $($('.refbrowser_batching .batch')[0]).addClass("active_batch");
+
+            }
+            rebuild_listing(data);
+}
 function get_data(path){
         $.post(widget_url+'/get_reference_data', {'start': path}, function(data){
             data = JSON.parse(data);
@@ -126,7 +166,8 @@ function checkbox_flipped(e){
         $('#' + field_id + ' .referencewidget .selected_items ul').append(node)
     }
     else {
-        $('#' + field_id + '.referencewidget .selected_items li[data-path="' + $(e.currentTarget.parentNode).data("path") + '"]').remove();
+        var query = '#' + field_id + ' .referencewidget .selected_items li[data-path="' + $(e.currentTarget.parentNode).data("path") + '"]'
+        $(query).remove();
     }
 }
 

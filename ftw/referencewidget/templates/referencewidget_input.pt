@@ -60,3 +60,12 @@
 <script id="checkbox-template" type="text/x-handlebars-template">
         <input type="checkbox" class="ref-checkbox" {{{selected}}} name="reference" value="{{path}}" />
 </script>
+
+<script id="batch_template" type="text/x-handlebars-template">
+        <div class="refbrowser_batching">
+        </div>
+</script>
+
+<script id="page_template" type="text/x-handlebars-template">
+<span class="batch">{{page}}</span>
+</script>
