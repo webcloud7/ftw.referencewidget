@@ -19,9 +19,10 @@ class ReferenceJsonEndpoint(BrowserView):
 
         current_depth = len(effective_context.getPhysicalPath())
 
-        query = {'portal_type': get_traversal_types(widget),
+        traversel_type = get_traversal_types(widget)
+        query = {'portal_type': traversel_type,
                  'path': {'query': '/'.join(effective_context.getPhysicalPath()),
-                           'depth': 2},
+                          'depth': 2},
                  'is_folderish': True
                  }
         catalog = getToolByName(self.context.context, 'portal_catalog')
@@ -30,13 +31,21 @@ class ReferenceJsonEndpoint(BrowserView):
         selectable_types = get_selectable_types(widget)
         query = {'portal_type': selectable_types,
                  'path': {'query': '/'.join(effective_context.getPhysicalPath()),
-                           'depth': 2},
+                          'depth': 2},
                  'is_folderish': False
                  }
 
         results_content = catalog(query)
 
-        results = results_folderish + results_content
+        folderish_selectable = set(selectable_types).difference(set(traversel_type))
+        query = {'portal_type': list(folderish_selectable),
+                 'path': {'query': '/'.join(effective_context.getPhysicalPath()),
+                          'depth': 2},
+                 'is_folderish': True
+                 }
+
+        results_folder_select = catalog(query)
+        results = results_folderish + results_content + results_folder_select
         lookup_table = {}
         result = []
         for item in results:
@@ -55,6 +64,8 @@ class ReferenceJsonEndpoint(BrowserView):
                 lookup_table[item['id']] = len(result) - 1
             else:
                 phys_path = item.getPath().split('/')
+                if phys_path[current_depth] not in lookup_table.keys():
+                    continue
                 parent = result[lookup_table[phys_path[current_depth]]]
                 for counter in range(1, depth - 1):
                     parent = parent['children'][phys_path[current_depth + counter]]

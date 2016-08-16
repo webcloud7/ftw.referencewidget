@@ -24,11 +24,6 @@
         layer="z3c.form.interfaces.IFormLayer"
         template="templates/referencewidget_input.pt" />
 
-    <adapter
-        factory=".widget.ReferenceWidgetFactory"
-        provides="z3c.form.interfaces.IFieldWidget"
-        for="z3c.relationfield.interfaces.IRelationList" />
-
     <genericsetup:registerProfile
         name="default"
         title="ftw.referencewidget"
@@ -41,4 +36,10 @@
 
     <include package=".browser" />
     <include package=".tests.views" />
+
+        <adapter
+        factory=".widget.ReferenceWidgetFactory"
+        provides="z3c.form.interfaces.IFieldWidget"
+        for="z3c.relationfield.interfaces.IRelationList" />
+
 </configure>
