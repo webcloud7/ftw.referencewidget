@@ -37,11 +37,6 @@
         provides="Products.GenericSetup.interfaces.EXTENSION"
         />
 
-<utility
-    provides="z3c.objpath.interfaces.IObjectPath"
-    factory="ftw.referencewidget.object_path.ObjectPath"
-    />
-
     <adapter factory=".converter.ReferenceDataConverter" />
 
     <include package=".browser" />

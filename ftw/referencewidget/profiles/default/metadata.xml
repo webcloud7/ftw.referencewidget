@@ -4,5 +4,6 @@
         <dependency>profile-plone.app.intid:default</dependency>
         <dependency>profile-plone.app.z3cform:default</dependency>
         <dependency>profile-collective.js.jqueryui:default</dependency>
+        <dependency>profile-plone.app.relationfield:default</dependency>
     </dependencies>
 </metadata>
