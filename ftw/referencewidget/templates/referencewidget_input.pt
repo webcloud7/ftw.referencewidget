@@ -1,34 +1,5 @@
 <div class="referencewidget" tal:attributes="name view/name">
-<div class="selected_items" tal:attributes="data-select view/js_value"><ul></ul></div>
-<input type="text" autocomplete="off"
-       tal:attributes="id string:search-${view/id};
-                       name string:search-${view/name};
-                       class string:search-${view/klass};
-                       style view/style;
-                       title view/title;
-                       lang view/lang;
-                       onclick view/onclick;
-                       ondblclick view/ondblclick;
-                       onmousedown view/onmousedown;
-                       onmouseup view/onmouseup;
-                       onmouseover view/onmouseover;
-                       onmousemove view/onmousemove;
-                       onmouseout view/onmouseout;
-                       onkeypress view/onkeypress;
-                       onkeydown view/onkeydown;
-                       onkeyup view/onkeyup;
-                       disabled view/disabled;
-                       tabindex view/tabindex;
-                       onfocus view/onfocus;
-                       onblur view/onblur;
-                       onchange view/onchange;
-                       readonly view/readonly;
-                       alt view/alt;
-                       accesskey view/accesskey;
-                       onselect view/onselect;
-                       size view/size;
-                       maxlength view/maxlength;"
-                       />
+<div class="selected_items" tal:attributes="data-select view/js_value"><ul class="sortable"></ul></div>
 <button type="button" tal:attributes="id string:browse-${view/id};
                                       name string:browse-${view/name};
                                       class string:browse-${view/klass};"
@@ -37,7 +8,12 @@
 
 <script id="refbrowser-template" type="text/x-handlebars-template">
     <div class="refbrowser">
-        <div class="path"></div>
+        <div class="pathbar">
+         <div class="path"></div>
+         <div class="search">
+        <input class="searchField" name="refbrowser-search" type="text" />
+        </div>
+        </div>
         <div class="listing">
             <ul></ul>
         </div>

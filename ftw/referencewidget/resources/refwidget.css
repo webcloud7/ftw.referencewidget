@@ -3,11 +3,25 @@ div.refbrowser .listing li {
     height: 1.4em;
 }
 
-div.refbrowser .path {
+div.refbrowser .pathbar{
     background: #ccc;
     padding: 1em 1em 1em 1em;
+    width:100%;
+    min-height:80px;
+}
+div.refbrowser .path {
+    min-width: 65%;
+    width:auto;
+    float:left;
 }
 
+div.refbrowser .search{
+    float: left;
+}
+div.refbrowser .search input{
+    width:100%;
+    min-width: 180px;
+}
 div.refbrowser .listing {
     padding-left: 0.5em;
     width:100%;

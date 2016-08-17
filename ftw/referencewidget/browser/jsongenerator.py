@@ -8,7 +8,11 @@ import json
 class ReferenceJsonEndpoint(BrowserView):
 
     def __call__(self):
+        batchsize = 20
+        page = 1
         widget = self.context
+        if widget.request.get('page'):
+            page = int(widget.request.get('page'))
         if widget.request.get('start'):
             effective_path = widget.request.get('start')
             effective_context = widget.context.unrestrictedTraverse(effective_path.encode("utf-8"))
@@ -22,7 +26,7 @@ class ReferenceJsonEndpoint(BrowserView):
         traversel_type = get_traversal_types(widget)
         query = {'portal_type': traversel_type,
                  'path': {'query': '/'.join(effective_context.getPhysicalPath()),
-                          'depth': 2},
+                          'depth': 1},
                  'is_folderish': True
                  }
         catalog = getToolByName(self.context.context, 'portal_catalog')
@@ -31,7 +35,7 @@ class ReferenceJsonEndpoint(BrowserView):
         selectable_types = get_selectable_types(widget)
         query = {'portal_type': selectable_types,
                  'path': {'query': '/'.join(effective_context.getPhysicalPath()),
-                          'depth': 2},
+                          'depth': 1},
                  'is_folderish': False
                  }
 
@@ -40,14 +44,18 @@ class ReferenceJsonEndpoint(BrowserView):
         folderish_selectable = set(selectable_types).difference(set(traversel_type))
         query = {'portal_type': list(folderish_selectable),
                  'path': {'query': '/'.join(effective_context.getPhysicalPath()),
-                          'depth': 2},
+                          'depth': 1},
                  'is_folderish': True
                  }
 
         results_folder_select = catalog(query)
         results = results_folderish + results_content + results_folder_select
+        total_results = results.actual_result_count
+        results = results.slice((page - 1) * batchsize, page * batchsize)
         lookup_table = {}
-        result = []
+        result = {'count': total_results,
+                  'page': page, 'items': [],
+                  'batchsize': batchsize}
         for item in results:
             depth = len(item.getPath().split('/')) - current_depth
             if depth == 0:
@@ -56,18 +64,9 @@ class ReferenceJsonEndpoint(BrowserView):
                         'id': item.id,
                         'title': item.Title,
                         'folderish': item.is_folderish,
-                        'selectable': item.portal_type in selectable_types,
-                        'children': []}
+                        'traversable': item.portal_type in traversel_type,
+                        'selectable': item.portal_type in selectable_types}
 
-            if depth == 1:
-                result.append(obj_dict)
-                lookup_table[item['id']] = len(result) - 1
-            else:
-                phys_path = item.getPath().split('/')
-                if phys_path[current_depth] not in lookup_table.keys():
-                    continue
-                parent = result[lookup_table[phys_path[current_depth]]]
-                for counter in range(1, depth - 1):
-                    parent = parent['children'][phys_path[current_depth + counter]]
-                parent['children'].append(obj_dict)
+            result['items'].append(obj_dict)
+            lookup_table[item['id']] = len(result) - 1
         return json.dumps(result)

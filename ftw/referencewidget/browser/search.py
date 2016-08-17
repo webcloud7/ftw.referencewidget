@@ -7,6 +7,7 @@ import json
 class SearchView(BrowserView):
 
     def __call__(self):
+        batchsize = 20
         search_term = self.request.get('term')
         if not search_term:
             return json.dumps([])
@@ -17,11 +18,11 @@ class SearchView(BrowserView):
 
         query = {'portal_types': search_types, 'Title': search_term}
         catalog = getToolByName(self.context.context, 'portal_catalog')
-        results = catalog(query)
+        results = catalog(query).slice(0, 20)
         json_prep = []
 
         for item in results:
             label = '{0} ({1})'.format(item.Title, item.getPath())
-            json_prep.append({'label': label, 'value': item.getPath()})
+            json_prep.append({'title': label, 'path': item.getPath(), 'selectable': True})
 
         return json.dumps(json_prep)

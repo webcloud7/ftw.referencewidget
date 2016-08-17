@@ -3,6 +3,7 @@ $(function() {
         return;
     }
     $('.referencewidget button').bind('click', openOverlay);
+    $('.sortable').sortable();
     var request_data = {}
     var url = window.location;
     var widget_url = ""
@@ -12,6 +13,7 @@ $(function() {
     var checkbox_template = Handlebars.compile($('#checkbox-template').html());
     var batchsize = 20;
     var lookup_table = {}
+    var request_path = ""
     var selected_containers = $('.selected_items').each(function(){
         var container = $(this);
         var data = $(this).data('select');
@@ -27,11 +29,6 @@ $(function() {
         });
     });
 
-    var fields = $('.referencewidget').each(function(field){
-        field_id = $(this).closest('.field').attr('id');
-        name = $(this).closest('.field').data('fieldname');
-        widget_url = url + "/++widget++" + field_id.replace("formfield-form-widgets-", "");
-
         $(this).find('input:text').autocomplete({source: widget_url + "/search_for_refs", minLength: 3, select: function(event, ui){
             var item = ui['item'];
             item['title'] = item['label']
@@ -42,7 +39,6 @@ $(function() {
             $(this).closest('.field').find('.selected_items ul').append(list_template(item));
             $(this).val('');
         }});
-    });
 
     function openOverlay(){
         field_id = $(this).closest('.field').attr('id');
@@ -55,6 +51,15 @@ $(function() {
 //        build_list(request_data);
     }
 
+function search(e){
+    var value = e.currentTarget.value;
+    if (value.length < 3){
+        return;
+    }
+    $.post(widget_url + '/search_for_refs', {'term': value}, function(data){
+        rebuild_listing(JSON.parse(data));
+    })
+}
 
 function build_pathbar(path){
     $('.refbrowser .path').empty();
@@ -66,6 +71,7 @@ function build_pathbar(path){
     });
     $('.path').append(pathbar);
     $('.refbrowser .path span').bind('click', jump_to);
+    $('.refbrowser .search input').bind('input', search);
 
     });
 
@@ -73,33 +79,20 @@ function build_pathbar(path){
 
 function switch_level(e){
     var ident = $(e.currentTarget).data('id');
-    var children = request_data[lookup_table[ident]]['children']
-    var path = request_data[lookup_table[ident]]['path']
-    if (!$.isEmptyObject(children)){
-        build_list(children);
-        build_pathbar(path);
-        get_data(path);
+    var path = request_data['items'][lookup_table[ident]]['path']
+    request_path = path;
+    build_pathbar(path);
+    get_data(path);
     }
-}
 
 function change_page(e){
     $('.refbrowser_batching .batch').removeClass("active_batch");
     $(e.currentTarget).addClass("active_batch");
-    rebuild_listing(request_data, parseInt($(e.currentTarget).text()));
+    get_data(request_path, parseInt($(e.currentTarget).text()));
 }
 
-function rebuild_listing(data, page){
+function rebuild_listing(data){
     $('.refbrowser .listing ul').empty();
-
-    if (data.length > batchsize){
-                if (page != undefined){
-            data = data.slice((page -1) * batchsize, page*batchsize);
-        }
-        else {
-            data = data.slice(0, batchsize);
-        }
-    }
-
     var list_html = "";
     lookup_table = {}
     for (var key in data) {
@@ -125,11 +118,11 @@ function rebuild_listing(data, page){
 
 function build_list(data){
             $('.refbrowser .refbrowser_batching').remove();
-            if (data.length > batchsize){
+            if (data['count'] > data['batchsize']){
                 var batch_template = Handlebars.compile($("#batch_template").html());
                 var page_template = Handlebars.compile($("#page_template").html());
                 $('.refbrowser .listing').append(batch_template());
-                var pages = Math.ceil(data.length / batchsize);
+                var pages = Math.ceil(data['count'] / data['batchsize']);
                 for (var i=0;i<pages;i++){
                     $('.refbrowser .listing .refbrowser_batching').append(page_template({'page': i+1}));
                 }
@@ -137,10 +130,13 @@ function build_list(data){
                 $($('.refbrowser_batching .batch')[0]).addClass("active_batch");
 
             }
-            rebuild_listing(data);
+            rebuild_listing(data['items']);
 }
-function get_data(path){
-        $.post(widget_url+'/get_reference_data', {'start': path}, function(data){
+function get_data(path, page){
+        if (page === undefined){
+            page = 1;
+        }
+        $.post(widget_url+'/get_reference_data', {'start': path, 'page': page}, function(data){
             data = JSON.parse(data);
             request_data = data;
             build_list(request_data);
