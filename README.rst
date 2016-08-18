@@ -1,6 +1,22 @@
 ftw.referencewidget
-==============
+===================
 
+This Widget provides a Referencebrowser and a searchfield, which allows users to select references.
+
+The basequery is all types which are not in the types_not_searched property all modification to the allowed types are relative to this query.
+
+Traversal or Selectability can be changed for all widgets with the IReferenceSettings registry interface or per widget with the widget parameters.
+
+The widget takes the following parameters:
+ - allow_traversal: These Types are traversable
+ - block_traversal: These Types are not traversable
+ - selectable: These Types are selectable
+ - nonselectable: These Types are not selectable
+ - start: The path first opened. Can either be a callable or a string
+ - override: drops all global config and the base query. All types need to be added to be selectable.
+
+Links
+-----
 
 - Github: https://github.com/4teamwork/ftw.referencewidget
 - Issues: https://github.com/4teamwork/ftw.referencewidget/issues
