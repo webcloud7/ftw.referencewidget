@@ -28,9 +28,12 @@ class TestJsonView(TestCase):
         view = ReferenceJsonEndpoint(widget, widget.request)
         resultstr = view()
         result = json.loads(resultstr)
-        self.assertEquals(2, len(result))
-        self.assertEquals(1, len(result['folder']['children']))
-        self.assertEquals(0, len(result['file']['children']))
+
+        self.assertEquals(2, result['count'])
+        items = result['items']
+        self.assertEquals(2, len(items))
+        self.assertEquals("folder", items[0]['id'])
+        self.assertEquals("file", items[1]['id'])
 
     def test_all_selectable(self):
         form = TestView(self.portal, self.portal.REQUEST)
@@ -39,9 +42,9 @@ class TestJsonView(TestCase):
         view = ReferenceJsonEndpoint(widget, widget.request)
         resultstr = view()
         result = json.loads(resultstr)
-        self.assertTrue(result['folder']['selectable'])
-        self.assertTrue(result['folder']['children']['file']['selectable'])
-        self.assertTrue(result['file']['selectable'])
+        result = result['items']
+        self.assertTrue(result[0]['selectable'])
+        self.assertTrue(result[1]['selectable'])
 
     def test_folder_not_selectable(self):
         form = TestView(self.portal, self.portal.REQUEST)
@@ -52,6 +55,6 @@ class TestJsonView(TestCase):
 
         resultstr = view()
         result = json.loads(resultstr)
-        self.assertFalse(result['folder']['selectable'])
-        self.assertTrue(result['folder']['children']['file']['selectable'])
-        self.assertTrue(result['file']['selectable'])
+        result = result['items']
+        self.assertFalse(result[0]['selectable'])
+        self.assertTrue(result[1]['selectable'])

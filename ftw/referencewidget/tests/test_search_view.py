@@ -26,10 +26,11 @@ class TestGeneratePathbar(TestCase):
         self.widget = form.form_instance.widgets['relation']
 
     def test_search_view(self):
-        self.widget.request['POST'] = {'search': 'tes'}
+        self.widget.request['term'] = 'tes'
         view = SearchView(self.widget, self.widget.request)
         result = view()
         results = json.loads(result)
+
         self.assertEquals(1, len(results))
         self.assertEquals("/plone/a-folder/test", results[0]['path'])
-        self.assertEquals("Test", results[0]['title'])
+        self.assertEquals("Test (/plone/a-folder/test)", results[0]['title'])
