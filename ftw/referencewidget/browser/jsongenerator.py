@@ -11,20 +11,21 @@ class ReferenceJsonEndpoint(BrowserView):
         batchsize = 20
         page = 1
         widget = self.context
+        effective_path = ""
         if widget.request.get('page'):
             page = int(widget.request.get('page'))
         if widget.request.get('start'):
             effective_path = widget.request.get('start')
-            effective_context = widget.context.unrestrictedTraverse(
-                effective_path.encode("utf-8"))
         elif not widget.start:
-            effective_context = widget.form.context
+            effective_path = '/'.join(widget.form.context.getPhysicalPath())
         else:
-            effective_context = widget.context.unrestrictedTraverse(
-                widget.start)
+            import pdb; pdb.set_trace()
+            if not callable(widget.start):
+                effective_path = widget.start
+            else:
+                effective_path = widget.start()
 
-        current_depth = len(effective_context.getPhysicalPath())
-        effective_path = '/'.join(effective_context.getPhysicalPath())
+        current_depth = len(effective_path.split('/'))
         traversel_type = get_traversal_types(widget)
         query = {'portal_type': traversel_type,
                  'path': {'query': effective_path,
