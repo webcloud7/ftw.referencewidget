@@ -1,7 +1,7 @@
 from ftw.referencewidget.interfaces import IReferenceSettings
 from plone.registry.interfaces import IRegistry
-from zope.component import getUtility
 from Products.CMFCore.utils import getToolByName
+from zope.component import getUtility
 
 
 def get_traversal_types(widget):

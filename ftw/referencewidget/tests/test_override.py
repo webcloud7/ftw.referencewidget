@@ -1,11 +1,8 @@
-from unittest2 import TestCase
-from ftw.referencewidget.testing import FTW_REFERENCE_FUNCTIONAL_TESTING
-from ftw.referencewidget.browser.utils import get_traversal_types
 from ftw.referencewidget.browser.utils import get_selectable_types
+from ftw.referencewidget.browser.utils import get_traversal_types
+from ftw.referencewidget.testing import FTW_REFERENCE_FUNCTIONAL_TESTING
 from ftw.referencewidget.tests.views.form import TestView
-from plone.registry.interfaces import IRegistry
-from ftw.referencewidget.interfaces import IReferenceSettings
-from zope.component import getUtility
+from unittest2 import TestCase
 
 
 class TestWidgetConfig(TestCase):

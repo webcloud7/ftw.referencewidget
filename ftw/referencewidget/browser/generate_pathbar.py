@@ -1,6 +1,6 @@
-from Products.Five import BrowserView
-from Products.CMFPlone.interfaces.siteroot import IPloneSiteRoot
 from Acquisition import aq_parent
+from Products.CMFPlone.interfaces.siteroot import IPloneSiteRoot
+from Products.Five import BrowserView
 import json
 
 
@@ -11,10 +11,12 @@ class GeneratePathbar(BrowserView):
         if not originpoint:
             obj = self.context.context
         else:
-            obj = self.context.context.unrestrictedTraverse(originpoint.encode("utf8"))
+            obj = self.context.context.unrestrictedTraverse(
+                originpoint.encode("utf8"))
         results = []
         while True:
-            results.insert(0, {'title': obj.Title(), 'path': '/'.join(obj.getPhysicalPath())})
+            results.insert(0, {'title': obj.Title(),
+                               'path': '/'.join(obj.getPhysicalPath())})
             if IPloneSiteRoot.providedBy(obj):
                 break
             else:

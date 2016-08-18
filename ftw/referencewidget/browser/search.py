@@ -23,6 +23,9 @@ class SearchView(BrowserView):
 
         for item in results:
             label = '{0} ({1})'.format(item.Title, item.getPath())
-            json_prep.append({'title': label, 'path': item.getPath(), 'selectable': True})
+            json_prep.append({'title': label,
+                              'path': item.getPath(),
+                              'selectable': True
+                              })
 
         return json.dumps(json_prep)

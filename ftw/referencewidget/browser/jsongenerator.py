@@ -15,17 +15,19 @@ class ReferenceJsonEndpoint(BrowserView):
             page = int(widget.request.get('page'))
         if widget.request.get('start'):
             effective_path = widget.request.get('start')
-            effective_context = widget.context.unrestrictedTraverse(effective_path.encode("utf-8"))
+            effective_context = widget.context.unrestrictedTraverse(
+                effective_path.encode("utf-8"))
         elif not widget.start:
             effective_context = widget.form.context
         else:
-            effective_context = widget.context.unrestrictedTraverse(widget.start)
+            effective_context = widget.context.unrestrictedTraverse(
+                widget.start)
 
         current_depth = len(effective_context.getPhysicalPath())
-
+        effective_path = '/'.join(effective_context.getPhysicalPath())
         traversel_type = get_traversal_types(widget)
         query = {'portal_type': traversel_type,
-                 'path': {'query': '/'.join(effective_context.getPhysicalPath()),
+                 'path': {'query': effective_path,
                           'depth': 1},
                  'is_folderish': True
                  }
@@ -34,16 +36,17 @@ class ReferenceJsonEndpoint(BrowserView):
 
         selectable_types = get_selectable_types(widget)
         query = {'portal_type': selectable_types,
-                 'path': {'query': '/'.join(effective_context.getPhysicalPath()),
+                 'path': {'query': effective_path,
                           'depth': 1},
                  'is_folderish': False
                  }
 
         results_content = catalog(query)
 
-        folderish_selectable = set(selectable_types).difference(set(traversel_type))
+        folderish_selectable = set(selectable_types).difference(
+            set(traversel_type))
         query = {'portal_type': list(folderish_selectable),
-                 'path': {'query': '/'.join(effective_context.getPhysicalPath()),
+                 'path': {'query': effective_path,
                           'depth': 1},
                  'is_folderish': True
                  }

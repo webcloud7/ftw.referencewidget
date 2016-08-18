@@ -1,13 +1,13 @@
-from unittest2 import TestCase
-from ftw.referencewidget.testing import FTW_REFERENCE_FUNCTIONAL_TESTING
-from ftw.referencewidget.converter import ReferenceDataConverter
 from ftw.builder import Builder
 from ftw.builder import create
+from ftw.referencewidget.converter import ReferenceDataConverter
+from ftw.referencewidget.testing import FTW_REFERENCE_FUNCTIONAL_TESTING
+from ftw.referencewidget.tests.views.form import TestView
 from plone.app.testing import login
 from plone.app.testing import setRoles
-from plone.app.testing import TEST_USER_NAME
 from plone.app.testing import TEST_USER_ID
-from ftw.referencewidget.tests.views.form import TestView
+from plone.app.testing import TEST_USER_NAME
+from unittest2 import TestCase
 
 
 class TestFieldConverter(TestCase):

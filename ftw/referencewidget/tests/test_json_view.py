@@ -1,14 +1,15 @@
-from ftw.referencewidget.browser.jsongenerator import ReferenceJsonEndpoint
-from ftw.referencewidget.testing import FTW_REFERENCE_FUNCTIONAL_TESTING
-from unittest2 import TestCase
 from ftw.builder import Builder
 from ftw.builder import create
+from ftw.referencewidget.browser.jsongenerator import ReferenceJsonEndpoint
+from ftw.referencewidget.testing import FTW_REFERENCE_FUNCTIONAL_TESTING
+from ftw.referencewidget.tests.views.form import TestView
 from plone.app.testing import login
 from plone.app.testing import setRoles
-from plone.app.testing import TEST_USER_NAME
 from plone.app.testing import TEST_USER_ID
+from plone.app.testing import TEST_USER_NAME
+from unittest2 import TestCase
 import json
-from ftw.referencewidget.tests.views.form import TestView
+
 
 class TestJsonView(TestCase):
     layer = FTW_REFERENCE_FUNCTIONAL_TESTING

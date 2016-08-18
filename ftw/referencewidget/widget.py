@@ -50,9 +50,11 @@ class ReferenceBrowserWidget(widget.HTMLTextInputWidget, Widget):
         if isinstance(self.value, list):
             for item in self.value:
                 obj = self.context.unrestrictedTraverse(item.encode('utf8'))
-                result.append({'path': item.encode('utf8'), 'title': obj.title})
+                result.append({'path': item.encode('utf8'),
+                               'title': obj.title})
         else:
-                obj = self.context.unrestrictedTraverse(self.value.encode('utf8'))
+                obj = self.context.unrestrictedTraverse(
+                    self.value.encode('utf8'))
                 result.append({'path': self.value.encode('utf8'),
                                'title': obj.title})
         return json.dumps(result)
