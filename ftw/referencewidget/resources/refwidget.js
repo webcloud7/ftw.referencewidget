@@ -2,10 +2,13 @@ $(function() {
     $(document).on('click', '.referencewidget button', openOverlay);
 
     $(document).on('click', '.refbrowser .path span', jump_to);
-    $(document).on('input', '.refbrowser .search input', search);
+    $(document).on('click', '.refbrowser .search button', search);
+    $(document).on('keypress', '.refbrowser .search input', function(event){
+        if(event.which == 13) {search(event);}});
+
     $(document).on('change', '.refbrowser .listing input.ref-checkbox', checkbox_flipped);
     $(document).on('click', '.refbrowser button.cancel', function(){$('.refbrowser').remove()});
-    $(document).on('click', '.ref_list_entry', switch_level);
+    $(document).on('click', '.refbrowser .ref_list_entry', switch_level);
     $(document).on('click', '.refbrowser .listing input.ref-checkbox', function(e) {e.stopPropagation();});
     request_data = {}
     url = location.protocol + '//' + location.host + location.pathname;
@@ -51,10 +54,7 @@ $(function() {
     }
 
 function search(e){
-    var value = e.currentTarget.value;
-    if (value.length < 3){
-        return;
-    }
+    var value = $(e.currentTarget.parentNode).find('input:text').val()
     $.post(widget_url + '/search_for_refs', {'term': value}, function(data){
         rebuild_listing(JSON.parse(data));
     })

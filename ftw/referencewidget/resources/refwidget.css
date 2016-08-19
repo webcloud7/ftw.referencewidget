@@ -19,8 +19,11 @@ div.refbrowser .search{
     float: left;
 }
 div.refbrowser .search input{
-    width:100%;
     min-width: 180px;
+}
+
+div.refbrowser .search button{
+    float:right;
 }
 div.refbrowser .listing {
     padding-left: 0.5em;

@@ -14,6 +14,7 @@
          <div class="path"></div>
          <div class="search">
         <input class="searchField" name="refbrowser-search" type="text" />
+        <button class="searchButton" name="refbrowser-search" type="submit">Search</button>
         </div>
         </div>
         <div class="listing">
