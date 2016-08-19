@@ -1,4 +1,6 @@
-<div class="referencewidget" tal:attributes="name view/name">
+<div class="referencewidget" tal:attributes="name view/name;
+                                             data-url view/form_url;
+                                             data-type view/is_list">
 <div class="selected_items" tal:attributes="data-select view/js_value"><ul class="sortable"></ul></div>
 <button type="button" tal:attributes="id string:browse-${view/id};
                                       name string:browse-${view/name};
@@ -34,7 +36,7 @@
 </script>
 
 <script id="checkbox-template" type="text/x-handlebars-template">
-        <input type="checkbox" class="ref-checkbox" {{{selected}}} name="reference" value="{{path}}" />
+        <input type="{{type}}" class="ref-checkbox" {{{selected}}} name="reference" value="{{path}}" />
 </script>
 
 <script id="batch_template" type="text/x-handlebars-template">

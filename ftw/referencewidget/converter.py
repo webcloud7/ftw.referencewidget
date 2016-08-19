@@ -1,10 +1,12 @@
 from ftw.referencewidget.interfaces import IReferenceWidget
 from z3c.form import converter
 from z3c.relationfield.interfaces import IRelationList
+from z3c.relationfield.interfaces import IRelation
+
 from zope.component import adapts
 
 
-class ReferenceDataConverter(converter.BaseDataConverter):
+class ReferenceDataListConverter(converter.BaseDataConverter):
 
     adapts(IRelationList, IReferenceWidget)
 
@@ -24,3 +26,20 @@ class ReferenceDataConverter(converter.BaseDataConverter):
         for item in value:
             result.append('/'.join(item.getPhysicalPath()))
         return result
+
+
+class ReferenceDataChoiceConverter(converter.BaseDataConverter):
+
+    adapts(IRelation, IReferenceWidget)
+
+    def toFieldValue(self, value):
+        if isinstance(value, unicode):
+            return self.widget.context.unrestrictedTraverse(
+                value.encode("utf8"))
+        else:
+            return self.widget.context.unrestrictedTraverse(
+                value[0].encode("utf-8"))
+
+    def toWidgetValue(self, value):
+        return '/'.join(value.getPhysicalPath())
+

@@ -7,6 +7,7 @@ from z3c.form.widget import Widget
 from zope.component import adapter
 from zope.interface import implementer
 from zope.interface import implementsOnly
+from zope.schema.interfaces import IList
 import json
 
 
@@ -42,6 +43,15 @@ class ReferenceBrowserWidget(widget.HTMLTextInputWidget, Widget):
     def update(self):
         super(ReferenceBrowserWidget, self).update()
         widget.addFieldClass(self)
+
+    def is_list(self):
+        if IList.providedBy(self.field):
+            return 'checkbox'
+        else:
+            return 'radio'
+
+    def form_url(self):
+        return self.form.request.getURL()
 
     def js_value(self):
         result = []

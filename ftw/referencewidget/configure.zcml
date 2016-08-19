@@ -32,7 +32,8 @@
         provides="Products.GenericSetup.interfaces.EXTENSION"
         />
 
-    <adapter factory=".converter.ReferenceDataConverter" />
+    <adapter factory=".converter.ReferenceDataListConverter" />
+    <adapter factory=".converter.ReferenceDataChoiceConverter" />
 
     <include package=".browser" />
     <include package=".tests.views" />
@@ -41,5 +42,10 @@
         factory=".widget.ReferenceWidgetFactory"
         provides="z3c.form.interfaces.IFieldWidget"
         for="z3c.relationfield.interfaces.IRelationList" />
+
+        <adapter
+        factory=".widget.ReferenceWidgetFactory"
+        provides="z3c.form.interfaces.IFieldWidget"
+        for="z3c.relationfield.interfaces.IRelation" />
 
 </configure>

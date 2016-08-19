@@ -1,20 +1,24 @@
 $(function() {
-    if ($('.referencewidget').length === 0){
-        return;
-    }
-    $('.referencewidget button').bind('click', openOverlay);
-    $('.sortable').sortable();
-    var request_data = {}
-    var url = window.location;
-    var widget_url = ""
-    var field_id = ""
-    var name = ""
-    var list_template = Handlebars.compile($('#listing-template').html());
-    var checkbox_template = Handlebars.compile($('#checkbox-template').html());
-    var batchsize = 20;
-    var lookup_table = {}
-    var request_path = ""
-    var selected_containers = $('.selected_items').each(function(){
+    $(document).on('click', '.referencewidget button', openOverlay);
+
+    $(document).on('click', '.refbrowser .path span', jump_to);
+    $(document).on('input', '.refbrowser .search input', search);
+    $(document).on('change', '.refbrowser .listing input.ref-checkbox', checkbox_flipped);
+    $(document).on('click', '.refbrowser button.cancel', function(){$('.refbrowser').remove()});
+    $(document).on('click', '.ref_list_entry', switch_level);
+    $(document).on('click', '.refbrowser .listing input.ref-checkbox', function(e) {e.stopPropagation();});
+    request_data = {}
+    url = location.protocol + '//' + location.host + location.pathname;
+    widget_url = ""
+    field_id = ""
+    name = ""
+    list_template = ""
+    checkbox_template = ""
+    batchsize = 20;
+    lookup_table = {}
+    request_path = ""
+    sel_type = ""
+    selected_containers = $('.selected_items').each(function(){
         var container = $(this);
         var data = $(this).data('select');
         if (data === undefined){
@@ -24,27 +28,22 @@ $(function() {
             item['title'] = item['title'] + ' (' + item['path'] + ')';
             item['selectable'] = true;
             item['selected'] = 'checked="checked"';
+            item['type'] = sel_type;
             item['checkbox'] = checkbox_template(item);
             $(container).find('ul').append(list_template(item));
         });
     });
 
-        $(this).find('input:text').autocomplete({source: widget_url + "/search_for_refs", minLength: 3, select: function(event, ui){
-            var item = ui['item'];
-            item['title'] = item['label']
-            item['path'] = item['value']
-            item['selectable'] = true;
-            item['selected'] = 'checked="checked"';
-            item['checkbox'] = checkbox_template(item);
-            $(this).closest('.field').find('.selected_items ul').append(list_template(item));
-            $(this).val('');
-        }});
-
-    function openOverlay(){
-        field_id = $(this).closest('.field').attr('id');
-        name = $(this).closest('.field').data('fieldname');
-        widget_url = url + "/++widget++" + field_id.replace("formfield-form-widgets-", "");
-
+    function openOverlay(e){
+        $('.refbrowser').remove();
+        list_template = Handlebars.compile($('#listing-template').html());
+        checkbox_template = Handlebars.compile($('#checkbox-template').html());
+        $('.sortable').sortable();
+        target = $(e.currentTarget);
+        sel_type = target.closest('.referencewidget').data('type')
+        field_id = target.closest('.field').attr('id');
+        name = target.closest('.field').data('fieldname');
+        widget_url = target.closest('.referencewidget').data('url') + "/++widget++" + name;
         $('body').append($("#refbrowser-template").html());
         build_pathbar("");
         get_data("");
@@ -70,8 +69,6 @@ function build_pathbar(path){
         pathbar += hb_template(item);
     });
     $('.path').append(pathbar);
-    $('.refbrowser .path span').bind('click', jump_to);
-    $('.refbrowser .search input').bind('input', search);
 
     });
 
@@ -106,13 +103,13 @@ function rebuild_listing(data){
             }
 
             if (item['selectable']){
+                item['type'] = sel_type;
                 item['checkbox'] = checkbox_template(item);
             }
             list_html += list_template(item);
         }
     }
     $('.listing ul').append(list_html);
-    registerListingEvents();
 
 }
 
@@ -132,6 +129,7 @@ function build_list(data){
             }
             rebuild_listing(data['items']);
 }
+
 function get_data(path, page){
         if (page === undefined){
             page = 1;
@@ -166,13 +164,4 @@ function checkbox_flipped(e){
         $(query).remove();
     }
 }
-
-function registerListingEvents(){
-    $('.refbrowser .listing input.ref-checkbox').bind('change', checkbox_flipped);
-    $('.refbrowser button.cancel').bind('click', function(){$('.refbrowser').remove()});
-    $('.ref_list_entry').bind('click', switch_level);
-    $('.refbrowser .listing input.ref-checkbox').bind('click', function(e) {e.stopPropagation();})
-    }
-
-
 });
