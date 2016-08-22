@@ -2,23 +2,20 @@ from ftw.referencewidget.browser.utils import get_selectable_types
 from ftw.referencewidget.browser.utils import get_traversal_types
 from Products.CMFCore.utils import getToolByName
 from Products.Five import BrowserView
+from plone.batching import Batch
+from ftw.referencewidget.browser.refbrowser_batching import RefBrowserBatchView
 import json
 
 
 class ReferenceJsonEndpoint(BrowserView):
 
     def extend_with_batching(self, results):
-        batchsize = 20
         page = 1
         widget = self.context
         if widget.request.get('page'):
             page = int(widget.request.get('page'))
-        total_results = results.actual_result_count
-        results = results.slice((page - 1) * batchsize, page * batchsize)
-        result = {'count': total_results,
-                  'page': page, 'items': [],
-                  'batchsize': batchsize}
-        return (result, results)
+        batch = Batch.fromPagenumber(results, pagenumber=page)
+        return batch
 
     def find_start_path(self):
         widget = self.context
@@ -42,8 +39,8 @@ class ReferenceJsonEndpoint(BrowserView):
         current_depth = len(effective_path.split('/'))
         lookup_table = {}
         results = self.search_catalog(widget, effective_path)
-        result, results = self.extend_with_batching(results)
-
+        batch = self.extend_with_batching(results)
+        import pdb; pdb.set_trace()
         traversel_type = get_traversal_types(widget)
         selectable_types = get_selectable_types(widget)
 

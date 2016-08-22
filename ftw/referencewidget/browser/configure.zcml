@@ -27,4 +27,12 @@
         permission="zope2.View"
         />
 
+  <browser:page
+      name="refbrowsernavigation"
+      for="*"
+      class=".refbrowser_batching.RefBrowserBatchView"
+      template="batchnavigation.pt"
+      permission="zope.Public"
+      />
+
 </configure>
