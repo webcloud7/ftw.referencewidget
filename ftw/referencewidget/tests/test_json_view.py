@@ -30,7 +30,6 @@ class TestJsonView(TestCase):
         resultstr = view()
         result = json.loads(resultstr)
 
-        self.assertEquals(2, result['count'])
         items = result['items']
         self.assertEquals(2, len(items))
         self.assertEquals("folder", items[0]['id'])
