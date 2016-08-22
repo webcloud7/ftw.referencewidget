@@ -21,4 +21,5 @@ class GeneratePathbar(BrowserView):
                 break
             else:
                 obj = aq_parent(obj)
+        self.request.RESPONSE.setHeader("Content-type", "application/json")
         return json.dumps(results)

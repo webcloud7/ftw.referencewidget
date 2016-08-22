@@ -42,9 +42,6 @@
 
 <script id="batch_template" type="text/x-handlebars-template">
         <div class="refbrowser_batching">
+            {{{batching}}}
         </div>
-</script>
-
-<script id="page_template" type="text/x-handlebars-template">
-<span class="batch">{{page}}</span>
 </script>

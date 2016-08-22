@@ -41,5 +41,6 @@ class ReferenceDataChoiceConverter(converter.BaseDataConverter):
                 value[0].encode("utf-8"))
 
     def toWidgetValue(self, value):
-        return '/'.join(value.getPhysicalPath())
+        if value:
+            return '/'.join(value.getPhysicalPath())
 

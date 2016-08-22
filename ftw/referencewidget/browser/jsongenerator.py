@@ -15,7 +15,8 @@ class ReferenceJsonEndpoint(BrowserView):
         if widget.request.get('page'):
             page = int(widget.request.get('page'))
         batch = Batch.fromPagenumber(results, pagenumber=page)
-        return batch
+        batch_view = RefBrowserBatchView(widget, widget.request)
+        return (batch, batch_view(batch))
 
     def find_start_path(self):
         widget = self.context
@@ -39,11 +40,10 @@ class ReferenceJsonEndpoint(BrowserView):
         current_depth = len(effective_path.split('/'))
         lookup_table = {}
         results = self.search_catalog(widget, effective_path)
-        batch = self.extend_with_batching(results)
-        import pdb; pdb.set_trace()
+        results, batch_html = self.extend_with_batching(results)
         traversel_type = get_traversal_types(widget)
         selectable_types = get_selectable_types(widget)
-
+        result = {'batching': batch_html, 'items': []}
         for item in results:
             depth = len(item.getPath().split('/')) - current_depth
             if depth == 0:
@@ -57,6 +57,7 @@ class ReferenceJsonEndpoint(BrowserView):
 
             result['items'].append(obj_dict)
             lookup_table[item['id']] = len(result) - 1
+        self.request.RESPONSE.setHeader("Content-type", "application/json")
         return json.dumps(result)
 
     def search_catalog(self, widget, effective_path):

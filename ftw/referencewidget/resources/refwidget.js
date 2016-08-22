@@ -14,6 +14,7 @@ $(function() {
   $(document).on("click", ".refbrowser button.cancel", function(){$(".refbrowser").remove();});
   $(document).on("click", ".refbrowser .ref_list_entry", switch_level);
   $(document).on("click", ".refbrowser .listing input.ref-checkbox", function(e) {e.stopPropagation();});
+  $(document).on("click", ".refbrowser .listing .refbrowser_batching a", change_page);
   var request_data = {};
 //    var url = location.protocol + "//" + location.host + location.pathname;
   var widget_url = "";
@@ -24,6 +25,7 @@ $(function() {
   var lookup_table = {};
   var request_path = "";
   var sel_type = "";
+  var page = 1;
   $(".selected_items").each(function(){
     var container = $(this);
     var data = $(this).data("select");
@@ -59,7 +61,7 @@ $(function() {
   function search(e){
     var value = $(e.currentTarget.parentNode).find("input:text").val();
     $.post(widget_url + "/search_for_refs", {"term": value}, function(data){
-      rebuild_listing(JSON.parse(data));
+      rebuild_listing(data);
     });
   }
 
@@ -68,7 +70,7 @@ $(function() {
     $.post(widget_url +"/generate_pathbar", {"origin": path}, function(data){
       var hb_template = Handlebars.compile($("#node-template").html());
       var pathbar = "";
-      JSON.parse(data).forEach(function(item){
+      data.forEach(function(item){
         pathbar += hb_template(item);
       });
       $(".path").append(pathbar);
@@ -85,9 +87,17 @@ $(function() {
   }
 
   function change_page(e){
-    $(".refbrowser_batching .batch").removeClass("active_batch");
-    $(e.currentTarget).addClass("active_batch");
-    get_data(request_path, parseInt($(e.currentTarget).text()));
+    var target = $(e.currentTarget);
+    if (target.hasClass("next")){
+      page++;
+    }
+    else if (target.hasClass("previous")){
+      page--;
+    }
+    else{
+      page = parseInt(target.text());
+    }
+    get_data(request_path, page);
   }
 
   function rebuild_listing(data){
@@ -116,17 +126,8 @@ $(function() {
 
   function build_list(data){
     $(".refbrowser .refbrowser_batching").remove();
-    if (data["count"] > data["batchsize"]){
-      var batch_template = Handlebars.compile($("#batch_template").html());
-      var page_template = Handlebars.compile($("#page_template").html());
-      $(".refbrowser .listing").append(batch_template());
-      var pages = Math.ceil(data["count"] / data["batchsize"]);
-      for (var i=0;i<pages;i++){
-        $(".refbrowser .listing .refbrowser_batching").append(page_template({"page": i+1}));
-      }
-      $(".refbrowser_batching .batch").bind("click", change_page);
-      $($(".refbrowser_batching .batch")[0]).addClass("active_batch");
-    }
+    var batch_template = Handlebars.compile($("#batch_template").html());
+    $(".refbrowser .listing").append(batch_template(data));
     rebuild_listing(data["items"]);
   }
 
@@ -135,7 +136,6 @@ $(function() {
       page = 1;
     }
     $.post(widget_url+"/get_reference_data", {"start": path, "page": page}, function(data){
-      data = JSON.parse(data);
       request_data = data;
       build_list(request_data);
     });

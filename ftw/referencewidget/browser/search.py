@@ -28,4 +28,5 @@ class SearchView(BrowserView):
                               'selectable': True
                               })
 
+        self.request.RESPONSE.setHeader("Content-type", "application/json")
         return json.dumps(json_prep)
