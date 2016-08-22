@@ -1,6 +1,6 @@
 from ftw.builder import Builder
 from ftw.builder import create
-from ftw.referencewidget.converter import ReferenceDataConverter
+from ftw.referencewidget.converter import ReferenceDataListConverter
 from ftw.referencewidget.testing import FTW_REFERENCE_FUNCTIONAL_TESTING
 from ftw.referencewidget.tests.views.form import TestView
 from plone.app.testing import login
@@ -23,7 +23,7 @@ class TestFieldConverter(TestCase):
         form = TestView(self.portal, self.portal.REQUEST)
         form.update()
         widget = form.form_instance.widgets['relation']
-        self.converter = ReferenceDataConverter(widget.field, widget)
+        self.converter = ReferenceDataListConverter(widget.field, widget)
 
     def test_widget_to_field(self):
         payload = ['/'.join(self.folder.getPhysicalPath()),

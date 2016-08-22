@@ -31,7 +31,8 @@ class ReferenceBrowserWidget(widget.HTMLTextInputWidget, Widget):
                  selectable=[],
                  nonselectable=[],
                  start='',
-                 override=False):
+                 override=False,
+                 allow_nonsearched_types=False,):
         self.request = request
         self.block_traversal = block_traversal
         self.allow_traversal = allow_traversal
@@ -39,6 +40,7 @@ class ReferenceBrowserWidget(widget.HTMLTextInputWidget, Widget):
         self.nonselectable = nonselectable
         self.start = start
         self.override = override
+        self.allow_nonsearched_types = allow_nonsearched_types
 
     def update(self):
         super(ReferenceBrowserWidget, self).update()
@@ -79,7 +81,8 @@ def ReferenceWidgetFactory(field,
                            selectable=[],
                            nonselectable=[],
                            start='',
-                           override=False):
+                           override=False,
+                           allow_nonsearched_types=False):
     """IFieldWidget factory for DateTimePickerWidget."""
     return FieldWidget(field, ReferenceBrowserWidget(request,
                                                      block_traversal,
@@ -87,4 +90,5 @@ def ReferenceWidgetFactory(field,
                                                      selectable,
                                                      nonselectable,
                                                      start,
-                                                     override))
+                                                     override,
+                                                     allow_nonsearched_types))
