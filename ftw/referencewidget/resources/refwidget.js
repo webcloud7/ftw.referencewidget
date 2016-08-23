@@ -143,8 +143,11 @@ $(function() {
 
   function jump_to(e){
     var path = $(e.currentTarget).data("path");
-    build_pathbar(path);
-    get_data(path);
+    if ($(e.currentTarget).data("clickable") === 1){
+      request_path = path;
+      build_pathbar(path);
+      get_data(path);
+    }
   }
 
   function checkbox_flipped(e){

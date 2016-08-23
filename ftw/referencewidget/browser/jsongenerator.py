@@ -50,7 +50,7 @@ class ReferenceJsonEndpoint(BrowserView):
                 continue
             obj_dict = {'path': item.getPath(),
                         'id': item.id,
-                        'title': item.Title,
+                        'title': item.Title or item.id,
                         'folderish': item.is_folderish,
                         'traversable': item.portal_type in traversel_type,
                         'selectable': item.portal_type in selectable_types}
