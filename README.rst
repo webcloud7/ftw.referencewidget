@@ -16,6 +16,15 @@ The widget takes the following parameters:
  - allow_nonsearched_types: If this is set to true all the types will be traversable and selectable.
  - override: drops all global config and the base query. All types need to be added to be selectable.
 
+Screenshots
+-----------
+The general Listing:
+![Listing](docs/static/list.png)
+The Search Listing:
+![Search Listing](docs/static/search.png)
+The Selected Items
+![Selected](docs/static/selected.png)
+
 Links
 -----
 
