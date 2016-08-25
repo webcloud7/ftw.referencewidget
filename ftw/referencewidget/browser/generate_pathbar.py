@@ -13,6 +13,7 @@ class GeneratePathbar(BrowserView):
         mtool = getToolByName(widget.context, 'portal_membership')
         originpoint = self.request.get('origin', None)
         obj = None
+        first = True
         if not originpoint:
             if widget.start:
                 obj = widget.context.unrestrictedTraverse(
@@ -27,7 +28,8 @@ class GeneratePathbar(BrowserView):
             clickable = mtool.checkPermission('View', obj)
             results.insert(0, {'title': obj.Title(),
                                'path': '/'.join(obj.getPhysicalPath()),
-                               'clickable': clickable})
+                               'clickable': str(clickable and not first)})
+            first = False
             if IPloneSiteRoot.providedBy(obj):
                 break
             else:

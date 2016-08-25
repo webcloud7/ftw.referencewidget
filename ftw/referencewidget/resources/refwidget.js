@@ -5,7 +5,7 @@ $(function() {
 
   $(document).on("click", ".referencewidget button", openOverlay);
 
-  $(document).on("click", ".refbrowser .path span", jump_to);
+  $(document).on("click", ".refbrowser .path a", jump_to);
   $(document).on("click", ".refbrowser .search button", search);
   $(document).on("keypress", ".refbrowser .search input", function(event){
     if(event.which == 13) {search(event);}});
@@ -17,7 +17,7 @@ $(function() {
   $(document).on("click", ".refbrowser button.cancel", function(){$(".refbrowser").remove();});
   $(document).on("click", ".refbrowser .ref_list_entry", switch_level);
   $(document).on("click", ".refbrowser .listing input.ref-checkbox", function(e) {e.stopPropagation();});
-  $(document).on("click", ".refbrowser .listing .refbrowser_batching a", change_page);
+  $(document).on("click", ".refbrowser .refbrowser_batching a", change_page);
   var request_data = {};
 //    var url = location.protocol + "//" + location.host + location.pathname;
   var widget_url = "";
@@ -64,6 +64,7 @@ $(function() {
   function search(e){
     var value = $(e.currentTarget.parentNode).find("input:text").val();
     $.post(widget_url + "/search_for_refs", {"term": value}, function(data){
+      $(".refbrowser .refbrowser_batching").remove();
       rebuild_listing(data);
     });
   }
@@ -134,8 +135,11 @@ $(function() {
   function build_list(data){
     $(".refbrowser .refbrowser_batching").remove();
     var batch_template = Handlebars.compile($("#batch_template").html());
-    $(".refbrowser .listing").append(batch_template(data));
+    $(".refbrowser .batchingcontainer").append(batch_template(data));
     rebuild_listing(data["items"]);
+    var height = $(".refbrowser .pathbar").outerHeight();
+    $(".refbrowser .listing").css({ top: height + "px" });
+
   }
 
   function get_data(path, page){
@@ -149,8 +153,10 @@ $(function() {
   }
 
   function jump_to(e){
-    var path = $(e.currentTarget).data("path");
-    if ($(e.currentTarget).data("clickable") === 1){
+    e.preventDefault();
+    var item = $(e.currentTarget).find('span');
+    var path = $(item).data("path");
+    if ($(item).data("clickable") === "True"){
       request_path = path;
       build_pathbar(path);
       get_data(path);

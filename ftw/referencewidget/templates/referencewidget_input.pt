@@ -10,23 +10,27 @@
 
 <script id="refbrowser-template" type="text/x-handlebars-template">
     <div class="refbrowser">
-        <div class="pathbar">
-         <div class="path"></div>
-         <div class="search">
-        <input class="searchField" name="refbrowser-search" type="text" />
-        <button class="searchButton" name="refbrowser-search" type="submit">Search</button>
-        </div>
-        </div>
-        <div class="listing">
-            <ul></ul>
-        </div>
-        <div class="formcontrols">
-            <button type="cancel" class="cancel" i18n:translate="">close</button>
+            <div class="pathbar">
+                <div class="path"></div>
+                <div class="search">
+                    <input class="searchField" name="refbrowser-search" type="text" />
+                    <button class="searchButton" name="refbrowser-search" type="submit">Search</button>
+                </div>
+            </div>
+            <div class="listing">
+                <ul></ul>
+            </div>
+            <div class="formcontrols">
+                <div class="closecontainer">
+                 <button type="cancel" class="cancel" i18n:translate="">close</button>
+                </div>
+                <div class="batchingcontainer" />
+            </div>
     </div>
 </script>
 
 <script id="node-template" type="text/x-handlebars-template">
-    <span data-path="{{path}}" data-clickable={{clickable}}>{{title}}</span>
+    <a><span data-path="{{path}}" data-clickable={{clickable}}>{{title}}</span></a>
 </script>
 
 <script id="listing-template" type="text/x-handlebars-template">
