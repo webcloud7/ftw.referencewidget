@@ -65,10 +65,10 @@ class ReferenceBrowserWidget(widget.HTMLTextInputWidget, Widget):
                 result.append({'path': item.encode('utf8'),
                                'title': obj.title})
         else:
-                obj = self.context.unrestrictedTraverse(
-                    self.value.encode('utf8'))
-                result.append({'path': self.value.encode('utf8'),
-                               'title': obj.title})
+            obj = self.context.unrestrictedTraverse(
+                self.value.encode('utf8'))
+            result.append({'path': self.value.encode('utf8'),
+                           'title': obj.title})
         return json.dumps(result)
 
 
