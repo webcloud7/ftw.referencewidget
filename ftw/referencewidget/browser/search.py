@@ -7,7 +7,6 @@ import json
 class SearchView(BrowserView):
 
     def __call__(self):
-        batchsize = 20
         search_term = self.request.get('term')
         if not search_term:
             return json.dumps([])
@@ -22,10 +21,13 @@ class SearchView(BrowserView):
         json_prep = []
 
         for item in results:
+            contenttype = item.portal_type.replace('.', '-').lower()
+
             label = '{0} ({1})'.format(item.Title, item.getPath())
             json_prep.append({'title': label,
                               'path': item.getPath(),
-                              'selectable': True
+                              'selectable': True,
+                              'content-type': 'contenttype-' + contenttype
                               })
 
         self.request.RESPONSE.setHeader("Content-type", "application/json")
