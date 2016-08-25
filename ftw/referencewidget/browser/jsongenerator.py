@@ -1,5 +1,6 @@
 from ftw.referencewidget.browser.utils import get_selectable_types
 from ftw.referencewidget.browser.utils import get_traversal_types
+from ftw.referencewidget.browser.utils import get_path_from_widget_start
 from Products.CMFCore.utils import getToolByName
 from Products.Five import BrowserView
 from plone.batching import Batch
@@ -26,11 +27,7 @@ class ReferenceJsonEndpoint(BrowserView):
         elif not widget.start:
             effective_path = '/'.join(widget.form.context.getPhysicalPath())
         else:
-            if not callable(widget.start):
-                effective_path = widget.start
-            else:
-                effective_path = widget.start()
-
+            effective_path = get_path_from_widget_start(widget)
         return effective_path
 
     def __call__(self):
@@ -48,12 +45,16 @@ class ReferenceJsonEndpoint(BrowserView):
             depth = len(item.getPath().split('/')) - current_depth
             if depth == 0:
                 continue
+            contenttype = item.portal_type.replace('.', '-').lower()
+            traversable = item.is_folderish and  \
+                (item.portal_type in traversel_type)
             obj_dict = {'path': item.getPath(),
                         'id': item.id,
                         'title': item.Title or item.id,
                         'folderish': item.is_folderish,
-                        'traversable': item.portal_type in traversel_type,
-                        'selectable': item.portal_type in selectable_types}
+                        'traversable': traversable,
+                        'selectable': item.portal_type in selectable_types,
+                        'content-type': 'contenttype-' + contenttype}
 
             result['items'].append(obj_dict)
             lookup_table[item['id']] = len(result) - 1

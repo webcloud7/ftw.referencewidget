@@ -10,6 +10,9 @@ $(function() {
   $(document).on("keypress", ".refbrowser .search input", function(event){
     if(event.which == 13) {search(event);}});
 
+  $(document).on("keydown", function(event){
+    if(event.which == 27){$(".refbrowser").remove();}
+  });
   $(document).on("change", ".refbrowser .listing input.ref-checkbox", checkbox_flipped);
   $(document).on("click", ".refbrowser button.cancel", function(){$(".refbrowser").remove();});
   $(document).on("click", ".refbrowser .ref_list_entry", switch_level);
@@ -79,6 +82,10 @@ $(function() {
   }
 
   function switch_level(e){
+    var traversable = $(e.currentTarget).data("traversable");
+    if (traversable === false){
+      return;
+    }
     var ident = $(e.currentTarget).data("id");
     var path = request_data["items"][lookup_table[ident]]["path"];
     request_path = path;

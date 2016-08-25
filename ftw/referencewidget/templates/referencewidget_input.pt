@@ -30,9 +30,9 @@
 </script>
 
 <script id="listing-template" type="text/x-handlebars-template">
-    <li class="ref_list_entry" data-path="{{path}}" data-id="{{id}}">
+    <li class="ref_list_entry" data-traversable="{{traversable}}" data-path="{{path}}" data-id="{{id}}">
         {{{checkbox}}}
-        <span> {{title}} </span>
+        <span class="{{content-type}}"> {{title}} </span>
     </li>
 </script>
 
