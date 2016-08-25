@@ -9,9 +9,9 @@ import json
 class GeneratePathbar(BrowserView):
 
     def __call__(self):
-        mtool = getToolByName(self.context, 'portal_membership')
-        originpoint = self.request.get('origin', None)
         widget = self.context
+        mtool = getToolByName(widget.context, 'portal_membership')
+        originpoint = self.request.get('origin', None)
         obj = None
         if not originpoint:
             if widget.start:
