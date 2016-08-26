@@ -1,6 +1,11 @@
+<html xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      i18n:domain="ftw.referencewidget">
+
 <div class="referencewidget" tal:attributes="name view/name;
                                              data-url view/form_url;
-                                             data-type view/is_list">
+                                             data-type view/is_list;
+                                             data-trans view/translations">
 <div class="selected_items" tal:attributes="data-select view/js_value"><ul class="sortable"></ul></div>
 <button type="button" tal:attributes="id string:browse-${view/id};
                                       name string:browse-${view/name};
@@ -14,7 +19,7 @@
                 <div class="path"></div>
                 <div class="search">
                     <input class="searchField" name="refbrowser-search" type="text" />
-                    <button class="searchButton" name="refbrowser-search" type="submit">Search</button>
+                    <button class="searchButton" name="refbrowser-search" type="submit">{{search}}</button>
                 </div>
             </div>
             <div class="listing">
@@ -22,7 +27,7 @@
             </div>
             <div class="formcontrols">
                 <div class="closecontainer">
-                 <button type="cancel" class="cancel" i18n:translate="">close</button>
+                 <button type="cancel" class="cancel" i18n:translate="">{{close}}</button>
                 </div>
                 <div class="batchingcontainer" />
             </div>
@@ -49,3 +54,4 @@
             {{{batching}}}
         </div>
 </script>
+</html>

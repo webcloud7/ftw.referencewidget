@@ -54,9 +54,11 @@ $(function() {
     var target = $(e.currentTarget);
     sel_type = target.closest(".referencewidget").data("type");
     field_id = target.closest(".field").attr("id");
+    var translations = target.closest(".referencewidget").data("trans");
     name = target.closest(".field").data("fieldname");
     widget_url = target.closest(".referencewidget").data("url") + "/++widget++" + name;
-    $("body").append($("#refbrowser-template").html());
+    var refbrowser_template = Handlebars.compile($("#refbrowser-template").html());
+    $("body").append(refbrowser_template(translations));
     build_pathbar("");
     get_data("");
   }

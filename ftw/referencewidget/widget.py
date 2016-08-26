@@ -8,6 +8,8 @@ from zope.component import adapter
 from zope.interface import implementer
 from zope.interface import implementsOnly
 from zope.schema.interfaces import IList
+from ftw.referencewidget import _
+from zope.i18n import translate
 import json
 
 
@@ -51,6 +53,14 @@ class ReferenceBrowserWidget(widget.HTMLTextInputWidget, Widget):
             return 'checkbox'
         else:
             return 'radio'
+
+    def translations(self):
+        msg_search = _(u"button_seach", default="Search")
+        msg_close = _(u"button_close", default="Close")
+        return json.dumps({'search': translate(msg_search,
+                                               context=self.request),
+                           'close': translate(msg_close,
+                                              context=self.request)})
 
     def form_url(self):
         return self.form.request.getURL()

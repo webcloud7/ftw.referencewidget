@@ -5,12 +5,13 @@ from z3c.form.field import Fields
 from z3c.form.form import Form
 from z3c.relationfield.schema import RelationList
 from zope.interface import Interface
+from ftw.referencewidget import _
 import json
 
 
 class IFormSchema(Interface):
     relation = RelationList(
-        title=u'Relation',
+        title=_(u'Relation'),
         required=False)
 
 

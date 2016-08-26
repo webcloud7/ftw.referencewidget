@@ -12,6 +12,8 @@ class ReferenceJsonEndpoint(BrowserView):
 
     def extend_with_batching(self, results):
         page = 1
+        from ftw.referencewidget import _
+        _(u"hans", default=u"hans")
         widget = self.context
         if widget.request.get('page'):
             page = int(widget.request.get('page'))
