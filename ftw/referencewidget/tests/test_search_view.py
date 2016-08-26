@@ -31,7 +31,7 @@ class TestGeneratePathbar(TestCase):
         view = SearchView(self.widget, self.widget.request)
         result = view()
         results = json.loads(result)
-
-        self.assertEquals(1, len(results))
-        self.assertEquals("/plone/a-folder/test", results[0]['path'])
-        self.assertEquals("Test (/plone/a-folder/test)", results[0]['title'])
+        items = results['items']
+        self.assertEquals(1, len(items))
+        self.assertEquals("/plone/a-folder/test", items[0]['path'])
+        self.assertEquals("Test (/plone/a-folder/test)", items[0]['title'])
