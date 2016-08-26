@@ -18,6 +18,7 @@ $(function() {
   $(document).on("click", ".refbrowser .ref_list_entry", switch_level);
   $(document).on("click", ".refbrowser .listing input.ref-checkbox", function(e) {e.stopPropagation();});
   $(document).on("click", ".refbrowser .refbrowser_batching a", change_page);
+  $(window).on("resize", resize);
   var request_data = {};
 //    var url = location.protocol + "//" + location.host + location.pathname;
   var widget_url = "";
@@ -138,6 +139,8 @@ $(function() {
     $(".refbrowser .refbrowser_batching").remove();
     var batch_template = Handlebars.compile($("#batch_template").html());
     $(".refbrowser .batchingcontainer").append(batch_template(data));
+    $(".refbrowser .batchingcontainer .previous").html("&laquo;");
+    $(".refbrowser .batchingcontainer .next").html("&raquo;");
     rebuild_listing(data["items"]);
     var height = $(".refbrowser .pathbar").outerHeight();
     $(".refbrowser .listing").css({ top: height + "px" });
@@ -156,7 +159,7 @@ $(function() {
 
   function jump_to(e){
     e.preventDefault();
-    var item = $(e.currentTarget).find('span');
+    var item = $(e.currentTarget).find("span");
     var path = $(item).data("path");
     if ($(item).data("clickable") === "True"){
       request_path = path;
@@ -165,6 +168,13 @@ $(function() {
     }
   }
 
+  function resize(){
+    $(".refbrowser .pathbar").each(function(item){
+        var height = $(this).outerHeight();
+        var listing = $(this).siblings(".listing");
+        listing.css({"top": height + "px"});
+      });
+  }
   function checkbox_flipped(e){
     e.stopPropagation();
     var checkbox = e.currentTarget;

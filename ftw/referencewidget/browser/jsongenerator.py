@@ -19,7 +19,7 @@ class ReferenceJsonEndpoint(BrowserView):
             page = int(widget.request.get('page'))
         batch = Batch.fromPagenumber(results, pagenumber=page)
         batch_view = RefBrowserBatchView(widget, widget.request)
-        return (batch, batch_view(batch))
+        return (batch, batch_view(batch, minimal_navigation=True))
 
     def find_start_path(self):
         widget = self.context
