@@ -30,6 +30,7 @@ $(function() {
   var request_path = "";
   var sel_type = "";
   var page = 1;
+  var term = "";
   $(".selected_items").each(function(){
     var container = $(this);
     var data = $(this).data("select");
@@ -66,10 +67,17 @@ $(function() {
 
   function search(e){
     var value = $(e.currentTarget.parentNode).find("input:text").val();
-    $.post(widget_url + "/search_for_refs", {"term": value}, function(data){
+    term = value;
+    search_results(term);
+  }
+
+  function search_results(term, page){
+    $.post(widget_url + "/search_for_refs", {"term": term, "page": page}, function(data){
       $(".refbrowser .refbrowser_batching").remove();
-      rebuild_listing(data);
+      build_list(data);
+      $(".refbrowser .listing").addClass("search_result");
     });
+
   }
 
   function build_pathbar(path){
@@ -108,7 +116,13 @@ $(function() {
     else{
       page = parseInt(target.text());
     }
-    get_data(request_path, page);
+    var listing = target.closest('.formcontrols').siblings('.listing');
+    if (listing.hasClass("search_result") === true){
+      search_results(term, page);
+    }
+    else{
+      get_data(request_path, page);
+    }
   }
 
   function rebuild_listing(data){

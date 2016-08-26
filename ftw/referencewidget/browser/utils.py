@@ -4,7 +4,8 @@ from plone.api import portal
 from plone.registry.interfaces import IRegistry
 from Products.CMFCore.utils import getToolByName
 from zope.component import getUtility
-
+from plone.batching import Batch
+from ftw.referencewidget.browser.refbrowser_batching import RefBrowserBatchView
 
 def get_traversal_types(widget):
     if widget.override:
@@ -74,3 +75,12 @@ def get_path_from_widget_start(widget):
     else:
         effective_path = widget.start()
     return effective_path
+
+
+def extend_with_batching(widget, results):
+    page = 1
+    if widget.request.get('page'):
+        page = int(widget.request.get('page'))
+    batch = Batch.fromPagenumber(results, pagenumber=page)
+    batch_view = RefBrowserBatchView(widget, widget.request)
+    return (batch, batch_view(batch, minimal_navigation=True))
