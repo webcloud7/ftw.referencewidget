@@ -23,7 +23,7 @@ class SearchView(BrowserView):
         json_prep = {'batching': batch_html, 'items': []}
 
         for item in results:
-            contenttype = 'contenttype' \
+            contenttype = 'contenttype-' \
                 + item.portal_type.replace('.', '-').lower()
 
             label = '{0} ({1})'.format(item.Title, item.getPath())

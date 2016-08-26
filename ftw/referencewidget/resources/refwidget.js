@@ -134,11 +134,16 @@ $(function() {
         var item = data[key];
         lookup_table[item["id"]] = key;
         item["selected"] = "";
+        item["tag"] = "span";
         var is_selected = $(".referencewidget .selected_items li[data-path=\"" + item["path"] + "\"]");
         if (is_selected.length > 0) {
           item["selected"] = "checked=\"checked\"";
         }
-
+        item["addclass"] = "";
+        if (item["traversable"]){
+          item["addclass"] = "traversable";
+          item["tag"] = "a";
+        }
         if (item["selectable"]){
           item["type"] = sel_type;
           item["checkbox"] = checkbox_template(item);
@@ -156,7 +161,7 @@ $(function() {
     $(".refbrowser .batchingcontainer .previous").html("&laquo;");
     $(".refbrowser .batchingcontainer .next").html("&raquo;");
     rebuild_listing(data["items"]);
-    var height = $(".refbrowser .pathbar").outerHeight();
+    var height = $(".refbrowser .pathbar").outerHeight(true);
     $(".refbrowser .listing").css({ top: height + "px" });
 
   }
@@ -184,7 +189,7 @@ $(function() {
 
   function resize(){
     $(".refbrowser .pathbar").each(function(item){
-        var height = $(this).outerHeight();
+        var height = $(this).outerHeight(true);
         var listing = $(this).siblings(".listing");
         listing.css({"top": height + "px"});
       });

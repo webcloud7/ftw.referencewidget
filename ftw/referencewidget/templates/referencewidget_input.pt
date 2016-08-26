@@ -14,7 +14,7 @@
 </div>
 
 <script id="refbrowser-template" type="text/x-handlebars-template">
-    <div class="refbrowser">
+    <div class="refbrowser overlay">
             <div class="pathbar">
                 <div class="path"></div>
                 <div class="search">
@@ -39,9 +39,9 @@
 </script>
 
 <script id="listing-template" type="text/x-handlebars-template">
-    <li class="ref_list_entry" data-traversable="{{traversable}}" data-path="{{path}}" data-id="{{id}}">
+    <li class="ref_list_entry {{addclass}}" data-traversable="{{traversable}}" data-path="{{path}}" data-id="{{id}}">
         {{{checkbox}}}
-        <span class="{{content-type}}"> {{title}} </span>
+        <{{{tag}}} class="{{content-type}}"> {{title}} </{{{tag}}}>
     </li>
 </script>
 
