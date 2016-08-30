@@ -73,7 +73,7 @@ def get_path_from_widget_start(widget):
         else:
             effective_path = widget.start
     else:
-        effective_path = widget.start()
+        effective_path = widget.start(widget)
     return effective_path
 
 

@@ -10,6 +10,7 @@ import json
 class ReferenceJsonEndpoint(BrowserView):
 
     def find_start_path(self):
+
         widget = self.context
         effective_path = ""
         if widget.request.get('start'):
@@ -23,7 +24,6 @@ class ReferenceJsonEndpoint(BrowserView):
     def __call__(self):
         widget = self.context
         effective_path = self.find_start_path()
-
         current_depth = len(effective_path.split('/'))
         lookup_table = {}
         results = self.search_catalog(widget, effective_path)
@@ -53,7 +53,6 @@ class ReferenceJsonEndpoint(BrowserView):
 
     def search_catalog(self, widget, effective_path):
         traversel_type = get_traversal_types(widget)
-
         query = {'portal_type': traversel_type,
                  'path': {'query': effective_path,
                           'depth': 1},

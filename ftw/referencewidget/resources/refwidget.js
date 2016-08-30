@@ -31,7 +31,11 @@ $(function() {
   var sel_type = "";
   var page = 1;
   var term = "";
-  $(".selected_items").each(function(){
+  $(".selected_items").each(function(index, target){
+    list_template = Handlebars.compile($("#listing-template").html());
+    checkbox_template = Handlebars.compile($("#checkbox-template").html());
+    sel_type = $(target).closest(".referencewidget").data("type");
+
     var container = $(this);
     var data = $(this).data("select");
     if (data === undefined){
@@ -40,6 +44,9 @@ $(function() {
     data.forEach(function(item){
       item["title"] = item["title"] + " (" + item["path"] + ")";
       item["selectable"] = true;
+      item["traversable"] = false;
+      item['addclass'] = "";
+      item['tag'] = "span";
       item["selected"] = "checked=\"checked\"";
       item["type"] = sel_type;
       item["checkbox"] = checkbox_template(item);
@@ -136,7 +143,7 @@ $(function() {
         item["selected"] = "";
         item["tag"] = "span";
         var is_selected = $(".referencewidget .selected_items li[data-path=\"" + item["path"] + "\"]");
-        if (is_selected.length > 0) {
+        if (is_selected.find("input:checked").length > 0) {
           item["selected"] = "checked=\"checked\"";
         }
         item["addclass"] = "";

@@ -9,7 +9,7 @@
 <div class="selected_items" tal:attributes="data-select view/js_value"><ul class="sortable"></ul></div>
 <button type="button" tal:attributes="id string:browse-${view/id};
                                       name string:browse-${view/name};
-                                      class string:browse-${view/klass};"
+                                      class string:context browse-${view/klass};"
                         i18n:translate="">Browse</button>
 </div>
 

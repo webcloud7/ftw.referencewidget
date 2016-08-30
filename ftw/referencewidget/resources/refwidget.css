@@ -74,7 +74,7 @@ div.refbrowser {
     top: 10%;
     background: #ffffff;
     z-index: 2147483647;
-    height: 100%;
+    bottom: 5%;
 }
 
 div.refbrowser .shadow{
