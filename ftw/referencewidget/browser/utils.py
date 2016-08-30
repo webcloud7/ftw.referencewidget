@@ -7,8 +7,9 @@ from zope.component import getUtility
 from plone.batching import Batch
 from ftw.referencewidget.browser.refbrowser_batching import RefBrowserBatchView
 
+
 def get_traversal_types(widget):
-    if widget.override:
+    if widget.override and widget.allow_traversal:
         return widget.allow_traversal
 
     registry = getUtility(IRegistry)
@@ -38,7 +39,7 @@ def remove_blacklist_from_types(widget, blacklist):
 
 
 def get_selectable_types(widget):
-    if widget.override:
+    if widget.override and widget.selectable:
         return widget.selectable
 
     registry = getUtility(IRegistry)

@@ -14,7 +14,7 @@ The widget takes the following parameters:
  - nonselectable: These Types are not selectable
  - start: The path first opened. Can either be a callable or a path. Additionaly the strings "parent", "navroot", "ploneroot" can be used.
  - allow_nonsearched_types: If this is set to true all the types will be traversable and selectable.
- - override: drops all global config and the base query. All types need to be added to be selectable.
+ - override: drops all global config and the base query if a list is passed to the widget. All types need to be added to be selectable.
 
 Screenshots
 -----------
