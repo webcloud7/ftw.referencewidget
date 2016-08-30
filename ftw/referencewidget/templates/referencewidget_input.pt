@@ -7,6 +7,7 @@
                                              data-type view/is_list;
                                              data-trans view/translations">
 <div class="selected_items" tal:attributes="data-select view/js_value"><ul class="sortable"></ul></div>
+<input type="hidden" tal:attributes="name view/name" />
 <button type="button" tal:attributes="id string:browse-${view/id};
                                       name string:browse-${view/name};
                                       class string:context browse-${view/klass};"
