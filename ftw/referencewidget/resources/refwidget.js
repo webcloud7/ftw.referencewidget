@@ -123,6 +123,9 @@
     }
 
     function switch_level(event){
+      event.preventDefault();
+      event.stopPropagation();
+
       var traversable = $(event.currentTarget).data("traversable");
       if (traversable === false){
         return;
@@ -213,7 +216,7 @@
       event.preventDefault();
       var item = $(event.currentTarget);
       var path = $(item).data("path");
-      if ($(item).data("clickable") === "True"){
+      if ($(item).data("clickable")){
         widget.request_path = path;
         build_pathbar(path);
         get_data(path);
