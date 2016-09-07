@@ -7,14 +7,16 @@
 
     function initRefBrowser(event){
       widget = {};
+
       widget.button = $(".referencewidget button");
       widget.button.on("click", openOverlay);
-
       $(window).one("resize", resize);
+
+      widget.name = widget.button.closest(".field").data("fieldname");
+
       widget.request_data = {};
       widget.widget_url = "";
       widget.field_id = "";
-      widget.name = "";
       widget.list_template = "";
       widget.checkbox_template = "";
       widget.lookup_table = {};
@@ -22,6 +24,7 @@
       widget.sel_type = "";
       widget.page = 1;
       widget.term = "";
+
       $(".selected_items").each(function(index, target){
         widget.list_template = Handlebars.compile($("#listing-template").html());
         widget.checkbox_template = Handlebars.compile($("#checkbox-template").html());
@@ -40,6 +43,7 @@
           item['tag'] = "span";
           item["selected"] = "checked=\"checked\"";
           item["type"] = widget.sel_type;
+          item["name"] = widget.name;
           item["checkbox"] = widget.checkbox_template(item);
           $(container).find("ul").append(widget.list_template(item));
         });
@@ -60,7 +64,6 @@
       widget.sel_type = target.closest(".referencewidget").data("type");
       widget.field_id = target.closest(".field").attr("id");
       var translations = target.closest(".referencewidget").data("trans");
-      widget.name = target.closest(".field").data("fieldname");
       widget.widget_url = target.closest(".referencewidget").data("url") + "/++widget++" + widget.name;
       var refbrowser_template = Handlebars.compile($("#refbrowser-template").html());
       $("body").append(refbrowser_template(translations));
@@ -163,6 +166,7 @@
           item["selected"] = "";
           item["extras"] = "";
           item["tag"] = "span";
+          item["name"] = widget.name;
           var is_selected = $(".referencewidget .selected_items li[data-path=\"" + item["path"] + "\"]");
           if (is_selected.find("input:checked").length > 0) {
             item["selected"] = "checked=\"checked\"";
