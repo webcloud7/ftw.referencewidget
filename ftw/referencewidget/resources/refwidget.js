@@ -10,7 +10,7 @@
       widget.button = $(".referencewidget button");
       widget.button.on("click", openOverlay);
 
-      $(window).on("resize", resize);
+      $(window).one("resize", resize);
       widget.request_data = {};
     //    var url = location.protocol + "//" + location.host + location.pathname;
       widget.widget_url = "";
