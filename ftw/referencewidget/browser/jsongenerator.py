@@ -1,33 +1,25 @@
+from ftw.referencewidget.browser.utils import extend_with_batching
 from ftw.referencewidget.browser.utils import get_selectable_types
 from ftw.referencewidget.browser.utils import get_traversal_types
-from ftw.referencewidget.browser.utils import get_path_from_widget_start
+from ftw.referencewidget.browser.utils import is_traversable
 from Products.CMFCore.utils import getToolByName
 from Products.Five import BrowserView
-from ftw.referencewidget.browser.utils import extend_with_batching
 import json
 
 
 class ReferenceJsonEndpoint(BrowserView):
 
-    def find_start_path(self):
-
-        widget = self.context
-        effective_path = ""
-        if widget.request.get('start'):
-            effective_path = widget.request.get('start')
-        elif not widget.start:
-            effective_path = '/'.join(widget.form.context.getPhysicalPath())
-        else:
-            effective_path = get_path_from_widget_start(widget)
-        return effective_path
-
     def __call__(self):
         widget = self.context
-        effective_path = self.find_start_path()
+
+        effective_path = widget.request.get('start', None)
+        if not effective_path:
+            effective_path = widget.get_start_path()
         current_depth = len(effective_path.split('/'))
+
         results = self.search_catalog(widget, effective_path)
         results, batch_html = extend_with_batching(widget, results)
-        traversel_type = get_traversal_types(widget)
+
         selectable_types = get_selectable_types(widget)
         result = {'batching': batch_html, 'items': []}
         for item in results:
@@ -35,13 +27,11 @@ class ReferenceJsonEndpoint(BrowserView):
             if depth == 0:
                 continue
             contenttype = item.portal_type.replace('.', '-').lower()
-            traversable = item.is_folderish and  \
-                (item.portal_type in traversel_type)
             obj_dict = {'path': item.getPath(),
                         'id': item.id,
                         'title': item.Title or item.id,
                         'folderish': item.is_folderish,
-                        'traversable': traversable,
+                        'traversable': is_traversable(widget, item),
                         'selectable': item.portal_type in selectable_types,
                         'content-type': 'contenttype-' + contenttype}
 

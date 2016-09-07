@@ -6,6 +6,7 @@ from Products.CMFCore.utils import getToolByName
 from zope.component import getUtility
 from plone.batching import Batch
 from ftw.referencewidget.browser.refbrowser_batching import RefBrowserBatchView
+from plone import api
 
 
 def get_traversal_types(widget):
@@ -85,3 +86,20 @@ def extend_with_batching(widget, results):
     batch = Batch.fromPagenumber(results, pagenumber=page)
     batch_view = RefBrowserBatchView(widget, widget.request)
     return (batch, batch_view(batch, minimal_navigation=True))
+
+
+def is_traversable(widget, item):
+
+    def _is_folderish(item):
+
+        if hasattr(item, 'is_folderish'):
+            # Brainish
+            return item.is_folderish
+        else:
+            # Assume a object
+            return item.restrictedTraverse(
+                '@@plone_context_state').is_folderish()
+
+    traversel_type = get_traversal_types(widget)
+    return _is_folderish(item) and  \
+        (item.portal_type in traversel_type)
