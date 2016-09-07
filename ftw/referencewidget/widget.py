@@ -1,15 +1,19 @@
+from Acquisition import aq_parent
+from ftw.referencewidget import _
+from ftw.referencewidget.browser.utils import get_path_from_widget_start
+from ftw.referencewidget.browser.utils import is_traversable
 from ftw.referencewidget.interfaces import IReferenceWidget
+from plone import api
 from z3c.form.browser import widget
 from z3c.form.interfaces import IFieldWidget
 from z3c.form.interfaces import IFormLayer
 from z3c.form.widget import FieldWidget
 from z3c.form.widget import Widget
 from zope.component import adapter
+from zope.i18n import translate
 from zope.interface import implementer
 from zope.interface import implementsOnly
 from zope.schema.interfaces import IList
-from ftw.referencewidget import _
-from zope.i18n import translate
 import json
 
 
@@ -80,6 +84,16 @@ class ReferenceBrowserWidget(widget.HTMLTextInputWidget, Widget):
             result.append({'path': self.value.encode('utf8'),
                            'title': obj.title})
         return json.dumps(result)
+
+    def get_start_path(self):
+        if self.start:
+            effective_path = get_path_from_widget_start(self)
+        else:
+            obj = self.context
+            while api.portal.get() != obj and not is_traversable(self, obj):
+                obj = aq_parent(obj)
+            effective_path = '/'.join(obj.getPhysicalPath())
+        return effective_path
 
 
 @adapter(IReferenceWidget, IFormLayer)
