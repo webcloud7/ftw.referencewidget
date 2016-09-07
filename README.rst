@@ -19,11 +19,11 @@ The widget takes the following parameters:
 Screenshots
 -----------
 The general Listing:
-![Listing](docs/static/list.png)
+![Listing](https://github.com/4teamwork/ftw.referencewidget/raw/master/docs/static/list.png)
 The Search Listing:
-![Search Listing](docs/static/search.png)
+![Search Listing](https://github.com/4teamwork/ftw.referencewidget/raw/master/docs/static/search.png)
 The Selected Items
-![Selected](docs/static/selected.png)
+![Selected](https://github.com/4teamwork/ftw.referencewidget/raw/master/docs/static/selected.png)
 
 Links
 -----
