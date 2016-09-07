@@ -3,6 +3,7 @@
 
   $(function() {
 
+
     function initRefBrowser(){
 
       var button = $(".referencewidget button");
@@ -16,10 +17,16 @@
       $(document).on("click", ".refbrowser .path a", jump_to);
       $(document).on("click", ".refbrowser .search button", search);
       $(document).on("keypress", ".refbrowser .search input", function(event){
-        if(event.which == 13) {search(event);}});
+        if(event.which == 13) {
+          search(event);
+      }});
 
       $(document).on("keydown", function(event){
-        if(event.which == 27){$(".refbrowser").remove();}
+        event.preventDefault();
+        event.stopPropagation();
+        if(event.which == 27){
+          $(".refbrowser").remove();
+        }
       });
       $(document).on("change", ".refbrowser .listing input.ref-checkbox", checkbox_flipped);
       $(document).on("click", ".refbrowser button.cancel", function(){$(".refbrowser").remove();});
@@ -65,13 +72,15 @@
       $("body").addClass('refBrowserInitialized');
     }
 
-    function openOverlay(e){
+    function openOverlay(event){
+      event.stopPropagation();
+      event.preventDefault();
       $(".refbrowser").remove();
       list_template = Handlebars.compile($("#listing-template").html());
       checkbox_template = Handlebars.compile($("#checkbox-template").html());
       $(".sortable").sortable();
 
-      var target = $(e.currentTarget);
+      var target = $(event.currentTarget);
       sel_type = target.closest(".referencewidget").data("type");
       field_id = target.closest(".field").attr("id");
       var translations = target.closest(".referencewidget").data("trans");
@@ -83,8 +92,11 @@
       get_data("");
     }
 
-    function search(e){
-      var value = $(e.currentTarget.parentNode).find("input:text").val();
+    function search(event){
+      event.stopPropagation();
+      event.preventDefault();
+
+      var value = $(event.currentTarget.parentNode).find("input:text").val();
       term = value;
       search_results(term);
     }
@@ -111,20 +123,20 @@
 
     }
 
-    function switch_level(e){
-      var traversable = $(e.currentTarget).data("traversable");
+    function switch_level(event){
+      var traversable = $(event.currentTarget).data("traversable");
       if (traversable === false){
         return;
       }
-      var ident = $(e.currentTarget).data("id");
+      var ident = $(event.currentTarget).data("id");
       var path = request_data["items"][lookup_table[ident]]["path"];
       request_path = path;
       build_pathbar(path);
       get_data(path);
     }
 
-    function change_page(e){
-      var target = $(e.currentTarget);
+    function change_page(event){
+      var target = $(event.currentTarget);
       if (target.hasClass("next")){
         page++;
       }
@@ -196,9 +208,10 @@
       });
     }
 
-    function jump_to(e){
-      e.preventDefault();
-      var item = $(e.currentTarget);
+    function jump_to(event){
+      event.stopPropagation();
+      event.preventDefault();
+      var item = $(event.currentTarget);
       var path = $(item).data("path");
       if ($(item).data("clickable") === "True"){
         request_path = path;
@@ -214,11 +227,13 @@
           listing.css({"top": height + "px"});
         });
     }
-    function checkbox_flipped(e){
-      e.stopPropagation();
-      var checkbox = e.currentTarget;
+    function checkbox_flipped(event){
+      event.stopPropagation();
+      event.preventDefault();
+
+      var checkbox = event.currentTarget;
       if (checkbox.checked === true){
-        var node = $(e.currentTarget.parentNode).clone();
+        var node = $(event.currentTarget.parentNode).clone();
         $(node).find("input").attr("name", name);
         var text = $.trim(node.find("span").text());
         text = text + " (" + node.data("path") + ")";
@@ -226,7 +241,7 @@
         $("#" + field_id + " .referencewidget .selected_items ul").append(node);
       }
       else {
-        var query = "#" + field_id + " .referencewidget .selected_items li[data-path=\"" + $(e.currentTarget.parentNode).data("path") + "\"]";
+        var query = "#" + field_id + " .referencewidget .selected_items li[data-path=\"" + $(event.currentTarget.parentNode).data("path") + "\"]";
         $(query).remove();
       }
     }
