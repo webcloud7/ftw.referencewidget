@@ -111,14 +111,13 @@
     }
 
     function build_pathbar(path){
-      $(".refbrowser .path").empty();
       $.post(widget.widget_url +"/generate_pathbar", {"origin": path}, function(data){
         var hb_template = Handlebars.compile($("#node-template").html());
         var pathbar = "";
         data.forEach(function(item){
           pathbar += hb_template(item);
         });
-        $(".path").append(pathbar);
+        $(".path").html(pathbar);
       });
 
     }
