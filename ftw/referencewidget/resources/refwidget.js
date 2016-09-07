@@ -7,7 +7,8 @@
 
     function initRefBrowser(event){
       widget = {};
-      $(document).on("click", ".referencewidget button", openOverlay);
+      widget.button = $(".referencewidget button");
+      widget.button.on("click", openOverlay);
 
       $(window).on("resize", resize);
       widget.request_data = {};
