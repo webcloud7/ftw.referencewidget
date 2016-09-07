@@ -3,53 +3,29 @@
 
   $(function() {
 
+    var widget;
 
-    function initRefBrowser(){
-
-      var button = $(".referencewidget button");
-
-      if (button.length === 0 || $('body.refBrowserInitialized').length === 1) {
-        return;
-      }
-
+    function initRefBrowser(event){
+      widget = {};
       $(document).on("click", ".referencewidget button", openOverlay);
 
-      $(document).on("click", ".refbrowser .path a", jump_to);
-      $(document).on("click", ".refbrowser .search button", search);
-      $(document).on("keypress", ".refbrowser .search input", function(event){
-        if(event.which == 13) {
-          search(event);
-      }});
-
-      $(document).on("keydown", function(event){
-        event.preventDefault();
-        event.stopPropagation();
-        if(event.which == 27){
-          $(".refbrowser").remove();
-        }
-      });
-      $(document).on("change", ".refbrowser .listing input.ref-checkbox", checkbox_flipped);
-      $(document).on("click", ".refbrowser button.cancel", function(){$(".refbrowser").remove();});
-      $(document).on("click", ".refbrowser .ref_list_entry", switch_level);
-      $(document).on("click", ".refbrowser .listing input.ref-checkbox", function(e) {e.stopPropagation();});
-      $(document).on("click", ".refbrowser .refbrowser_batching a", change_page);
       $(window).on("resize", resize);
-      var request_data = {};
+      widget.request_data = {};
     //    var url = location.protocol + "//" + location.host + location.pathname;
-      var widget_url = "";
-      var field_id = "";
-      var name = "";
-      var list_template = "";
-      var checkbox_template = "";
-      var lookup_table = {};
-      var request_path = "";
-      var sel_type = "";
-      var page = 1;
-      var term = "";
+      widget.widget_url = "";
+      widget.field_id = "";
+      widget.name = "";
+      widget.list_template = "";
+      widget.checkbox_template = "";
+      widget.lookup_table = {};
+      widget.request_path = "";
+      widget.sel_type = "";
+      widget.page = 1;
+      widget.term = "";
       $(".selected_items").each(function(index, target){
-        list_template = Handlebars.compile($("#listing-template").html());
-        checkbox_template = Handlebars.compile($("#checkbox-template").html());
-        sel_type = $(target).closest(".referencewidget").data("type");
+        widget.list_template = Handlebars.compile($("#listing-template").html());
+        widget.checkbox_template = Handlebars.compile($("#checkbox-template").html());
+        widget.sel_type = $(target).closest(".referencewidget").data("type");
 
         var container = $(this);
         var data = $(this).data("select");
@@ -63,33 +39,54 @@
           item['addclass'] = "";
           item['tag'] = "span";
           item["selected"] = "checked=\"checked\"";
-          item["type"] = sel_type;
-          item["checkbox"] = checkbox_template(item);
-          $(container).find("ul").append(list_template(item));
+          item["type"] = widget.sel_type;
+          item["checkbox"] = widget.checkbox_template(item);
+          $(container).find("ul").append(widget.list_template(item));
         });
       });
 
-      $("body").addClass('refBrowserInitialized');
     }
 
     function openOverlay(event){
       event.stopPropagation();
       event.preventDefault();
+
       $(".refbrowser").remove();
-      list_template = Handlebars.compile($("#listing-template").html());
-      checkbox_template = Handlebars.compile($("#checkbox-template").html());
+      widget.list_template = Handlebars.compile($("#listing-template").html());
+      widget.checkbox_template = Handlebars.compile($("#checkbox-template").html());
       $(".sortable").sortable();
 
       var target = $(event.currentTarget);
-      sel_type = target.closest(".referencewidget").data("type");
-      field_id = target.closest(".field").attr("id");
+      widget.sel_type = target.closest(".referencewidget").data("type");
+      widget.field_id = target.closest(".field").attr("id");
       var translations = target.closest(".referencewidget").data("trans");
-      name = target.closest(".field").data("fieldname");
-      widget_url = target.closest(".referencewidget").data("url") + "/++widget++" + name;
+      widget.name = target.closest(".field").data("fieldname");
+      widget.widget_url = target.closest(".referencewidget").data("url") + "/++widget++" + widget.name;
       var refbrowser_template = Handlebars.compile($("#refbrowser-template").html());
       $("body").append(refbrowser_template(translations));
       build_pathbar("");
       get_data("");
+
+      var overlay = (".refbrowser");
+
+      $(overlay).on("click", ".refbrowser .path a", jump_to);
+      $(overlay).on("click", ".refbrowser .search button", search);
+      $(overlay).on("keypress", ".refbrowser .search input", function(event){
+        if(event.which == 13) {
+          search(event);
+      }});
+
+      $(overlay).on("keydown", function(event){
+        if(event.which == 27){
+          $(".refbrowser").remove();
+        }
+      });
+      $(overlay).on("change", ".refbrowser .listing input.ref-checkbox", checkbox_flipped);
+      $(overlay).on("click", ".refbrowser button.cancel", function(){$(".refbrowser").remove();});
+      $(overlay).on("click", ".refbrowser .ref_list_entry", switch_level);
+      $(overlay).on("click", ".refbrowser .listing input.ref-checkbox", function(e) {e.stopPropagation();});
+      $(overlay).on("click", ".refbrowser .refbrowser_batching a", change_page);
+
     }
 
     function search(event){
@@ -97,12 +94,12 @@
       event.preventDefault();
 
       var value = $(event.currentTarget.parentNode).find("input:text").val();
-      term = value;
-      search_results(term);
+      widget.term = value;
+      search_results(widget.term);
     }
 
     function search_results(term, page){
-      $.post(widget_url + "/search_for_refs", {"term": term, "page": page}, function(data){
+      $.post(widget.widget_url + "/search_for_refs", {"term": term, "page": page}, function(data){
         $(".refbrowser .refbrowser_batching").remove();
         build_list(data);
         $(".refbrowser .listing").addClass("search_result");
@@ -112,7 +109,7 @@
 
     function build_pathbar(path){
       $(".refbrowser .path").empty();
-      $.post(widget_url +"/generate_pathbar", {"origin": path}, function(data){
+      $.post(widget.widget_url +"/generate_pathbar", {"origin": path}, function(data){
         var hb_template = Handlebars.compile($("#node-template").html());
         var pathbar = "";
         data.forEach(function(item){
@@ -129,8 +126,8 @@
         return;
       }
       var ident = $(event.currentTarget).data("id");
-      var path = request_data["items"][lookup_table[ident]]["path"];
-      request_path = path;
+      var path = widget.request_data["items"][widget.lookup_table[ident]]["path"];
+      widget.request_path = path;
       build_pathbar(path);
       get_data(path);
     }
@@ -138,31 +135,31 @@
     function change_page(event){
       var target = $(event.currentTarget);
       if (target.hasClass("next")){
-        page++;
+        widget.page++;
       }
       else if (target.hasClass("previous")){
-        page--;
+        widget.page--;
       }
       else{
-        page = parseInt(target.text());
+        widget.page = parseInt(target.text());
       }
       var listing = target.closest('.formcontrols').siblings('.listing');
       if (listing.hasClass("search_result") === true){
-        search_results(term, page);
+        search_results(widget.term, widget.page);
       }
       else{
-        get_data(request_path, page);
+        get_data(widget.request_path, widget.page);
       }
     }
 
     function rebuild_listing(data){
       $(".refbrowser .listing ul").empty();
       var list_html = "";
-      lookup_table = {};
+      widget.lookup_table = {};
       for (var key in data) {
         if (data.hasOwnProperty(key)) {
           var item = data[key];
-          lookup_table[item["id"]] = key;
+          widget.lookup_table[item["id"]] = key;
           item["selected"] = "";
           item["extras"] = "";
           item["tag"] = "span";
@@ -177,10 +174,10 @@
             item["extras"] = "href='#'";
           }
           if (item["selectable"]){
-            item["type"] = sel_type;
-            item["checkbox"] = checkbox_template(item);
+            item["type"] = widget.sel_type;
+            item["checkbox"] = widget.checkbox_template(item);
           }
-          list_html += list_template(item);
+          list_html += widget.list_template(item);
         }
       }
       $(".listing ul").append(list_html);
@@ -202,9 +199,9 @@
       if (page === undefined){
         page = 1;
       }
-      $.post(widget_url+"/get_reference_data", {"start": path, "page": page}, function(data){
-        request_data = data;
-        build_list(request_data);
+      $.post(widget.widget_url+"/get_reference_data", {"start": path, "page": page}, function(data){
+        widget.request_data = data;
+        build_list(widget.request_data);
       });
     }
 
@@ -214,7 +211,7 @@
       var item = $(event.currentTarget);
       var path = $(item).data("path");
       if ($(item).data("clickable") === "True"){
-        request_path = path;
+        widget.request_path = path;
         build_pathbar(path);
         get_data(path);
       }
@@ -234,21 +231,25 @@
       var checkbox = event.currentTarget;
       if (checkbox.checked === true){
         var node = $(event.currentTarget.parentNode).clone();
-        $(node).find("input").attr("name", name);
+        $(node).find("input").attr("name", widget.name);
         var text = $.trim(node.find("span").text());
         text = text + " (" + node.data("path") + ")";
         node.find("span").text(text);
-        $("#" + field_id + " .referencewidget .selected_items ul").append(node);
+        $("#" + widget.field_id + " .referencewidget .selected_items ul").append(node);
       }
       else {
-        var query = "#" + field_id + " .referencewidget .selected_items li[data-path=\"" + $(event.currentTarget.parentNode).data("path") + "\"]";
+        var query = "#" + widget.field_id + " .referencewidget .selected_items li[data-path=\"" + $(event.currentTarget.parentNode).data("path") + "\"]";
         $(query).remove();
       }
     }
 
 
     // Regular usecase
-    $(window).on('load', initRefBrowser);
+    $(window).on('load', function(event){
+      if ($(".referencewidget button").length !== 0){
+        initRefBrowser(event);
+      }
+    });
     // Overlays
     $(document).on("onLoad", ".overlay", initRefBrowser);
 
