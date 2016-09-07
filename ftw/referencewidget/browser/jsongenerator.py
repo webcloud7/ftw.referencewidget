@@ -25,7 +25,6 @@ class ReferenceJsonEndpoint(BrowserView):
         widget = self.context
         effective_path = self.find_start_path()
         current_depth = len(effective_path.split('/'))
-        lookup_table = {}
         results = self.search_catalog(widget, effective_path)
         results, batch_html = extend_with_batching(widget, results)
         traversel_type = get_traversal_types(widget)
@@ -47,7 +46,7 @@ class ReferenceJsonEndpoint(BrowserView):
                         'content-type': 'contenttype-' + contenttype}
 
             result['items'].append(obj_dict)
-            lookup_table[item['id']] = len(result) - 1
+
         self.request.RESPONSE.setHeader("Content-type", "application/json")
         return json.dumps(result)
 
