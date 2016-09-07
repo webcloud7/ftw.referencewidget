@@ -1,6 +1,7 @@
 div.refbrowser .listing li {
     display:block;
     min-height: 1.4em;
+    word-break: break-all;
 }
 
 div.refbrowser .pathbar{
