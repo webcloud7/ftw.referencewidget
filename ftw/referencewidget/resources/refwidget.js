@@ -19,7 +19,6 @@
       widget.field_id = "";
       widget.list_template = "";
       widget.checkbox_template = "";
-      widget.lookup_table = {};
       widget.request_path = "";
       widget.sel_type = "";
       widget.page = 1;
@@ -105,6 +104,7 @@
       $.post(widget.widget_url + "/search_for_refs", {"term": term, "page": page}, function(data){
         $(".refbrowser .refbrowser_batching").remove();
         build_list(data);
+        widget.request_data = data
         $(".refbrowser .listing").addClass("search_result");
       });
 
@@ -126,12 +126,13 @@
       event.preventDefault();
       event.stopPropagation();
 
-      var traversable = $(event.currentTarget).data("traversable");
+      var target = $(event.currentTarget);
+      var traversable = target.data("traversable");
       if (traversable === false){
         return;
       }
-      var ident = $(event.currentTarget).data("id");
-      var path = widget.request_data["items"][widget.lookup_table[ident]]["path"];
+
+      var path = target.data("path");
       widget.request_path = path;
       build_pathbar(path);
       get_data(path);
@@ -160,11 +161,9 @@
     function rebuild_listing(data){
       $(".refbrowser .listing ul").empty();
       var list_html = "";
-      widget.lookup_table = {};
       for (var key in data) {
         if (data.hasOwnProperty(key)) {
           var item = data[key];
-          widget.lookup_table[item["id"]] = key;
           item["selected"] = "";
           item["extras"] = "";
           item["tag"] = "span";
