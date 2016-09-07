@@ -12,7 +12,6 @@
 
       $(window).one("resize", resize);
       widget.request_data = {};
-    //    var url = location.protocol + "//" + location.host + location.pathname;
       widget.widget_url = "";
       widget.field_id = "";
       widget.name = "";
