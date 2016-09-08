@@ -17,6 +17,8 @@ class ReferenceDataListConverter(converter.BaseDataConverter):
         else:
             result = []
             for item in value:
+                if not item:
+                    continue
                 result.append(self.widget.context.unrestrictedTraverse(
                     item.encode("utf-8")))
             return result
