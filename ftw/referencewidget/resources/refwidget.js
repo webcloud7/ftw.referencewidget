@@ -10,7 +10,15 @@
 
       widget.button = $(".referencewidget button");
       widget.button.on("click", openOverlay);
+
       $(window).one("resize", resize);
+
+      $(document).one("keydown", function(event){
+        if(event.which == 27){
+          event.stopPropagation();
+          $(".refbrowser").remove();
+        }
+      });
 
       widget.name = widget.button.closest(".field").data("fieldname");
 
@@ -78,11 +86,6 @@
           search(event);
       }});
 
-      $(overlay).on("keydown", function(event){
-        if(event.which == 27){
-          $(".refbrowser").remove();
-        }
-      });
       $(overlay).on("change", ".refbrowser .listing input.ref-checkbox", checkbox_flipped);
       $(overlay).on("click", ".refbrowser button.cancel", function(){$(".refbrowser").remove();});
       $(overlay).on("click", ".refbrowser .ref_list_entry", switch_level);
