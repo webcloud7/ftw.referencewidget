@@ -20,6 +20,13 @@
         }
       });
 
+      $(document).on('click', function(event){
+        // Close overlay if click was not within the overlay
+        if(!$(event.target).closest('.refbrowser').length) {
+          overlayClose(event);
+        }
+      });
+
       widget.name = widget.button.closest(".field").data("fieldname");
 
       widget.request_data = {};
