@@ -16,7 +16,7 @@
       $(document).one("keydown", function(event){
         if(event.which == 27){
           event.stopPropagation();
-          $(".refbrowser").remove();
+          overlayClose(event);
         }
       });
 
@@ -62,7 +62,8 @@
       event.stopPropagation();
       event.preventDefault();
 
-      $(".refbrowser").remove();
+      $("body").addClass("RefBrowserOverlayOpened");
+
       widget.list_template = Handlebars.compile($("#listing-template").html());
       widget.checkbox_template = Handlebars.compile($("#checkbox-template").html());
       $(".sortable").sortable();
@@ -87,11 +88,16 @@
       }});
 
       $(overlay).on("change", ".refbrowser .listing input.ref-checkbox", checkbox_flipped);
-      $(overlay).on("click", ".refbrowser button.cancel", function(){$(".refbrowser").remove();});
+      $(overlay).on("click", ".refbrowser button.cancel", overlayClose);
       $(overlay).on("click", ".refbrowser .ref_list_entry", switch_level);
       $(overlay).on("click", ".refbrowser .listing input.ref-checkbox", function(e) {e.stopPropagation();});
       $(overlay).on("click", ".refbrowser .refbrowser_batching a", change_page);
 
+    }
+
+    function overlayClose(event){
+      $("body").removeClass("RefBrowserOverlayOpened");
+      $(".refbrowser").remove();
     }
 
     function search(event){
