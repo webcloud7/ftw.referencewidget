@@ -5,10 +5,9 @@
 
     var widget;
 
-    function initRefBrowser(event){
+    function initRefBrowser(button){
       widget = {};
-
-      widget.button = $(".referencewidget button");
+      widget.button = $(button);
       widget.button.on("click", openOverlay);
 
       $(window).one("resize", resize);
@@ -39,13 +38,12 @@
       widget.page = 1;
       widget.term = "";
 
-      $(".selected_items").each(function(index, target){
-        widget.list_template = Handlebars.compile($("#listing-template").html());
-        widget.checkbox_template = Handlebars.compile($("#checkbox-template").html());
-        widget.sel_type = $(target).closest(".referencewidget").data("type");
+      widget.list_template = Handlebars.compile($("#listing-template").html());
+      widget.checkbox_template = Handlebars.compile($("#checkbox-template").html());
+      widget.sel_type = widget.button.closest(".referencewidget").data("type");
 
-        var container = $(this);
-        var data = $(this).data("select");
+        var container = widget.button.siblings('.selected_items');
+        var data = container.data("select");
         if (data === undefined){
           return;
         }
@@ -61,9 +59,8 @@
           item["checkbox"] = widget.checkbox_template(item);
           $(container).find("ul").append(widget.list_template(item));
         });
-      });
+      }
 
-    }
 
     function openOverlay(event){
       event.stopPropagation();
@@ -76,10 +73,14 @@
       $(".sortable").sortable();
 
       var target = $(event.currentTarget);
-      widget.sel_type = target.closest(".referencewidget").data("type");
-      widget.field_id = target.closest(".field").attr("id");
-      var translations = target.closest(".referencewidget").data("trans");
-      widget.widget_url = target.closest(".referencewidget").data("url") + "/++widget++" + widget.name;
+      var container = target.closest(".referencewidget");
+      widget.sel_type = container.data("type");
+      var field = target.closest(".field");
+      widget.field_id = field.attr("id");
+      widget.name = target.closest(".field").data("fieldname");
+
+      var translations = container.data("trans");
+      widget.widget_url = container.data("url") + "/++widget++" + widget.name;
       var refbrowser_template = Handlebars.compile($("#refbrowser-template").html());
       $("body").append(refbrowser_template(translations));
       build_pathbar("");
@@ -267,13 +268,21 @@
 
     // Regular usecase
     $(window).on('load', function(event){
-      if ($(".referencewidget button").length !== 0){
-        initRefBrowser(event);
+      var refButtons = $(".referencewidget button");
+      if (refButtons.length !== 0){
+        refButtons.each(function(index, button){
+          initRefBrowser(button);
+        });
+      }
+    });    // Overlays
+    $(document).on("onLoad", ".overlay", function(event){
+      var refButtons = $(".referencewidget button", $(this));
+      if (refButtons.length !== 0){
+        refButtons.each(function(index, button){
+          initRefBrowser(button);
+        });
       }
     });
-    // Overlays
-    $(document).on("onLoad", ".overlay", initRefBrowser);
-
     // Public api
     window.initRefBrowser = initRefBrowser;
 

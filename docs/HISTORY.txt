@@ -11,6 +11,9 @@ Changelog
 - Improve overlay behavior (close on click outside the overlay + close on ESC).
   [mathias.leimgruber]
 
+- Get Widget name on overlay creation.
+  [tschanzt]
+
 
 1.0.0 (2016-09-07)
 ------------------
