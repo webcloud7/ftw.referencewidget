@@ -10,7 +10,22 @@
 
       widget.button = $(".referencewidget button");
       widget.button.on("click", openOverlay);
+
       $(window).one("resize", resize);
+
+      $(document).one("keydown", function(event){
+        if(event.which == 27){
+          event.stopPropagation();
+          overlayClose(event);
+        }
+      });
+
+      $(document).on('click', function(event){
+        // Close overlay if click was not within the overlay
+        if(!$(event.target).closest('.refbrowser').length) {
+          overlayClose(event);
+        }
+      });
 
       widget.name = widget.button.closest(".field").data("fieldname");
 
@@ -54,7 +69,8 @@
       event.stopPropagation();
       event.preventDefault();
 
-      $(".refbrowser").remove();
+      $("body").addClass("RefBrowserOverlayOpened");
+
       widget.list_template = Handlebars.compile($("#listing-template").html());
       widget.checkbox_template = Handlebars.compile($("#checkbox-template").html());
       $(".sortable").sortable();
@@ -78,17 +94,17 @@
           search(event);
       }});
 
-      $(overlay).on("keydown", function(event){
-        if(event.which == 27){
-          $(".refbrowser").remove();
-        }
-      });
       $(overlay).on("change", ".refbrowser .listing input.ref-checkbox", checkbox_flipped);
-      $(overlay).on("click", ".refbrowser button.cancel", function(){$(".refbrowser").remove();});
+      $(overlay).on("click", ".refbrowser button.cancel", overlayClose);
       $(overlay).on("click", ".refbrowser .ref_list_entry", switch_level);
       $(overlay).on("click", ".refbrowser .listing input.ref-checkbox", function(e) {e.stopPropagation();});
       $(overlay).on("click", ".refbrowser .refbrowser_batching a", change_page);
 
+    }
+
+    function overlayClose(event){
+      $("body").removeClass("RefBrowserOverlayOpened");
+      $(".refbrowser").remove();
     }
 
     function search(event){
