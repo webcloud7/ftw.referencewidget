@@ -24,7 +24,8 @@
         }
       });
 
-      widget.name = widget.button.closest(".field").data("fieldname");
+      widget.field = widget.button.closest(".field");
+      widget.name = widget.field.data("fieldname");
 
       widget.request_data = {};
       widget.widget_url = "";
@@ -68,9 +69,7 @@
       var target = $(event.currentTarget);
       var container = target.closest(".referencewidget");
       widget.sel_type = container.data("type");
-      var field = target.closest(".field");
-      widget.field_id = field.attr("id");
-      widget.name = target.closest(".field").data("fieldname");
+      widget.field_id = widget.field.attr("id");
 
       var translations = container.data("trans");
       widget.widget_url = container.data("url") + "/++widget++" + widget.name;
@@ -179,7 +178,7 @@
           item["extras"] = "";
           item["tag"] = "span";
           item["name"] = widget.name;
-          var is_selected = $(".referencewidget .selected_items li[data-path=\"" + item["path"] + "\"]");
+          var is_selected = $(".referencewidget .selected_items li[data-path=\"" + item["path"] + "\"]", widget.field);
           if (is_selected.find("input:checked").length > 0) {
             item["selected"] = "checked=\"checked\"";
           }
