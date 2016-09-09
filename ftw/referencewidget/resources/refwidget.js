@@ -42,7 +42,7 @@
 
         var container = widget.button.siblings('.selected_items');
         var data = container.data("select");
-        if (data != undefined){
+        if (data !== undefined){
           data.forEach(function(widget, item){
             item["title"] = item["title"] + " (" + item["path"] + ")";
             item["selectable"] = true;
