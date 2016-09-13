@@ -5,6 +5,9 @@ Changelog
 1.0.2 (unreleased)
 ------------------
 
+- Reload Items when overlay is reloaded.
+  [tschanzt]
+
 - Respect Type constraints on search.
   [tschanzt]
 
