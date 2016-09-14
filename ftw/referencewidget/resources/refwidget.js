@@ -7,7 +7,7 @@
     function initRefBrowser(button){
       var widget = this;
       widget.button = $(button);
-      widget.button.on("click", widget.openOverlay.bind(null, widget));
+      $(document).on("click", '#' + widget.button.attr('id') , widget.openOverlay.bind(null, widget));
       $(window).one("resize", widget.resize);
 
       $(document).one("keydown", function(event){
@@ -41,10 +41,25 @@
       widget.checkbox_template = Handlebars.compile($("#checkbox-template").html());
       widget.sel_type = widget.button.closest(".referencewidget").data("type");
 
+      widget.loadSelectedItems(widget);
+
+      $(document).on('OverlayContentReloaded', ".overlay", function(widget, event){
+        widget.button = $('#' + widget.button.attr("id"));
+        widget.loadSelectedItems(widget);
+      }.bind(null, widget));
+}
+
+    initRefBrowser.prototype.loadSelectedItems = function(widget){
         var container = widget.button.siblings('.selected_items');
+        if (!container.find('ul').is(':empty')){
+          return;
+        }
         var data = container.data("select");
         if (data !== undefined){
           data.forEach(function(widget, item){
+            if (item["path"] === ""){
+              return;
+            }
             item["title"] = item["title"] + " (" + item["path"] + ")";
             item["selectable"] = true;
             item["traversable"] = false;
@@ -57,7 +72,8 @@
             $(container).find("ul").append(widget.list_template(item));
           }.bind(null, widget));
         }
-}
+    };
+
     initRefBrowser.prototype.openOverlay = function(widget, event){
       event.stopPropagation();
       event.preventDefault();
@@ -269,6 +285,7 @@
         });
       }
     });    // Overlays
+
     $(document).on("onLoad", ".overlay", function(event){
       var refButtons = $(".referencewidget button", $(this));
       if (refButtons.length !== 0){
@@ -277,6 +294,7 @@
         });
       }
     });
+
     // Public api
     window.initRefBrowser = initRefBrowser;
 
