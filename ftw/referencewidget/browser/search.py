@@ -17,7 +17,7 @@ class SearchView(BrowserView):
             search_term += "*"
         search_types = get_selectable_types(self.context)
 
-        query = {'portal_types': search_types, 'Title': search_term}
+        query = {'portal_type': search_types, 'Title': search_term}
         catalog = getToolByName(self.context.context, 'portal_catalog')
         results = catalog(query)
         results, batch_html = extend_with_batching(self.context, results)
