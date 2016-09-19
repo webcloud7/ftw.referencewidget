@@ -5,6 +5,9 @@ Changelog
 1.0.4 (unreleased)
 ------------------
 
+- Make it possible to remove an given internal reference (radio button).
+  [mathias.leimgruber]
+
 - Ignore empty value for single value field.
   [mathias.leimgruber]
 

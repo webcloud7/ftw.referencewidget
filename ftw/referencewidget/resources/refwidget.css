@@ -107,7 +107,7 @@ div.refbrowser .batchingcontainer {
 }
 
 div.refbrowser .formcontrols .pagination.listingBar {
-    margin 0;
+    margin: 0;
 }
 div.refbrowser .formcontrols .pagination.listingBar a {
     margin-bottom: 0;
@@ -121,18 +121,7 @@ li.ref_list_entry.traversable {
     background: #f2f2f2;
 }
 
-/*div.refbrowser .formcontrols .pagination li {
-    float: left;
-    display: block;
-    padding-left: 1em;
+.ref_list_entry a.removeItem {
+  display: inline-block;
+  margin: 0 .5em;
 }
-
-div.refbrowser .formcontrols .pagination a {
-    width: 1em;
-    display: block;
-}
-div.refbrowser .formcontrols .pagination a.next,
-div.refbrowser .formcontrols .pagination a.previous {
-    font-size:1.5em;
-}
-*/
