@@ -5,7 +5,14 @@ Changelog
 1.0.4 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Ignore empty value for single value field.
+  [mathias.leimgruber]
+
+- Fix search by pressing the "enter" button.
+  [mathias.leimgruber]
+
+- Always unbind the click event before binding a new one on the ref button.
+  [mathias.leimgruber]
 
 
 1.0.3 (2016-09-14)

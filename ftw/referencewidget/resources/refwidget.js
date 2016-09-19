@@ -7,7 +7,10 @@
     function initRefBrowser(button){
       var widget = this;
       widget.button = $(button);
-      $(document).on("click", '#' + widget.button.attr('id') , widget.openOverlay.bind(null, widget));
+      var buttonSelector = '#' + widget.button.attr('id');
+
+      $(document).off("click", buttonSelector);
+      $(document).on("click", buttonSelector, widget.openOverlay.bind(null, widget));
       $(window).one("resize", widget.resize);
 
       $(document).one("keydown", function(event){
@@ -100,7 +103,7 @@
       $(overlay).on("click", ".refbrowser .search button", widget.search.bind(null, widget));
       $(overlay).on("keypress", ".refbrowser .search input", function(event){
         if(event.which == 13) {
-          widget.search(event);
+          widget.search(widget, event);
       }});
 
       $(overlay).on("change", ".refbrowser .listing input.ref-checkbox", widget.checkbox_flipped.bind(null, widget));
