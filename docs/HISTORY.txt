@@ -5,6 +5,9 @@ Changelog
 1.0.4 (unreleased)
 ------------------
 
+- Fix search by pressing the "enter" button.
+  [mathias.leimgruber]
+
 - Always unbind the click event before binding a new one on the ref button.
   [mathias.leimgruber]
 
