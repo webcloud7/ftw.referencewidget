@@ -107,7 +107,7 @@ div.refbrowser .batchingcontainer {
 }
 
 div.refbrowser .formcontrols .pagination.listingBar {
-    margin 0;
+    margin: 0;
 }
 div.refbrowser .formcontrols .pagination.listingBar a {
     margin-bottom: 0;
