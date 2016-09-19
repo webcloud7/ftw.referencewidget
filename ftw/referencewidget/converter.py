@@ -35,7 +35,9 @@ class ReferenceDataChoiceConverter(converter.BaseDataConverter):
     adapts(IRelation, IReferenceWidget)
 
     def toFieldValue(self, value):
-        if isinstance(value, unicode):
+        if not value:
+            return
+        elif isinstance(value, unicode):
             return self.widget.context.unrestrictedTraverse(
                 value.encode("utf8"))
         else:
@@ -45,4 +47,3 @@ class ReferenceDataChoiceConverter(converter.BaseDataConverter):
     def toWidgetValue(self, value):
         if value:
             return '/'.join(value.getPhysicalPath())
-

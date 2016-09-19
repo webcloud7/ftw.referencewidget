@@ -5,6 +5,9 @@ Changelog
 1.0.4 (unreleased)
 ------------------
 
+- Ignore empty value for single value field.
+  [mathias.leimgruber]
+
 - Fix search by pressing the "enter" button.
   [mathias.leimgruber]
 
