@@ -72,7 +72,11 @@
             item["type"] = widget.sel_type;
             item["name"] = widget.name;
             item["checkbox"] = widget.checkbox_template(item);
-            $(container).find("ul").append(widget.list_template(item));
+
+            var node = $(widget.list_template(item));
+            widget.AddremoveLink(node);
+
+            $(container).find("ul").append(node);
           }.bind(null, widget));
         }
     };
@@ -259,6 +263,19 @@
         });
     };
 
+    initRefBrowser.prototype.AddremoveLink = function(node) {
+      if ($('[type="radio"]', node).length === 1) {
+        var removeLink = $('<a href="#" class="removeItem">X</a>');
+        removeLink.on('click', function(event){
+          event.preventDefault();
+          event.stopPropagation();
+          $(this).parent().remove();
+        });
+        $(node).prepend(removeLink);
+      }
+      return node;
+    };
+
     initRefBrowser.prototype.checkbox_flipped = function(widget, event){
       event.stopPropagation();
       event.preventDefault();
@@ -267,9 +284,16 @@
       if (checkbox.checked === true){
         var node = $(event.currentTarget.parentNode).clone();
         $(node).find("input").attr("name", widget.name);
+        $(node).find("a").on("click", function(event){
+          event.preventDefault();
+          return;
+        });
         var text = $.trim(node.find("span").text());
         text = text + " (" + node.data("path") + ")";
         node.find("span").text(text);
+
+        widget.AddremoveLink(node);
+
         $("#" + widget.field_id + " .referencewidget .selected_items ul").append(node);
       }
       else {

@@ -121,4 +121,7 @@ li.ref_list_entry.traversable {
     background: #f2f2f2;
 }
 
+.ref_list_entry a.removeItem {
+  display: inline-block;
+  margin: 0 .5em;
 }
