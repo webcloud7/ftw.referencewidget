@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.0.5 (unreleased)
+1.1.0 (2016-09-27)
 ------------------
 
 - Ignore empty value for multiple value field.
