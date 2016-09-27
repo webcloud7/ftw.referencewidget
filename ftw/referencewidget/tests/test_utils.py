@@ -3,9 +3,13 @@ from ftw.referencewidget.browser.utils import get_traversal_types
 from ftw.referencewidget.interfaces import IReferenceSettings
 from ftw.referencewidget.testing import FTW_REFERENCE_FUNCTIONAL_TESTING
 from ftw.referencewidget.tests.views.form import TestView
+from ftw.testbrowser import browsing
+from plone.app.testing import setRoles
+from plone.app.testing import TEST_USER_ID
 from plone.registry.interfaces import IRegistry
 from unittest2 import TestCase
 from zope.component import getUtility
+import transaction
 
 
 class TestFieldConverter(TestCase):
@@ -65,3 +69,12 @@ class TestFieldConverter(TestCase):
         self.assertEquals(6, len(result))
         self.assertTrue('Document' not in result)
         self.assertTrue('Event' not in result)
+
+    @browsing
+    def test_handlebar_templates_available(self, browser):
+        setRoles(self.portal, TEST_USER_ID, ['Manager'])
+        transaction.commit()
+        browser.login().open(view='test-refwidget')
+        self.assertTrue(browser.css('#refbrowser-template').first)
+        self.assertTrue(browser.css('#node-template').first)
+        self.assertTrue(browser.css('#listing-template').first)
