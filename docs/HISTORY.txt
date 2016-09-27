@@ -5,6 +5,9 @@ Changelog
 1.0.5 (unreleased)
 ------------------
 
+- Ignore empty value for multiple value field.
+  [mathias.leimgruber]
+
 - Support chameleon by not rendering handlebar templates. [jone]
 
 

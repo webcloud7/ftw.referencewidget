@@ -11,7 +11,9 @@ class ReferenceDataListConverter(converter.BaseDataConverter):
     adapts(IRelationList, IReferenceWidget)
 
     def toFieldValue(self, value):
-        if isinstance(value, unicode):
+        if not value:
+            return
+        elif isinstance(value, unicode):
             return [self.widget.context.unrestrictedTraverse(
                 value.encode("utf8"))]
         else:
