@@ -16,6 +16,25 @@ The widget takes the following parameters:
  - allow_nonsearched_types: If this is set to true all the types will be traversable and selectable.
  - override: drops all global config and the base query if a list is passed to the widget. All types need to be added to be selectable.
 
+
+**IMPORTANT NOTE:**
+Currently this widget drops the SourceBinder concept, which has huge impact on the usability.
+
+The following combinations are supported.
+- RelationList with value_type Relation --> Stores a List of RelationValues
+- RelationList with value_type RelationChoice --> Stores a List of RelationValues
+- Relation --> Stores a RelationValue
+- List of RelationChoice --> Stores a list of absolute paths, without the portal root part
+
+
+
+TODO
+----
+
+- The SourceBinder concept needs to be implemented for better compatibility with everything/everyone else.
+- Proper Integration Tests using test behaviors with several configurations.
+
+
 Screenshots
 -----------
 The general Listing:
