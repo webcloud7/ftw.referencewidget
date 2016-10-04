@@ -5,6 +5,9 @@ Changelog
 1.1.1 (unreleased)
 ------------------
 
+- Remove the list style type and the obsolete spacing for the selected elements.
+  [mathias.leimgruber]
+
 - Implement support for IList of IRelationChoice explicitly.
   Check Readme for more informations
   [mathias.leimgruber]
