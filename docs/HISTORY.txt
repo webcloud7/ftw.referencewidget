@@ -5,7 +5,15 @@ Changelog
 1.1.1 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Show absolute path starting at the plone root for the selected value.
+  [mathias.leimgruber]
+
+- Remove the list style type and the obsolete spacing for the selected elements.
+  [mathias.leimgruber]
+
+- Implement support for IList of IRelationChoice explicitly.
+  Check Readme for more informations
+  [mathias.leimgruber]
 
 
 1.1.0 (2016-09-27)
