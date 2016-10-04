@@ -63,7 +63,7 @@
             if (item["path"] === ""){
               return;
             }
-            item["title"] = item["title"] + " (" + item["path"] + ")";
+            item["title"] = item["title"] + " (" + item["path"].substring(portal_url.replace(window.location.origin, '').length) + ")";
             item["selectable"] = true;
             item["traversable"] = false;
             item['addclass'] = "";

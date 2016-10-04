@@ -5,6 +5,9 @@ Changelog
 1.1.1 (unreleased)
 ------------------
 
+- Show absolute path starting at the plone root for the selected value.
+  [mathias.leimgruber]
+
 - Remove the list style type and the obsolete spacing for the selected elements.
   [mathias.leimgruber]
 
