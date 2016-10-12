@@ -35,6 +35,7 @@
     <adapter factory=".converter.ReferenceDataListConverter" />
     <adapter factory=".converter.ReferenceDataChoiceConverter" />
     <adapter factory=".converter.ReferenceDataListWithChoiceConverter" />
+    <adapter factory=".converter.ReferenceDataTextConverter" />
 
     <include package=".browser" />
     <include package=".tests.views" />

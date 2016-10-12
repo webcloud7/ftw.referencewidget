@@ -5,6 +5,7 @@ from z3c.relationfield.interfaces import IRelation
 from z3c.relationfield.interfaces import IRelationList
 from zope.component import adapts
 from zope.schema.interfaces import IList
+from zope.schema.interfaces import ITextLine
 import os
 
 
@@ -51,6 +52,32 @@ class ReferenceDataChoiceConverter(converter.BaseDataConverter):
     def toWidgetValue(self, value):
         if value:
             return '/'.join(value.getPhysicalPath())
+
+
+class ReferenceDataTextConverter(converter.BaseDataConverter):
+
+    adapts(ITextLine, IReferenceWidget)
+
+    def toFieldValue(self, value):
+        if not value:
+            return
+        elif isinstance(value, list):
+            # Since there is always a empty hidden field it's always a list :-(
+            value, = [path for path in value if path]
+
+        portal_path = '/'.join(api.portal.get().getPhysicalPath())
+        return os.path.relpath(value, portal_path)
+
+    def toWidgetValue(self, value):
+        if value:
+
+            # For Backwards compatibility with ContentTreeFieldWidget
+            value = value.startswith('/') and value[1:] or value
+
+            portal_path = '/'.join(api.portal.get().getPhysicalPath())
+            return '/'.join([portal_path, value])
+        else:
+            return value
 
 
 class ReferenceDataListWithChoiceConverter(converter.BaseDataConverter):
