@@ -25,6 +25,7 @@ The following combinations are supported.
 - RelationList with value_type RelationChoice --> Stores a List of RelationValues
 - Relation --> Stores a RelationValue
 - List of RelationChoice --> Stores a list of absolute paths, without the portal root part
+- TextLine --> Stores a absolute path as string, without the portal root part
 
 
 
