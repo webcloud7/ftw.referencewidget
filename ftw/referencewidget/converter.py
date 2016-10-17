@@ -15,7 +15,7 @@ class ReferenceDataListConverter(converter.BaseDataConverter):
 
     def toFieldValue(self, value):
         if not value:
-            return
+            return self.field.missing_value
         elif isinstance(value, unicode):
             return [self.widget.context.unrestrictedTraverse(
                 value.encode("utf8"))]
@@ -41,7 +41,7 @@ class ReferenceDataChoiceConverter(converter.BaseDataConverter):
 
     def toFieldValue(self, value):
         if not value:
-            return
+            return self.field.missing_value
         elif isinstance(value, unicode):
             return self.widget.context.unrestrictedTraverse(
                 value.encode("utf8"))
