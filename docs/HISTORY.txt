@@ -5,6 +5,9 @@ Changelog
 1.2.1 (unreleased)
 ------------------
 
+- Respect missing_value set by the field.
+  [tschanzt]
+
 - Implement support for ITextLine only with ReferenceWidget.
   [mathias.leimgruber]
 
