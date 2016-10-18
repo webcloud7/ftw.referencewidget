@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.2.3 (unreleased)
+1.2.3 (2016-10-18)
 ------------------
 
 - Fix edge case (mainly for tests) if the value passed to the
