@@ -5,7 +5,9 @@ Changelog
 1.2.3 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Fix edge case (mainly for tests) if the value passed to the
+  IList/Widget converter is not a list, but a string.
+  [raphael-s]
 
 
 1.2.2 (2016-10-18)
