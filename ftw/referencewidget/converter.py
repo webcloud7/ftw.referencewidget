@@ -86,10 +86,12 @@ class ReferenceDataListWithChoiceConverter(converter.BaseDataConverter):
     adapts(IList, IReferenceWidget)
 
     def toFieldValue(self, value):
+        portal_path = '/'.join(api.portal.get().getPhysicalPath())
+
         if not value:
             return []
         elif isinstance(value, (unicode, str)):
-            return [value]
+            return [os.path.relpath(value, portal_path)]
         else:
             portal_path = '/'.join(api.portal.get().getPhysicalPath())
             return map(
