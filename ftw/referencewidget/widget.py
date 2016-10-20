@@ -71,10 +71,13 @@ class ReferenceBrowserWidget(widget.HTMLTextInputWidget, Widget):
     def translations(self):
         msg_search = _(u"button_seach", default="Search")
         msg_close = _(u"button_close", default="Close")
+        msg_sort_by = _(u"label_sort_by", default="Sort by")
         return json.dumps({'search': translate(msg_search,
                                                context=self.request),
                            'close': translate(msg_close,
-                                              context=self.request)})
+                                              context=self.request),
+                           'label_sort_by': translate(msg_sort_by,
+                                                      context=self.request)})
 
     def form_url(self):
         return self.form.request.getURL()

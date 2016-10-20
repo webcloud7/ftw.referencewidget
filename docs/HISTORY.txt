@@ -5,6 +5,9 @@ Changelog
 1.2.4 (unreleased)
 ------------------
 
+- Implement some sort options.
+  [mathias.leimgruber]
+
 - Use plone.app.redirector to follow renamed and moved content.
   Also do not fail if the content has been removed.
   [mathias.leimgruber]
