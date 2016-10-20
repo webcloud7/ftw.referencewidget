@@ -122,13 +122,12 @@ def get_sort_options(request):
 
 
 def get_sort_order_options(request):
-    sort_directions = ['', 'ascending', 'descending']
+    sort_directions = ['ascending', 'descending']
     options = []
 
     for direction in sort_directions:
-        direction_title = direction != '' and direction or 'no direction'
         options.append(
-            {'title': translate(_(direction_title), context=request),
+            {'title': translate(_(direction), context=request),
              'value': direction,
              'selected': direction == request.get('sort_order', '')}
         )
