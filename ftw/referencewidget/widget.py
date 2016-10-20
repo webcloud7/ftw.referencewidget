@@ -4,12 +4,14 @@ from ftw.referencewidget.browser.utils import get_path_from_widget_start
 from ftw.referencewidget.browser.utils import is_traversable
 from ftw.referencewidget.interfaces import IReferenceWidget
 from plone import api
+from plone.app.redirector.interfaces import IRedirectionStorage
 from z3c.form.browser import widget
 from z3c.form.interfaces import IFieldWidget
 from z3c.form.interfaces import IFormLayer
 from z3c.form.widget import FieldWidget
 from z3c.form.widget import Widget
 from zope.component import adapter
+from zope.component import queryUtility
 from zope.i18n import translate
 from zope.interface import implementer
 from zope.interface import implementsOnly
@@ -77,20 +79,40 @@ class ReferenceBrowserWidget(widget.HTMLTextInputWidget, Widget):
     def form_url(self):
         return self.form.request.getURL()
 
+    def get_object_by_path(self, path):
+        storage = queryUtility(IRedirectionStorage)
+
+        if isinstance(path, unicode):
+            path = path.encode('utf8')
+
+        obj = self.context.unrestrictedTraverse(path, None)
+        if obj is None:
+            path = storage.get(path)
+            obj = self.context.unrestrictedTraverse(path, None)
+
+        return obj
+
     def js_value(self):
         result = []
+
         if not self.value:
             return
+
+        def obj_to_dict(obj):
+            return {'path': '/'.join(obj.getPhysicalPath()),
+                    'title': obj.Title()}
+
         if isinstance(self.value, list):
             for item in self.value:
-                obj = self.context.unrestrictedTraverse(item.encode('utf8'))
-                result.append({'path': item.encode('utf8'),
-                               'title': obj.title})
+                obj = self.get_object_by_path(item)
+                if obj:
+                    result.append(obj_to_dict(obj))
+
         else:
-            obj = self.context.unrestrictedTraverse(
-                self.value.encode('utf8'))
-            result.append({'path': self.value.encode('utf8'),
-                           'title': obj.title})
+            obj = self.get_object_by_path(self.value)
+            if obj:
+                result.append(obj_to_dict(obj))
+
         return json.dumps(result)
 
     def get_start_path(self):
