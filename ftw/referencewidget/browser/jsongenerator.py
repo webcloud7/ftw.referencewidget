@@ -1,11 +1,11 @@
-from ftw.referencewidget import _
 from ftw.referencewidget.browser.utils import extend_with_batching
 from ftw.referencewidget.browser.utils import get_selectable_types
+from ftw.referencewidget.browser.utils import get_sort_options
+from ftw.referencewidget.browser.utils import get_sort_order_options
 from ftw.referencewidget.browser.utils import get_traversal_types
 from ftw.referencewidget.browser.utils import is_traversable
 from Products.CMFCore.utils import getToolByName
 from Products.Five import BrowserView
-from zope.i18n import translate
 import json
 
 
@@ -26,8 +26,8 @@ class ReferenceJsonEndpoint(BrowserView):
 
         result = {'batching': batch_html,
                   'items': [],
-                  'sortOnOptions': self.get_sort_options(),
-                  'sortOrderOptions': self.get_sort_order_options()}
+                  'sortOnOptions': get_sort_options(self.request),
+                  'sortOrderOptions': get_sort_order_options(self.request)}
 
         for item in results:
             depth = len(item.getPath().split('/')) - current_depth
@@ -46,34 +46,6 @@ class ReferenceJsonEndpoint(BrowserView):
 
         self.request.RESPONSE.setHeader("Content-type", "application/json")
         return json.dumps(result)
-
-    def get_sort_options(self):
-        sort_indexes = ['', 'sortable_title', 'created', 'modified']
-        options = []
-
-        for index in sort_indexes:
-            index_title = index != '' and index or 'no sort'
-            options.append(
-                {'title': translate(_(index_title), context=self.request),
-                 'value': index,
-                 'selected': index == self.request.get('sort_on', '')}
-            )
-
-        return options
-
-    def get_sort_order_options(self):
-        sort_directions = ['', 'ascending', 'descending']
-        options = []
-
-        for direction in sort_directions:
-            direction_title = direction != '' and direction or 'no direction'
-            options.append(
-                {'title': translate(_(direction_title), context=self.request),
-                 'value': direction,
-                 'selected': direction == self.request.get('sort_order', '')}
-            )
-
-        return options
 
     def search_catalog(self, widget, effective_path):
 
