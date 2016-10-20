@@ -129,14 +129,26 @@
       event.stopPropagation();
       event.preventDefault();
 
-      var value = $(event.currentTarget.parentNode).find("input:text").val();
+      var value = $(".refbrowser .searchField").val();
+
+      if (value.length === 0) {
+        return;
+      }
+
+
       widget.term = value;
       widget.page = 1;
       widget.search_results(widget);
     };
 
     initRefBrowser.prototype.search_results = function(widget){
-      $.post(widget.widget_url + "/search_for_refs", {"term": widget.term, "page": widget.page}, function(widgett, data){
+      var payload = {"term": widget.term,
+                     "page": widget.page,
+                     "sort_on": $('.refbrowser select[name="sort_on"]').val(),
+                     "sort_order": $('.refbrowser select[name="sort_order"]').val()
+                   };
+
+      $.post(widget.widget_url + "/search_for_refs", payload, function(widget, data){
         $(".refbrowser .refbrowser_batching").remove();
         widget.build_list(widget, data);
         widget.request_data = data;
@@ -171,13 +183,18 @@
       widget.request_path = path;
       widget.build_pathbar(widget, path);
       widget.get_data(widget, path);
+      $(".refbrowser .searchField").val("");
     };
 
     initRefBrowser.prototype.reload = function(widget, event){
       event.preventDefault();
       event.stopPropagation();
 
-      widget.get_data(widget, widget.request_path, widget.page);
+      if ($(".refbrowser .searchField").val().length === 0) {
+        widget.get_data(widget, widget.request_path, widget.page);
+      } else {
+        widget.search(widget, event);
+      }
     };
 
     initRefBrowser.prototype.change_page = function(widget, event){
@@ -277,6 +294,7 @@
         widget.request_path = path;
         widget.build_pathbar(widget, path);
         widget.get_data(widget, path);
+        $(".refbrowser .searchField").val("");
       }
     };
 
