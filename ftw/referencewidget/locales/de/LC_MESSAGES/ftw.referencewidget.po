@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2016-08-26 07:59+0000\n"
+"POT-Creation-Date: 2016-10-20 14:54+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -14,7 +14,7 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0\n"
 "Preferred-Encodings: utf-8 latin1\n"
 
-#: ./ftw/referencewidget/templates/referencewidget_input.pt:10
+#: ./ftw/referencewidget/templates/referencewidget_input.pt:11
 msgid "Browse"
 msgstr "Durchsuchen"
 
@@ -22,22 +22,40 @@ msgstr "Durchsuchen"
 msgid "Register ftw.referencewidget generally"
 msgstr "ftw.referencewidget generell registreren"
 
+msgid "ascending"
+msgstr "Aufwärts"
+
 #. Default: "Close"
-#: ./ftw/referencewidget/widget.py:59
+#: ./ftw/referencewidget/widget.py:71
 msgid "button_close"
 msgstr "Schliessen"
 
 #. Default: "Search"
-#: ./ftw/referencewidget/widget.py:58
+#: ./ftw/referencewidget/widget.py:70
 msgid "button_seach"
 msgstr "Suchen"
+
+msgid "created"
+msgstr "Erstellungsdatum"
+
+msgid "descending"
+msgstr "Abwärts"
 
 #: ./ftw/referencewidget/configure.zcml:33
 msgid "ftw.referencewidget"
 msgstr "ftw.referencewidget"
 
-#. Default: "hans"
-#: ./ftw/referencewidget/browser/jsongenerator.py:16
-msgid "hans"
-msgstr "peter"
+#. Default: "Sort by"
+#: ./ftw/referencewidget/widget.py:72
+msgid "label_sort_by"
+msgstr "Sortieren nach"
+
+msgid "modified"
+msgstr "Bearbeitungsdatum"
+
+msgid "no sort"
+msgstr "Nicht sortiert"
+
+msgid "sortable_title"
+msgstr "Titel"
 

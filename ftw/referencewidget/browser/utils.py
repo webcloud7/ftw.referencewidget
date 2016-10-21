@@ -1,12 +1,13 @@
 from Acquisition import aq_parent
+from ftw.referencewidget import _
+from ftw.referencewidget.browser.refbrowser_batching import RefBrowserBatchView
 from ftw.referencewidget.interfaces import IReferenceSettings
 from plone.api import portal
+from plone.batching import Batch
 from plone.registry.interfaces import IRegistry
 from Products.CMFCore.utils import getToolByName
 from zope.component import getUtility
-from plone.batching import Batch
-from ftw.referencewidget.browser.refbrowser_batching import RefBrowserBatchView
-from plone import api
+from zope.i18n import translate
 
 
 def get_traversal_types(widget):
@@ -103,3 +104,32 @@ def is_traversable(widget, item):
     traversel_type = get_traversal_types(widget)
     return _is_folderish(item) and  \
         (item.portal_type in traversel_type)
+
+
+def get_sort_options(request):
+    sort_indexes = ['', 'sortable_title', 'created', 'modified']
+    options = []
+
+    for index in sort_indexes:
+        index_title = index != '' and index or 'no sort'
+        options.append(
+            {'title': translate(_(index_title), context=request),
+             'value': index,
+             'selected': index == request.get('sort_on', '')}
+        )
+
+    return options
+
+
+def get_sort_order_options(request):
+    sort_directions = ['ascending', 'descending']
+    options = []
+
+    for direction in sort_directions:
+        options.append(
+            {'title': translate(_(direction), context=request),
+             'value': direction,
+             'selected': direction == request.get('sort_order', '')}
+        )
+
+    return options

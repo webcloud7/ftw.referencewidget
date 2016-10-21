@@ -9,8 +9,10 @@ div.refbrowser .pathbar{
     width:100%;
     min-height:80px;
     zoom: 1;
-    border-bottom: 1px #ddd solid
+    border-bottom: 1px #ddd solid;
+    position: relative;
 }
+
 div.refbrowser .path {
     min-width: 65%;
     width:auto;
@@ -18,6 +20,11 @@ div.refbrowser .path {
     max-width: 80%;
 }
 
+.refbrowser .sorter {
+  position: absolute;
+  bottom: 0;
+  margin-bottom: 0.5em;
+}
 
 div.refbrowser .pathbar a:not(:last-child)::after{
     content: "\2192";

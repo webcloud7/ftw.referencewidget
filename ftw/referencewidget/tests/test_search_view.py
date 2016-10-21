@@ -28,6 +28,7 @@ class TestGeneratePathbar(TestCase):
 
     def test_search_view(self):
         self.widget.request['term'] = 'tes'
+        self.widget.request['sort_on'] = 'sortable_title'
         view = SearchView(self.widget, self.widget.request)
         result = view()
         results = json.loads(result)

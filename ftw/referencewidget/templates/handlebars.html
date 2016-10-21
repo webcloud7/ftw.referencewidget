@@ -6,7 +6,9 @@
                     <input class="searchField" name="refbrowser-search" type="text" />
                     <button class="searchButton" name="refbrowser-search" type="submit">{{search}}</button>
                 </div>
+            <div class="sorter"></div>
             </div>
+
             <div class="listing">
                 <ul></ul>
             </div>
@@ -38,4 +40,23 @@
         <div class="refbrowser_batching">
             {{{batching}}}
         </div>
+</script>
+
+<script id="sort-template" type="text/x-handlebars-template">
+    {{label_sort_by}}
+    <select name="sort_on">
+        {{#each sortOnOptions}}
+            <option value="{{this.value}}" {{#if this.selected}}SELECTED="SELECTED"{{/if}}>
+                {{this.title}}
+            </option>
+        {{/each}}
+    </select>
+    <select name="sort_order">
+        {{#each sortOrderOptions}}
+            <option value="{{this.value}}" {{#if this.selected}}SELECTED="SELECTED"{{/if}}>
+                {{this.title}}
+            </option>
+        {{/each}}
+    </select>
+
 </script>
