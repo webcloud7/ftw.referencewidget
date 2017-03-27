@@ -39,7 +39,6 @@
     <adapter factory=".converter.ReferenceDataTextConverter" />
 
     <include package=".browser" />
-    <include package=".tests.views" />
 
     <adapter
         factory=".widget.ReferenceWidgetFactory"
