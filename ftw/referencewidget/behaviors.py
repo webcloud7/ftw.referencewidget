@@ -1,11 +1,12 @@
-from ftw.referencewidget.sources import ReferenceWidgetPathSourceBinder
+from ftw.referencewidget.sources import ReferenceObjSourceBinder
+from ftw.referencewidget.widget import ReferenceWidgetFactory
 from plone.app.dexterity import MessageFactory as _
+from plone.autoform import directives
 from plone.autoform.interfaces import IFormFieldProvider
 from plone.supermodel.model import fieldset
 from z3c.relationfield.schema import RelationChoice, RelationList
 from zope.interface import alsoProvides
 from zope.interface import Interface
-from ftw.referencewidget.widget import ReferenceWidgetFactory
 
 
 class IRelatedItems(Interface):
@@ -24,7 +25,7 @@ class IRelatedItems(Interface):
         title=_(u'label_related_items', default=u'Related Items'),
         default=[],
         value_type=RelationChoice(title=u"Related",
-                                  source=ReferenceWidgetPathSourceBinder()),
+                                  source=ReferenceObjSourceBinder()),
         required=False,
     )
 
@@ -38,7 +39,7 @@ class IRelationChoiceExample(Interface):
     directives.widget(realtionchoice=ReferenceWidgetFactory)
     realtionchoice = RelationChoice(
         title=_(u'Related Choice'),
-        source=ReferenceWidgetPathSourceBinder(),
+        source=ReferenceObjSourceBinder(),
         default=None,
         required=False,
     )
@@ -58,7 +59,7 @@ class IRelationChoiceRestricted(Interface):
     directives.widget(realtionchoice_restricted=ReferenceWidgetFactory)
     realtionchoice_restricted = RelationChoice(
         title=_(u'Related Choice Restricted'),
-        source=ReferenceWidgetPathSourceBinder(
+        source=ReferenceObjSourceBinder(
             nonselectable=['Folder']),
         default=None,
         required=False,
@@ -67,8 +68,8 @@ class IRelationChoiceRestricted(Interface):
     directives.widget(realtionchoice_restricted_title=ReferenceWidgetFactory)
     realtionchoice_restricted_title = RelationChoice(
         title=_(u'Related Choice Restricted Title'),
-        source=ReferenceWidgetPathSourceBinder(
-            filter_method=custom_filter),
+        source=ReferenceObjSourceBinder(
+            selectable_function=custom_filter),
         default=None,
         required=False,
     )
