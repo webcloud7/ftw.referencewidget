@@ -107,6 +107,9 @@ class ReferenceBrowserWidget(widget.HTMLTextInputWidget, Widget):
 
         if isinstance(self.value, list):
             for item in self.value:
+                if not item:
+                    continue
+
                 obj = self.get_object_by_path(item)
                 if obj:
                     result.append(obj_to_dict(obj))
