@@ -46,6 +46,10 @@ class IRelationChoiceExample(Interface):
 alsoProvides(IRelationChoiceExample, IFormFieldProvider)
 
 
+def custom_filter(source, value):
+    return value.Title() == 'Immutable title'
+
+
 class IRelationChoiceRestricted(Interface):
     """Demo behavior containing a RelationChoice (single value).
     But it's not allowd to reference a folder.
@@ -56,6 +60,15 @@ class IRelationChoiceRestricted(Interface):
         title=_(u'Related Choice Restricted'),
         source=ReferenceWidgetPathSourceBinder(
             nonselectable=['Folder']),
+        default=None,
+        required=False,
+    )
+
+    directives.widget(realtionchoice_restricted_title=ReferenceWidgetFactory)
+    realtionchoice_restricted_title = RelationChoice(
+        title=_(u'Related Choice Restricted Title'),
+        source=ReferenceWidgetPathSourceBinder(
+            filter_method=custom_filter),
         default=None,
         required=False,
     )

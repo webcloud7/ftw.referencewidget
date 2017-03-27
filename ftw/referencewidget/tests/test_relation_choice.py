@@ -86,3 +86,27 @@ class TestRelationChoiceRestricted(FunctionalTestCase):
 
         self.assertEquals(content2,
                           content1.realtionchoice_restricted.to_object)
+
+    @browsing
+    def test_custom_filter_method_for_source_binder(self, browser):
+
+        folder = create(Builder('folder').titled(u'Some folder'))
+
+        content = create(Builder('sample content').titled(u'Sample content'))
+
+        browser.login().visit(content, view='@@edit')
+        browser.fill({'Related Choice Restricted Title': folder})
+        browser.find_button_by_label('Save').click()
+
+        self.assertEquals(['There were some errors.'],
+                          statusmessages.error_messages())
+
+        folder.title = u'Immutable title'
+        transaction.commit()
+
+        browser.login().visit(content, view='@@edit')
+        browser.fill({'Related Choice Restricted Title': folder})
+        browser.find_button_by_label('Save').click()
+
+        self.assertEquals(folder,
+                          content.realtionchoice_restricted_title.to_object)
