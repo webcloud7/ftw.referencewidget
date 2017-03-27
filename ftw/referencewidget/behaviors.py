@@ -29,3 +29,18 @@ class IRelatedItems(Interface):
     )
 
 alsoProvides(IRelatedItems, IFormFieldProvider)
+
+
+class IRelationChoiceExample(Interface):
+    """Demo behavior containing a RelationChoice (single value).
+
+    """
+    directives.widget(realtionchoice=ReferenceWidgetFactory)
+    realtionchoice = RelationChoice(
+        title=_(u'Related Choice'),
+        source=ReferenceWidgetPathSourceBinder(),
+        default=None,
+        required=False,
+    )
+
+alsoProvides(IRelationChoiceExample, IFormFieldProvider)
