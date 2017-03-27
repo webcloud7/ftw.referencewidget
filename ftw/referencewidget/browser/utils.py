@@ -80,7 +80,6 @@ def get_selectable_types_base(obj):
     return remove_blacklist_from_types(obj, non_selectable)
 
 
-
 def get_path_from_widget_start(widget):
     effective_path = ""
     if not callable(widget.start):

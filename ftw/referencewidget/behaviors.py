@@ -44,3 +44,20 @@ class IRelationChoiceExample(Interface):
     )
 
 alsoProvides(IRelationChoiceExample, IFormFieldProvider)
+
+
+class IRelationChoiceRestricted(Interface):
+    """Demo behavior containing a RelationChoice (single value).
+    But it's not allowd to reference a folder.
+
+    """
+    directives.widget(realtionchoice_restricted=ReferenceWidgetFactory)
+    realtionchoice_restricted = RelationChoice(
+        title=_(u'Related Choice Restricted'),
+        source=ReferenceWidgetPathSourceBinder(
+            nonselectable=['Folder']),
+        default=None,
+        required=False,
+    )
+
+alsoProvides(IRelationChoiceRestricted, IFormFieldProvider)

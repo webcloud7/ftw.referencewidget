@@ -17,23 +17,68 @@ The widget takes the following parameters:
  - override: drops all global config and the base query if a list is passed to the widget. All types need to be added to be selectable.
 
 
-**IMPORTANT NOTE:**
-Currently this widget drops the SourceBinder concept, which has huge impact on the usability.
+ContextSourceBinder
+-------------------
 
-The following combinations are supported.
+With a `RelationeChoice` or `RelationList` of `RelationChoice` a source can be configured along with the field.
+The `ContextSourceBinder` makes sure that only valid content can be selected.
+
+By default, the source binder only checks for a valid portal_type when selecting content.
+
+The default_filter implementation therefore looks like this:
+
+.. code:: python
+
+    def default_filter(source, value):
+        """"
+        Return ``True`` when the object is selectable, ``False``
+        when it is not selectable.
+        
+        """"
+        return value.portal_type in get_selectable_types_by_source(source)
+
+Feel free to add your own filter method as source parameter in your field.
+Example:
+
+.. code:: python
+
+    def custom_filter(source, value):
+        return bool(..)
+
+    ...
+
+    directives.widget(realtionchoice_restricted_title=ReferenceWidgetFactory)
+    realtionchoice_restricted_title = RelationChoice(
+        title=_(u'Related Choice Restricted Title'),
+        source=ReferenceObjSourceBinder(
+            selectable_function=custom_filter),
+        default=None,
+        required=False,
+    )
+
+The `filter` takes two parameter the actual source object and a value, which is the content object.
+
+Only `ReferenceObjSourceBinder` are supported. The SourceBinder takes the following parameters:
+
+- selectable: These types are selectable
+- nonselectable: These Types are not selectable
+- allow_nonsearched_types: If this is set to true all the types will be traversable and selectable.
+- override: drops all global config and the base query if a list is passed to the widget. All types need to be added to be selectable.
+- selectable_function: Custom function to determine if a content is selectable or not.
+
+The parameters are same as for the widget (Backwards compatibility with 1.x releases).
+
+
+Fields combinations (Registered converter)
+------------------------------------------
+
+The following combinations are supported:
+
 - RelationList with value_type Relation --> Stores a List of RelationValues
 - RelationList with value_type RelationChoice --> Stores a List of RelationValues
 - Relation --> Stores a RelationValue
 - List of RelationChoice --> Stores a list of absolute paths, without the portal root part
 - TextLine --> Stores a absolute path as string, without the portal root part
-
-
-
-TODO
-----
-
-- The SourceBinder concept needs to be implemented for better compatibility with everything/everyone else.
-- Proper Integration Tests using test behaviors with several configurations.
 
 
 Screenshots
