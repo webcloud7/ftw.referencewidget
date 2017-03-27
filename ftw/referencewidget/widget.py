@@ -52,8 +52,8 @@ class ReferenceBrowserWidget(widget.HTMLTextInputWidget, Widget):
         self.request = request
         self.block_traversal = block_traversal
         self.allow_traversal = allow_traversal
-        self.selectable = selectable
-        self.nonselectable = nonselectable
+        # self.selectable = selectable
+        # self.nonselectable = nonselectable
         self.start = start
         self.override = override
         self.allow_nonsearched_types = allow_nonsearched_types
