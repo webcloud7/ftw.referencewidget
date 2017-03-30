@@ -1,12 +1,12 @@
 from ftw.builder.testing import BUILDER_LAYER
 from ftw.builder.testing import functional_session_factory
 from ftw.builder.testing import set_builder_session_factory
+from ftw.referencewidget.tests import builders
 from plone.app.testing import applyProfile
 from plone.app.testing import FunctionalTesting
 from plone.app.testing import PLONE_FIXTURE
 from plone.app.testing import PloneSandboxLayer
 from zope.configuration import xmlconfig
-from Products.CMFCore.utils import getToolByName
 
 
 class FtwReferenceWidgetLayer(PloneSandboxLayer):

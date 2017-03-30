@@ -6,8 +6,11 @@ from plone.api import portal
 from plone.batching import Batch
 from plone.registry.interfaces import IRegistry
 from Products.CMFCore.utils import getToolByName
+from z3c.relationfield.schema import RelationChoice
+from z3c.relationfield.schema import RelationList
 from zope.component import getUtility
 from zope.i18n import translate
+from zope.schema import List
 
 
 def get_traversal_types(widget):
@@ -40,24 +43,42 @@ def remove_blacklist_from_types(widget, blacklist):
     return types_to_search
 
 
+def get_selectable_types_by_source(source):
+    return get_selectable_types_base(source)
+
+
 def get_selectable_types(widget):
-    if widget.override and widget.selectable:
-        return widget.selectable
+    source = widget
+    field = widget.field
+    if isinstance(field, RelationList) or isinstance(field, List):
+        value_type = getattr(field, 'value_type', None)
+        if isinstance(value_type, RelationChoice):
+            source = value_type.source(widget.context)
+    elif isinstance(field, RelationChoice):
+        source = field.source(widget.context)
+
+    return get_selectable_types_base(source)
+
+
+def get_selectable_types_base(source_or_widget):
+    if source_or_widget.override and source_or_widget.selectable:
+        return source_or_widget.selectable
 
     registry = getUtility(IRegistry)
     referencesettings = registry.forInterface(IReferenceSettings)
-    portal_props = getToolByName(widget.context, 'portal_properties')
+    portal_props = getToolByName(source_or_widget.context, 'portal_properties')
     non_selectable = set()
-    if not widget.allow_nonsearched_types:
+    if not source_or_widget.allow_nonsearched_types:
         non_selectable = set(portal_props.site_properties.types_not_searched)
     non_selectable = non_selectable.union(
         set(referencesettings.block_additional))
     non_selectable = non_selectable.difference(
         set(referencesettings.select_additional))
 
-    non_selectable = non_selectable.union(set(widget.nonselectable))
-    non_selectable = non_selectable.difference(set(widget.selectable))
-    return remove_blacklist_from_types(widget, non_selectable)
+    non_selectable = non_selectable.union(set(source_or_widget.nonselectable))
+    non_selectable = non_selectable.difference(
+        set(source_or_widget.selectable))
+    return remove_blacklist_from_types(source_or_widget, non_selectable)
 
 
 def get_path_from_widget_start(widget):

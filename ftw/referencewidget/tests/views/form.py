@@ -1,3 +1,4 @@
+from ftw.referencewidget import _
 from ftw.referencewidget.widget import ReferenceWidgetFactory
 from plone.z3cform.layout import FormWrapper
 from z3c.form.button import buttonAndHandler
@@ -5,11 +6,10 @@ from z3c.form.field import Fields
 from z3c.form.form import Form
 from z3c.relationfield.schema import RelationList
 from zope.interface import Interface
-from ftw.referencewidget import _
-import json
 
 
 class IFormSchema(Interface):
+
     relation = RelationList(
         title=_(u'Relation'),
         required=False)
