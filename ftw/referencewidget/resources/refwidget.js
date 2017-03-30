@@ -55,32 +55,37 @@
 }
 
     initRefBrowser.prototype.loadSelectedItems = function(widget){
-        var container = widget.button.siblings('.selected_items');
+        var container = widget.field.find('.selected_items');
         if (!container.find('ul').is(':empty')){
           return;
         }
-        var data = container.data("select");
-        if (data !== undefined){
-          data.forEach(function(widget, item){
-            if (item["path"] === ""){
-              return;
-            }
-            item["title"] = item["title"] + " (" + item["path"].substring(portal_url.replace(window.location.origin, '').length) + ")";
-            item["selectable"] = true;
-            item["traversable"] = false;
-            item['addclass'] = "";
-            item['tag'] = "span";
-            item["selected"] = "checked=\"checked\"";
-            item["type"] = widget.sel_type;
-            item["name"] = widget.name;
-            item["checkbox"] = widget.checkbox_template(item);
 
-            var node = $(widget.list_template(item));
-            widget.AddremoveLink(node);
+        $(container).find('[type="hidden"]').each(function(index, item){
+          var context = {};
+          var inputElement = $(item);
 
-            $(container).find("ul").append(node);
-          }.bind(null, widget));
-        }
+          if (inputElement.val() === ""){
+            return;
+          }
+
+          context["path"] = inputElement.val();
+          context["title"] = inputElement.data("title") + " (" + context["path"].substring(portal_url.replace(window.location.origin, '').length) + ")";
+          context["selectable"] = true;
+          context["traversable"] = false;
+          context['addclass'] = "";
+          context['tag'] = "span";
+          context["selected"] = "checked=\"checked\"";
+          context["type"] = widget.sel_type;
+          context["name"] = widget.name;
+          context["checkbox"] = widget.checkbox_template(context);
+
+          inputElement.remove();
+
+          var node = $(widget.list_template(context));
+          widget.AddremoveLink(node);
+
+          $(container).find("ul").append(node);
+        });
     };
 
     initRefBrowser.prototype.openOverlay = function(widget, event){

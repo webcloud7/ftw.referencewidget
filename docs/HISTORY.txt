@@ -5,6 +5,11 @@ Changelog
 1.3.1 (unreleased)
 ------------------
 
+- Render hidden input elements for given references, instead of
+  render them only by Javascript. This way the widget behaves more
+  like all other plone widgets.
+  [mathias.leimgruber]
+
 - Implement a additional `traversal_query` parameter for the widget.
   [mathias.leimgruber]
 

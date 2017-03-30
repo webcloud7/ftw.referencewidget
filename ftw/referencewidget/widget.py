@@ -99,7 +99,7 @@ class ReferenceBrowserWidget(widget.HTMLTextInputWidget, Widget):
 
         return obj
 
-    def js_value(self):
+    def get_items(self):
         result = []
 
         if not self.value:
@@ -123,7 +123,7 @@ class ReferenceBrowserWidget(widget.HTMLTextInputWidget, Widget):
             if obj:
                 result.append(obj_to_dict(obj))
 
-        return json.dumps(result)
+        return result
 
     def get_start_path(self):
         if self.start:

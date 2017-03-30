@@ -2,7 +2,6 @@ from ftw.builder import Builder
 from ftw.builder import create
 from ftw.referencewidget.tests import FunctionalTestCase
 from ftw.testbrowser import browsing
-import json
 import transaction
 
 
@@ -60,8 +59,31 @@ class TestRelatedItemsReplacement(FunctionalTestCase):
             [folder1, None],
             [relation.to_object for relation in content.relatedItems])
 
-        selected = json.loads(browser.css(
-            '.selected_items').first.attrib['data-select'])
+        selected = browser.css('.selected_items [type="hidden"]')
         self.assertEquals(1, len(selected), 'Expect only one item')
         self.assertEquals(['/'.join(folder1.getPhysicalPath())],
-                          [item['path'] for item in selected])
+                          [item.attrib['value'] for item in selected])
+
+    @browsing
+    def test_render_stored_related_items(self, browser):
+        folder1 = create(Builder('folder').titled(u'Some folder'))
+        folder2 = create(Builder('folder').titled(u'Some folder'))
+
+        content = create(Builder('sample content')
+                         .titled(u'Sample content')
+                         .having(relatedItems=[folder1, folder2]))
+
+        browser.login().visit(content, view='@@edit')
+        selected_items = browser.css('.selected_items input')
+
+        self.assertEquals(2, len(selected_items))
+
+        self.assertEquals(folder1.Title(),
+                          selected_items[0].attrib['data-title'])
+        self.assertEquals('/'.join(folder1.getPhysicalPath()),
+                          selected_items[0].attrib['value'])
+
+        self.assertEquals(folder2.Title(),
+                          selected_items[1].attrib['data-title'])
+        self.assertEquals('/'.join(folder2.getPhysicalPath()),
+                          selected_items[1].attrib['value'])
