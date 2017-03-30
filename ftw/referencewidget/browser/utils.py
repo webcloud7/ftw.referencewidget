@@ -60,24 +60,25 @@ def get_selectable_types(widget):
     return get_selectable_types_base(source)
 
 
-def get_selectable_types_base(obj):
-    if obj.override and obj.selectable:
-        return obj.selectable
+def get_selectable_types_base(source_or_widget):
+    if source_or_widget.override and source_or_widget.selectable:
+        return source_or_widget.selectable
 
     registry = getUtility(IRegistry)
     referencesettings = registry.forInterface(IReferenceSettings)
-    portal_props = getToolByName(obj.context, 'portal_properties')
+    portal_props = getToolByName(source_or_widget.context, 'portal_properties')
     non_selectable = set()
-    if not obj.allow_nonsearched_types:
+    if not source_or_widget.allow_nonsearched_types:
         non_selectable = set(portal_props.site_properties.types_not_searched)
     non_selectable = non_selectable.union(
         set(referencesettings.block_additional))
     non_selectable = non_selectable.difference(
         set(referencesettings.select_additional))
 
-    non_selectable = non_selectable.union(set(obj.nonselectable))
-    non_selectable = non_selectable.difference(set(obj.selectable))
-    return remove_blacklist_from_types(obj, non_selectable)
+    non_selectable = non_selectable.union(set(source_or_widget.nonselectable))
+    non_selectable = non_selectable.difference(
+        set(source_or_widget.selectable))
+    return remove_blacklist_from_types(source_or_widget, non_selectable)
 
 
 def get_path_from_widget_start(widget):
