@@ -13,6 +13,11 @@ class ReferenceBrowserWidget(PloneWidget):
         return bool(node.css('div.referencewidget'))
 
     def fill(self, values):
+
+        # Clear widget data
+        for item in self.css('.selected_items input[type="hidden"]'):
+            item.node.getparent().remove(item.node)
+
         field = self.css('input[type="hidden"]').first
 
         if isinstance(values, basestring):

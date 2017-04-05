@@ -28,10 +28,9 @@ class TestRelationChoice(FunctionalTestCase):
         self.assertEquals(folder, content.realtionchoice.to_object)
 
         browser.login().visit(content, view='@@edit')
-        selected = json.loads(browser.css(
-            '.selected_items').first.attrib['data-select'])
+        selected = browser.css('.selected_items [type="hidden"]')
         self.assertEquals('/'.join(folder.getPhysicalPath()),
-                          selected[0]['path'])
+                          selected[0].attrib['value'])
 
     @browsing
     def test_relation_choice_with_removed_relation(self, browser):
