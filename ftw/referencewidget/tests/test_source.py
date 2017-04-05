@@ -25,3 +25,62 @@ class TestReferenceObjSource(FunctionalTestCase):
 
         self.assertNotIn(folder, source)
         self.assertNotIn(sibling, source)
+
+    def test_nonselectable_option(self):
+        folder = create(Builder('folder'))
+        content = create(Builder('sample content'))
+
+        source_content = create(Builder('folder'))
+
+        source = ReferenceObjSourceBinder(
+            nonselectable=['Folder'])(source_content)
+
+        self.assertNotIn(folder, source)
+        self.assertIn(content, source)
+
+    def test_custom_selectable_function(self):
+        folder = create(Builder('folder'))
+        folder_titled = create(Builder('folder').titled(u'dummy title'))
+        source_content = create(Builder('sample content'))
+
+        def custom_selectable_functon(source, value):
+            return u'dummy title' == value.title
+
+        source = ReferenceObjSourceBinder(
+            selectable_function=custom_selectable_functon)(source_content)
+
+        self.assertNotIn(folder, source)
+        self.assertIn(folder_titled, source)
+
+    def test_force_selectable_types(self):
+        folder = create(Builder('folder'))
+        sample = create(Builder('sample content'))
+        source_content = create(Builder('sample content'))
+
+        source = ReferenceObjSourceBinder(
+            override=True,
+            selectable=['Folder'])(source_content)
+
+        self.assertNotIn(sample, source)
+        self.assertIn(folder, source)
+
+    def test_not_searched_types_are_disabled_by_default(self):
+        folder = create(Builder('folder'))
+        sample = create(Builder('sample content'))
+
+        self._set_not_searched_types('Folder')
+        source = ReferenceObjSourceBinder()(sample)
+        self.assertNotIn(folder, source)
+
+    def test_allow_not_searched_types(self):
+        folder = create(Builder('folder'))
+        sample = create(Builder('sample content'))
+
+        self._set_not_searched_types('Folder')
+        source = ReferenceObjSourceBinder(
+            allow_nonsearched_types=True)(sample)
+        self.assertIn(folder, source)
+
+    def _set_not_searched_types(self, *types):
+        site_properties = self.portal.portal_properties.site_properties
+        site_properties.types_not_searched = tuple(types)
