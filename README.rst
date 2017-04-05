@@ -42,16 +42,18 @@ Example:
 
 .. code:: python
 
-    def custom_filter(source, value):
-        return bool(..)
+    from ftw.referencewidget.filter import DefaultSelectable
 
+    class CustomClass(DefaultSelectable):
+        def is_selectable(self):
+            return bool(..)
     ...
 
     directives.widget(realtionchoice_restricted_title=ReferenceWidgetFactory)
     realtionchoice_restricted_title = RelationChoice(
         title=_(u'Related Choice Restricted Title'),
         source=ReferenceObjSourceBinder(
-            selectable_function=custom_filter),
+            selectable_class=CustomClass),
         default=None,
         required=False,
     )
@@ -64,7 +66,7 @@ Only `ReferenceObjSourceBinder` are supported. The SourceBinder takes the follow
 - nonselectable: These Types are not selectable
 - allow_nonsearched_types: If this is set to true all the types will be traversable and selectable.
 - override: drops all global config and the base query if a list is passed to the widget. All types need to be added to be selectable.
-- selectable_function: Custom function to determine if a content is selectable or not.
+- selectable_class: Custom ISelectable Class to determine if a content is selectable or not.
 
 The parameters are same as for the widget (Backwards compatibility with 1.x releases).
 

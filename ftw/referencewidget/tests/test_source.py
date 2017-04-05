@@ -1,5 +1,6 @@
 from ftw.builder import Builder
 from ftw.builder import create
+from ftw.referencewidget.selectable import DefaultSelectable
 from ftw.referencewidget.sources import ReferenceObjSourceBinder
 from ftw.referencewidget.tests import FunctionalTestCase
 
@@ -38,16 +39,17 @@ class TestReferenceObjSource(FunctionalTestCase):
         self.assertNotIn(folder, source)
         self.assertIn(content, source)
 
-    def test_custom_selectable_function(self):
+    def test_custom_selectable_class(self):
         folder = create(Builder('folder'))
         folder_titled = create(Builder('folder').titled(u'dummy title'))
         source_content = create(Builder('sample content'))
 
-        def custom_selectable_functon(source, value):
-            return u'dummy title' == value.title
+        class CustomSelectable(DefaultSelectable):
+            def is_selectable(self):
+                return u'dummy title' == self.content.title
 
         source = ReferenceObjSourceBinder(
-            selectable_function=custom_selectable_functon)(source_content)
+            selectable_class=CustomSelectable)(source_content)
 
         self.assertNotIn(folder, source)
         self.assertIn(folder_titled, source)

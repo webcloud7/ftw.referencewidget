@@ -87,7 +87,7 @@ class TestRelationChoiceRestricted(FunctionalTestCase):
                           content1.realtionchoice_restricted.to_object)
 
     @browsing
-    def test_custom_selectable_function_for_source_binder(self, browser):
+    def test_custom_selectable_class_for_source_binder(self, browser):
 
         folder = create(Builder('folder').titled(u'Some folder'))
 
