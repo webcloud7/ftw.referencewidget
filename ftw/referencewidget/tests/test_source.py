@@ -27,6 +27,32 @@ class TestReferenceObjSource(FunctionalTestCase):
         self.assertNotIn(folder, source)
         self.assertNotIn(sibling, source)
 
+    def test_root_path_callable(self):
+        folder = create(Builder('folder'))
+        subfolder = create(Builder('folder').within(folder))
+        subsubfolder = create(Builder('folder').within(subfolder))
+        sibling = create(Builder('folder'))
+
+        def current_path(context):
+            return '/'.join(context.getPhysicalPath())
+
+        source = ReferenceObjSourceBinder(
+            root_path=current_path)(subfolder)
+
+        self.assertIn(subsubfolder, source)
+        self.assertIn(subfolder, source)
+
+        self.assertNotIn(folder, source)
+        self.assertNotIn(sibling, source)
+
+        sibling_source = source = ReferenceObjSourceBinder(
+            root_path=current_path)(sibling)
+
+        self.assertNotIn(folder, sibling_source)
+        self.assertNotIn(subfolder, sibling_source)
+        self.assertNotIn(subsubfolder, sibling_source)
+        self.assertIn(sibling, sibling_source)
+
     def test_nonselectable_option(self):
         folder = create(Builder('folder'))
         content = create(Builder('sample content'))
