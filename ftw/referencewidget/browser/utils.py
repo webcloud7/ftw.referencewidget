@@ -154,3 +154,20 @@ def get_sort_order_options(request):
         )
 
     return options
+
+
+def get_root_path_from_source(widget):
+    field = widget.field
+    if isinstance(field, RelationList) or isinstance(field, List):
+        value_type = getattr(field, 'value_type', None)
+
+        if isinstance(value_type, RelationChoice):
+            source = value_type.source(widget.context)
+            return source.root_path
+
+    elif isinstance(field, RelationChoice):
+        source = field.source(widget.context)
+        return source.root_path
+
+    else:
+        return None

@@ -1,10 +1,8 @@
 from Acquisition import aq_parent
+from ftw.referencewidget.browser.utils import get_root_path_from_source
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.interfaces.siteroot import IPloneSiteRoot
 from Products.Five import BrowserView
-from z3c.relationfield.schema import RelationChoice
-from z3c.relationfield.schema import RelationList
-from zope.schema import List
 import json
 
 
@@ -24,7 +22,7 @@ class GeneratePathbar(BrowserView):
         obj = widget.context.unrestrictedTraverse(originpoint)
         results = []
 
-        root_path = self._get_path_from_source(widget.field)
+        root_path = get_root_path_from_source(widget)
 
         while True:
             clickable = mtool.checkPermission('View', obj)
@@ -41,18 +39,3 @@ class GeneratePathbar(BrowserView):
                 obj = aq_parent(obj)
         self.request.RESPONSE.setHeader("Content-type", "application/json")
         return json.dumps(results)
-
-    def _get_path_from_source(self, field):
-        if isinstance(field, RelationList) or isinstance(field, List):
-            value_type = getattr(field, 'value_type', None)
-
-            if isinstance(value_type, RelationChoice):
-                source = value_type.source(self.context)
-                return source.root_path
-
-        elif isinstance(field, RelationChoice):
-            source = field.source(self.context)
-            return source.root_path
-
-        else:
-            return None
