@@ -5,6 +5,9 @@ Changelog
 1.3.1 (unreleased)
 ------------------
 
+- Implement path restriction option.
+  [mathias.leimgruber]
+
 - Render hidden input elements for given references, instead of
   render them only by Javascript. This way the widget behaves more
   like all other plone widgets.

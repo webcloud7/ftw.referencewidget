@@ -1,4 +1,5 @@
 from Acquisition import aq_parent
+from ftw.referencewidget.browser.utils import get_root_path_from_source
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.interfaces.siteroot import IPloneSiteRoot
 from Products.Five import BrowserView
@@ -21,12 +22,18 @@ class GeneratePathbar(BrowserView):
         obj = widget.context.unrestrictedTraverse(originpoint)
         results = []
 
+        root_path = get_root_path_from_source(widget)
+
         while True:
             clickable = mtool.checkPermission('View', obj)
+            path = '/'.join(obj.getPhysicalPath())
             results.insert(0, {'title': obj.Title(),
-                               'path': '/'.join(obj.getPhysicalPath()),
+                               'path': path,
                                'clickable': bool(clickable)})
-            if IPloneSiteRoot.providedBy(obj):
+
+            if root_path and root_path == path:
+                break
+            elif IPloneSiteRoot.providedBy(obj):
                 break
             else:
                 obj = aq_parent(obj)

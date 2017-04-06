@@ -1,3 +1,4 @@
+from ftw.referencewidget.selectable import DefaultSelectable
 from ftw.referencewidget.sources import ReferenceObjSourceBinder
 from ftw.referencewidget.widget import ReferenceWidgetFactory
 from plone.app.dexterity import MessageFactory as _
@@ -47,8 +48,10 @@ class IRelationChoiceExample(Interface):
 alsoProvides(IRelationChoiceExample, IFormFieldProvider)
 
 
-def custom_filter(source, value):
-    return value.Title() == 'Immutable title'
+class CustomSelectableClass(DefaultSelectable):
+
+    def is_selectable(self):
+        return self.content.Title() == 'Immutable title'
 
 
 class IRelationChoiceRestricted(Interface):
@@ -69,9 +72,19 @@ class IRelationChoiceRestricted(Interface):
     realtionchoice_restricted_title = RelationChoice(
         title=_(u'Related Choice Restricted Title'),
         source=ReferenceObjSourceBinder(
-            selectable_function=custom_filter),
+            selectable_class=CustomSelectableClass),
         default=None,
         required=False,
     )
+
+    directives.widget(realtionchoice_restricted_path=ReferenceWidgetFactory)
+    realtionchoice_restricted_path = RelationChoice(
+        title=_(u'Related Choice Restricted Title'),
+        source=ReferenceObjSourceBinder(
+            root_path='/testfolder'),
+        default=None,
+        required=False,
+    )
+
 
 alsoProvides(IRelationChoiceRestricted, IFormFieldProvider)

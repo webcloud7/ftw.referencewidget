@@ -1,4 +1,5 @@
 from ftw.referencewidget.browser.utils import extend_with_batching
+from ftw.referencewidget.browser.utils import get_root_path_from_source
 from ftw.referencewidget.browser.utils import get_selectable_types
 from ftw.referencewidget.browser.utils import get_sort_options
 from ftw.referencewidget.browser.utils import get_sort_order_options
@@ -32,6 +33,10 @@ class SearchView(BrowserView):
                                              u'modified').encode('utf-8')}
 
         query.update(self.context.traversal_query)
+
+        root_path = get_root_path_from_source(self.context)
+        if root_path:
+            query['path'] = root_path
 
         catalog = getToolByName(self.context.context, 'portal_catalog')
         results = catalog(query)

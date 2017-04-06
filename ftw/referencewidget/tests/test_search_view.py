@@ -2,6 +2,7 @@ from ftw.builder import Builder
 from ftw.builder import create
 from ftw.referencewidget.browser.search import SearchView
 from ftw.referencewidget.testing import FTW_REFERENCE_FUNCTIONAL_TESTING
+from ftw.referencewidget.tests import FunctionalTestCase
 from ftw.referencewidget.tests.views.form import TestView
 from plone.app.testing import login
 from plone.app.testing import setRoles
@@ -66,3 +67,40 @@ class TestGeneratePathbar(TestCase):
 
         self.assertEquals(1, len(result), 'Exepct only one item')
         self.assertEquals('/plone/testfolder', result[0]['path'])
+
+
+class TestSearchWithPathRestriction(FunctionalTestCase):
+
+    def setUp(self):
+        super(TestSearchWithPathRestriction, self).setUp()
+        self.setup_fti(additional_behaviors=[
+            'ftw.referencewidget.behaviors.IRelationChoiceRestricted'])
+        self.grant('Manager')
+
+    def test_root_path_restriction_of_source_is_respected(self):
+        testfolder = create(Builder('folder')
+                            .titled(u'Test folder')
+                            .with_id('testfolder'))
+        subfolder = create(Builder('folder')
+                           .within(testfolder)
+                           .titled(u'Some folder'))
+        content = create(Builder('sample content')
+                         .within(subfolder)
+                         .titled(u'Some folder'))
+
+        other_folder = create(Builder('folder').titled(u'Other folder'))
+
+        self.portal.REQUEST['term'] = 'folder'
+        result = self._get_search_result_from_widget(
+            content,
+            'IRelationChoiceRestricted.realtionchoice_restricted_path')
+
+        self.assertEquals(3, len(result['items']))
+        self.assertNotIn(other_folder.Title(),
+                         [item['title'] for item in result['items']])
+
+    def _get_search_result_from_widget(self, source, name):
+        form = source.unrestrictedTraverse('@@edit').form_instance
+        form.update()
+        widget = form.widgets[name]
+        return json.loads(SearchView(widget, widget.request)())
