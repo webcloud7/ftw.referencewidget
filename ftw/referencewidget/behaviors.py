@@ -77,4 +77,14 @@ class IRelationChoiceRestricted(Interface):
         required=False,
     )
 
+    directives.widget(realtionchoice_restricted_path=ReferenceWidgetFactory)
+    realtionchoice_restricted_path = RelationChoice(
+        title=_(u'Related Choice Restricted Title'),
+        source=ReferenceObjSourceBinder(
+            root_path='/testfolder'),
+        default=None,
+        required=False,
+    )
+
+
 alsoProvides(IRelationChoiceRestricted, IFormFieldProvider)
