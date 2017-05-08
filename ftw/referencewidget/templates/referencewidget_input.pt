@@ -3,7 +3,7 @@
       i18n:domain="ftw.referencewidget">
 
 <div class="referencewidget" tal:attributes="name view/name;
-                                             data-url view/form_url;
+                                             data-url string:${view/form_url}/++widget++${view/name};
                                              data-type view/is_list;
                                              data-trans view/translations">
 <div class="selected_items">

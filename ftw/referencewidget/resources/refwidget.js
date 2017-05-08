@@ -101,7 +101,7 @@
       widget.sel_type = container.data("type");
       widget.field_id = widget.field.attr("id");
 
-      widget.widget_url = container.data("url") + "/++widget++" + widget.name;
+      widget.widget_url = container.data("url");
       var refbrowser_template = Handlebars.compile($("#refbrowser-template").html());
       $("body").append(refbrowser_template(widget.translations));
       widget.build_pathbar(widget, "");

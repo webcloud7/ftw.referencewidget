@@ -1,4 +1,5 @@
 from Acquisition import aq_parent
+from Products.CMFCore.interfaces import IContentish
 from ftw.referencewidget import _
 from ftw.referencewidget.browser.utils import get_path_from_widget_start
 from ftw.referencewidget.browser.utils import is_traversable
@@ -18,6 +19,9 @@ from zope.interface import implementsOnly
 from zope.schema.interfaces import IList
 import json
 import os
+
+# TODO: Conditional import.
+from collective.z3cform.datagridfield.datagridfield import DataGridFieldObjectSubForm
 
 
 class ReferenceBrowserWidget(widget.HTMLTextInputWidget, Widget):
@@ -65,6 +69,15 @@ class ReferenceBrowserWidget(widget.HTMLTextInputWidget, Widget):
     def update(self):
         super(ReferenceBrowserWidget, self).update()
         widget.addFieldClass(self)
+
+        self._datagrid_support()
+
+    def _datagrid_support(self):
+        if isinstance(self.form, DataGridFieldObjectSubForm):
+            for parent in self.request.PARENTS:
+                if IContentish.providedBy(parent):
+                    self.context = parent
+                    break
 
     def is_list(self):
         if IList.providedBy(self.field):
