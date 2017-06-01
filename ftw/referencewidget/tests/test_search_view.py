@@ -84,7 +84,7 @@ class TestSearchWithPathRestriction(FunctionalTestCase):
         subfolder = create(Builder('folder')
                            .within(testfolder)
                            .titled(u'Some folder'))
-        content = create(Builder('sample content')
+        content = create(Builder('refwidget sample content')
                          .within(subfolder)
                          .titled(u'Some folder'))
 

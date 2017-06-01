@@ -55,7 +55,7 @@ class TestReferenceObjSource(FunctionalTestCase):
 
     def test_nonselectable_option(self):
         folder = create(Builder('folder'))
-        content = create(Builder('sample content'))
+        content = create(Builder('refwidget sample content'))
 
         source_content = create(Builder('folder'))
 
@@ -68,7 +68,7 @@ class TestReferenceObjSource(FunctionalTestCase):
     def test_custom_selectable_class(self):
         folder = create(Builder('folder'))
         folder_titled = create(Builder('folder').titled(u'dummy title'))
-        source_content = create(Builder('sample content'))
+        source_content = create(Builder('refwidget sample content'))
 
         class CustomSelectable(DefaultSelectable):
             def is_selectable(self):
@@ -82,8 +82,8 @@ class TestReferenceObjSource(FunctionalTestCase):
 
     def test_force_selectable_types(self):
         folder = create(Builder('folder'))
-        sample = create(Builder('sample content'))
-        source_content = create(Builder('sample content'))
+        sample = create(Builder('refwidget sample content'))
+        source_content = create(Builder('refwidget sample content'))
 
         source = ReferenceObjSourceBinder(
             override=True,
@@ -94,7 +94,7 @@ class TestReferenceObjSource(FunctionalTestCase):
 
     def test_not_searched_types_are_disabled_by_default(self):
         folder = create(Builder('folder'))
-        sample = create(Builder('sample content'))
+        sample = create(Builder('refwidget sample content'))
 
         self._set_not_searched_types('Folder')
         source = ReferenceObjSourceBinder()(sample)
@@ -102,7 +102,7 @@ class TestReferenceObjSource(FunctionalTestCase):
 
     def test_allow_not_searched_types(self):
         folder = create(Builder('folder'))
-        sample = create(Builder('sample content'))
+        sample = create(Builder('refwidget sample content'))
 
         self._set_not_searched_types('Folder')
         source = ReferenceObjSourceBinder(
