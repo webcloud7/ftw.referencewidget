@@ -19,7 +19,8 @@ class TestRelationChoice(FunctionalTestCase):
     def test_relation_choice(self, browser):
         folder = create(Builder('folder').titled(u'Some folder'))
 
-        content = create(Builder('refwidget sample content').titled(u'refwidget sample content'))
+        content = create(Builder('refwidget sample content')
+                         .titled(u'sample content'))
 
         browser.login().visit(content, view='@@edit')
         browser.fill({'Related Choice': folder})
@@ -48,6 +49,20 @@ class TestRelationChoice(FunctionalTestCase):
         browser.login().visit(content, view='@@edit')
         self.assertNotIn('data-select',
                          browser.css('.selected_items').first.attrib)
+
+    @browsing
+    def test_single_value_display_mode(self, browser):
+        folder = create(Builder('folder').titled(u'Some folder'))
+
+        content = create(Builder('refwidget sample content')
+                         .titled(u'sample content')
+                         .having(realtionchoice=folder))
+
+        browser.login().visit(content)
+
+        link = browser.css('.reference-widget.relationchoice-field a').first
+        self.assertEquals(folder.Title(), link.text)
+        self.assertEquals(folder.absolute_url(), link.attrib['href'])
 
 
 class TestRelationChoiceRestricted(FunctionalTestCase):

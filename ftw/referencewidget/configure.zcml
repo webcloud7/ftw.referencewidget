@@ -25,6 +25,12 @@
         layer="z3c.form.interfaces.IFormLayer"
         template="templates/referencewidget_input.pt" />
 
+    <z3c:widgetTemplate
+        mode="display"
+        widget="ftw.referencewidget.interfaces.IReferenceWidget"
+        layer="z3c.form.interfaces.IFormLayer"
+        template="templates/referencewidget_display.pt" />
+
     <genericsetup:registerProfile
         name="default"
         title="ftw.referencewidget"
