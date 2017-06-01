@@ -16,7 +16,8 @@ class TestRelatedItemsReplacement(FunctionalTestCase):
     def test_relateditems_behavior_with_one_item(self, browser):
         folder = create(Builder('folder').titled(u'Some folder'))
 
-        content = create(Builder('refwidget sample content').titled(u'refwidget sample content'))
+        content = create(Builder('refwidget sample content').titled(
+            u'refwidget sample content'))
 
         browser.login().visit(content, view='@@edit')
         browser.fill({'Related Items': folder})
@@ -31,7 +32,8 @@ class TestRelatedItemsReplacement(FunctionalTestCase):
         folder1 = create(Builder('folder').titled(u'Some folder'))
         folder2 = create(Builder('folder').titled(u'Some folder'))
 
-        content = create(Builder('refwidget sample content').titled(u'refwidget sample content'))
+        content = create(Builder('refwidget sample content').titled(
+            u'refwidget sample content'))
 
         browser.login().visit(content, view='@@edit')
         browser.fill({'Related Items': [folder1, folder2]})
@@ -87,3 +89,23 @@ class TestRelatedItemsReplacement(FunctionalTestCase):
                           selected_items[1].attrib['data-title'])
         self.assertEquals('/'.join(folder2.getPhysicalPath()),
                           selected_items[1].attrib['value'])
+
+    @browsing
+    def test_multi_value_display_mode(self, browser):
+        folder1 = create(Builder('folder').titled(u'Folder 1'))
+        folder2 = create(Builder('folder').titled(u'Folder 2'))
+
+        content = create(Builder('refwidget sample content')
+                         .titled(u'sample content')
+                         .having(relatedItems=[folder1, folder2]))
+
+        browser.login().visit(content)
+
+        links = browser.css('.reference-widget.relationlist-field a')
+        self.assertEquals(2, len(links), 'Expect two links')
+
+        link1, link2 = links
+        self.assertEquals(folder1.Title(), link1.text)
+        self.assertEquals(folder1.absolute_url(), link1.attrib['href'])
+        self.assertEquals(folder2.Title(), link2.text)
+        self.assertEquals(folder2.absolute_url(), link2.attrib['href'])
