@@ -19,7 +19,7 @@ class TestRelationChoice(FunctionalTestCase):
     def test_relation_choice(self, browser):
         folder = create(Builder('folder').titled(u'Some folder'))
 
-        content = create(Builder('sample content').titled(u'Sample content'))
+        content = create(Builder('refwidget sample content').titled(u'refwidget sample content'))
 
         browser.login().visit(content, view='@@edit')
         browser.fill({'Related Choice': folder})
@@ -36,8 +36,8 @@ class TestRelationChoice(FunctionalTestCase):
     def test_relation_choice_with_removed_relation(self, browser):
         folder1 = create(Builder('folder').titled(u'Some folder'))
 
-        content = create(Builder('sample content')
-                         .titled(u'Sample content')
+        content = create(Builder('refwidget sample content')
+                         .titled(u'refwidget sample content')
                          .having(realtionchoice=folder1))
 
         self.portal.manage_delObjects([folder1.getId()])
@@ -62,7 +62,7 @@ class TestRelationChoiceRestricted(FunctionalTestCase):
     def test_relation_choice_folder_is_not_allowed(self, browser):
         folder = create(Builder('folder').titled(u'Some folder'))
 
-        content = create(Builder('sample content').titled(u'Sample content'))
+        content = create(Builder('refwidget sample content').titled(u'refwidget sample content'))
 
         browser.login().visit(content, view='@@edit')
         browser.fill({'Related Choice Restricted': folder})
@@ -75,9 +75,9 @@ class TestRelationChoiceRestricted(FunctionalTestCase):
 
     @browsing
     def test_other_types_are_allowed(self, browser):
-        content1 = create(Builder('sample content').titled(u'Some content'))
+        content1 = create(Builder('refwidget sample content').titled(u'Some content'))
 
-        content2 = create(Builder('sample content').titled(u'Sample content'))
+        content2 = create(Builder('refwidget sample content').titled(u'refwidget sample content'))
 
         browser.login().visit(content1, view='@@edit')
         browser.fill({'Related Choice Restricted': content2})
@@ -91,7 +91,7 @@ class TestRelationChoiceRestricted(FunctionalTestCase):
 
         folder = create(Builder('folder').titled(u'Some folder'))
 
-        content = create(Builder('sample content').titled(u'Sample content'))
+        content = create(Builder('refwidget sample content').titled(u'refwidget sample content'))
 
         browser.login().visit(content, view='@@edit')
         browser.fill({'Related Choice Restricted Title': folder})

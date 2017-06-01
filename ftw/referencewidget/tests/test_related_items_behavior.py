@@ -16,7 +16,7 @@ class TestRelatedItemsReplacement(FunctionalTestCase):
     def test_relateditems_behavior_with_one_item(self, browser):
         folder = create(Builder('folder').titled(u'Some folder'))
 
-        content = create(Builder('sample content').titled(u'Sample content'))
+        content = create(Builder('refwidget sample content').titled(u'refwidget sample content'))
 
         browser.login().visit(content, view='@@edit')
         browser.fill({'Related Items': folder})
@@ -31,7 +31,7 @@ class TestRelatedItemsReplacement(FunctionalTestCase):
         folder1 = create(Builder('folder').titled(u'Some folder'))
         folder2 = create(Builder('folder').titled(u'Some folder'))
 
-        content = create(Builder('sample content').titled(u'Sample content'))
+        content = create(Builder('refwidget sample content').titled(u'refwidget sample content'))
 
         browser.login().visit(content, view='@@edit')
         browser.fill({'Related Items': [folder1, folder2]})
@@ -46,8 +46,8 @@ class TestRelatedItemsReplacement(FunctionalTestCase):
         folder1 = create(Builder('folder').titled(u'Some folder'))
         folder2 = create(Builder('folder').titled(u'Some folder'))
 
-        content = create(Builder('sample content')
-                         .titled(u'Sample content')
+        content = create(Builder('refwidget sample content')
+                         .titled(u'refwidget sample content')
                          .having(relatedItems=[folder1, folder2]))
 
         self.portal.manage_delObjects([folder2.getId()])
@@ -69,8 +69,8 @@ class TestRelatedItemsReplacement(FunctionalTestCase):
         folder1 = create(Builder('folder').titled(u'Some folder'))
         folder2 = create(Builder('folder').titled(u'Some folder'))
 
-        content = create(Builder('sample content')
-                         .titled(u'Sample content')
+        content = create(Builder('refwidget sample content')
+                         .titled(u'refwidget sample content')
                          .having(relatedItems=[folder1, folder2]))
 
         browser.login().visit(content, view='@@edit')
