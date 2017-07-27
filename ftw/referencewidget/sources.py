@@ -1,6 +1,8 @@
 from ftw.referencewidget.selectable import DefaultSelectable
 from ftw.referencewidget.selectable import ISelectable
 from plone import api
+from Products.CMFCore.interfaces import IContentish
+from zope.component.hooks import getSite
 from zope.interface import implements
 from zope.interface.verify import verifyClass
 from zope.schema.interfaces import IContextSourceBinder
@@ -13,6 +15,13 @@ class ReferenceObjPathSource(object):
 
     def __init__(self, context, selectable_class, selectable, nonselectable,
                  override, allow_nonsearched_types, root_path):
+
+        if not IContentish.providedBy(context):
+            request = getSite().REQUEST
+            if len(request.PARENTS) >= 2:
+                # Workaround for data grid field.
+                context = request.PARENTS[-2]
+
         self.context = context
         self.selectable_class = selectable_class
         self.selectable = selectable
@@ -46,6 +55,13 @@ class ReferenceObjSourceBinder(object):
         self.root_path = root_path
 
     def __call__(self, context):
+
+        if not IContentish.providedBy(context):
+            request = getSite().REQUEST
+            if len(request.PARENTS) >= 2:
+                # Workaround for data grid field.
+                context = request.PARENTS[-2]
+
         self.context = context
         return ReferenceObjPathSource(context,
                                       self.selectable_class,

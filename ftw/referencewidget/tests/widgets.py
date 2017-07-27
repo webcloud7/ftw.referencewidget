@@ -8,9 +8,17 @@ class ReferenceBrowserWidget(PloneWidget):
 
     @staticmethod
     def match(node):
-        if not node.tag == 'div' or 'field' not in node.classes:
+        if not PloneWidget.match(node):
             return False
-        return bool(node.css('div.referencewidget'))
+        return bool(node.css('>div.referencewidget'))
+
+    @classmethod
+    def find_widget_in_datagrid_cell(kls, cell):
+        divs = cell.css('>div.referencewidget')
+        if len(divs) == 1:
+            return kls(divs.first, cell.browser)
+        else:
+            return None
 
     def fill(self, values):
 

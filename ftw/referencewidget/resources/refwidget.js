@@ -27,7 +27,7 @@
         }
       });
 
-      widget.field = widget.button.closest(".field");
+      widget.field = widget.button.closest(".referencewidgetField");
       widget.name = widget.field.data("fieldname");
 
       // XXX Implement i18n handlebars helper
@@ -98,6 +98,7 @@
 
       var target = $(event.currentTarget);
       var container = target.closest(".referencewidget");
+      widget.container = container;
       widget.sel_type = container.data("type");
       widget.field_id = widget.field.attr("id");
 
@@ -342,7 +343,7 @@
 
         widget.AddremoveLink(node);
 
-        $("#" + widget.field_id + " .referencewidget .selected_items ul").append(node);
+        $('.selected_items ul', widget.container).append(node);
       }
       else {
         var query = "#" + widget.field_id + " .referencewidget .selected_items li[data-path=\"" + $(event.currentTarget.parentNode).data("path") + "\"]";

@@ -1,3 +1,4 @@
+from collective.z3cform.datagridfield.datagridfield import DataGridFieldObjectSubForm
 from ftw.referencewidget.browser.utils import extend_with_batching
 from ftw.referencewidget.browser.utils import get_selectable_types
 from ftw.referencewidget.browser.utils import get_sort_options
@@ -13,6 +14,9 @@ class ReferenceJsonEndpoint(BrowserView):
 
     def __call__(self):
         widget = self.context
+
+        if isinstance(self.context.form, DataGridFieldObjectSubForm):
+            widget.context = self.context.__parent__.context
 
         effective_path = widget.request.get('start', None)
         if not effective_path:

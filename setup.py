@@ -5,10 +5,11 @@ version = '1.4.1.dev0'
 maintainer = 'Timon Tschanz'
 
 tests_require = [
+    'collective.z3cform.datagridfield',
     'plone.app.testing',
     'ftw.builder',
     'unittest2',
-    'ftw.testbrowser'
+    'ftw.testbrowser >= 1.26.1',
 ]
 
 setup(name='ftw.referencewidget',
@@ -39,6 +40,7 @@ setup(name='ftw.referencewidget',
 
       install_requires=[
           'Plone',
+          'collective.z3cform.datagridfield',
           'setuptools',
           'plone.app.registry',
           'z3c.relationfield',

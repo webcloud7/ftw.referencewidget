@@ -1,9 +1,15 @@
+from collective.z3cform.datagridfield.interfaces import IDataGridField
 from ftw.referencewidget.interfaces import IReferenceWidget
 from plone import api
 from z3c.form import converter
+from z3c.relationfield import RelationValue
+from z3c.relationfield.event import _setRelation
 from z3c.relationfield.interfaces import IRelation
+from z3c.relationfield.interfaces import IRelationChoice
 from z3c.relationfield.interfaces import IRelationList
+from zope import component
 from zope.component import adapts
+from zope.intid.interfaces import IIntIds
 from zope.schema.interfaces import IList
 from zope.schema.interfaces import ITextLine
 import os
@@ -112,3 +118,38 @@ class ReferenceDataListWithChoiceConverter(converter.BaseDataConverter):
             return map(lambda path: '/'.join([portal_path, path]), value)
         else:
             return value
+
+
+class GridDataConverter(converter.BaseDataConverter):
+    """
+    The value of a RelationChoice schema field usually is stored as a relation value
+    in the database but the data grid stores the item as-is (an object, not a relation).
+
+    So we need to convert the object to a relation value before storing it in the database
+    and convert it to an object when rendering the widget.
+
+    Inspired by https://github.com/collective/collective.z3cform.datagridfield/issues/50.
+    """
+    adapts(IList, IDataGridField)
+
+    def toWidgetValue(self, value):
+        new_value = []
+        for row in value:
+            new_row = {}
+            for key in row:
+                if row[key] and IRelationChoice.providedBy(self.field.value_type.schema[key]):
+                    new_row[key] = row[key].to_object
+                else:
+                    new_row[key] = row[key]
+            new_value.append(new_row)
+        return new_value
+
+    def toFieldValue(self, value):
+        intids = component.queryUtility(IIntIds)
+        for row in value:
+            for key in row:
+                if row[key] and IRelationChoice.providedBy(self.field.value_type.schema[key]):
+                    relation = RelationValue(intids.getId(row[key]))
+                    _setRelation(row[key], 'internal_link', relation)
+                    row[key] = relation
+        return value
