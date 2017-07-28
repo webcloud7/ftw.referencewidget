@@ -137,10 +137,10 @@ class GridDataConverter(converter.BaseDataConverter):
         for row in value:
             new_row = {}
             for key in row:
+                new_row[key] = row[key]
                 if row[key] and IRelationChoice.providedBy(self.field.value_type.schema[key]):
-                    new_row[key] = row[key].to_object
-                else:
-                    new_row[key] = row[key]
+                    if hasattr(row[key], 'to_object'):
+                        new_row[key] = row[key].to_object
             new_value.append(new_row)
         return new_value
 
@@ -149,7 +149,9 @@ class GridDataConverter(converter.BaseDataConverter):
         for row in value:
             for key in row:
                 if row[key] and IRelationChoice.providedBy(self.field.value_type.schema[key]):
-                    relation = RelationValue(intids.getId(row[key]))
-                    _setRelation(row[key], 'internal_link', relation)
-                    row[key] = relation
+                    to_id = intids.queryId(row[key])
+                    if to_id:
+                        relation = RelationValue(to_id)
+                        _setRelation(row[key], key, relation)
+                        row[key] = relation
         return value
