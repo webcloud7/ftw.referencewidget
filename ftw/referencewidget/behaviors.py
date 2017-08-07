@@ -1,11 +1,16 @@
+from collective.z3cform.datagridfield import DataGridFieldFactory
+from collective.z3cform.datagridfield import DictRow
 from ftw.referencewidget.selectable import DefaultSelectable
 from ftw.referencewidget.sources import ReferenceObjSourceBinder
 from ftw.referencewidget.widget import ReferenceWidgetFactory
 from plone.app.dexterity import MessageFactory as _
 from plone.autoform import directives
 from plone.autoform.interfaces import IFormFieldProvider
+from plone.directives import form
+from plone.supermodel import model
 from plone.supermodel.model import fieldset
 from z3c.relationfield.schema import RelationChoice, RelationList
+from zope import schema
 from zope.interface import alsoProvides
 from zope.interface import Interface
 
@@ -46,6 +51,36 @@ class IRelationChoiceExample(Interface):
     )
 
 alsoProvides(IRelationChoiceExample, IFormFieldProvider)
+
+
+class IDataGridRow(model.Schema):
+    label = schema.TextLine(
+        title=u'Label',
+        default=u'I am the default label',
+    )
+
+    directives.widget(link=ReferenceWidgetFactory)
+    link = RelationChoice(
+        title=u'Link',
+        source=ReferenceObjSourceBinder(),
+        required=False,
+    )
+
+
+class IDataGridFieldExample(Interface):
+    """Demo behavior containing a DataGridField.
+
+    """
+    form.widget('the_data_grid', DataGridFieldFactory, allow_reorder=True)
+    the_data_grid = schema.List(
+        title=u'The Data Grid',
+        value_type=DictRow(title=u'the_data_grid_row', schema=IDataGridRow),
+        required=False,
+        missing_value=[],
+    )
+
+
+alsoProvides(IDataGridFieldExample, IFormFieldProvider)
 
 
 class CustomSelectableClass(DefaultSelectable):

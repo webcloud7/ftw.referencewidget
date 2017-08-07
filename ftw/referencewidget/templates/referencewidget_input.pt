@@ -2,10 +2,12 @@
       xmlns:i18n="http://xml.zope.org/namespaces/i18n"
       i18n:domain="ftw.referencewidget">
 
-<div class="referencewidget" tal:attributes="name view/name;
-                                             data-url view/form_url;
-                                             data-type view/is_list;
-                                             data-trans view/translations">
+<div class="referencewidget referencewidgetField"
+     tal:attributes="name view/name;
+                     data-url view/form_url;
+                     data-fieldname view/name;
+                     data-type view/is_list;
+                     data-trans view/translations">
 <div class="selected_items">
     <ul class="sortable"></ul>
     <!-- Rendered from the backend. This is gonna be converted to a list placed in the ul above by javascript-->

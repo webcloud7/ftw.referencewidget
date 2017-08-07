@@ -31,6 +31,7 @@ class FtwReferenceWidgetLayer(PloneSandboxLayer):
         # Install into Plone site using portal_setup
         applyProfile(portal, 'plone.app.registry:default')
         applyProfile(portal, 'ftw.referencewidget:default')
+        applyProfile(portal, 'collective.z3cform.datagridfield:default')
 
 
 FTW_REFERENCE_FIXTURE = FtwReferenceWidgetLayer()
