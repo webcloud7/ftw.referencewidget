@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.4.2 (unreleased)
+1.4.2 (2017-08-29)
 ------------------
 
 - Bugfix for DataGridField support if Plone Site is inside a mount point.
