@@ -18,9 +18,10 @@ class ReferenceObjPathSource(object):
 
         if not IContentish.providedBy(context):
             request = getSite().REQUEST
-            if len(request.PARENTS) >= 2:
+            nb = len(getSite().getPhysicalPath())
+            if len(request.PARENTS) >= nb:
                 # Workaround for data grid field.
-                context = request.PARENTS[-2]
+                context = request.PARENTS[-nb]
 
         self.context = context
         self.selectable_class = selectable_class
@@ -58,9 +59,10 @@ class ReferenceObjSourceBinder(object):
 
         if not IContentish.providedBy(context):
             request = getSite().REQUEST
-            if len(request.PARENTS) >= 2:
+            nb = len(getSite().getPhysicalPath())
+            if len(request.PARENTS) >= nb:
                 # Workaround for data grid field.
-                context = request.PARENTS[-2]
+                context = request.PARENTS[-nb]
 
         self.context = context
         return ReferenceObjPathSource(context,
