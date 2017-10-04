@@ -1,5 +1,4 @@
 from datetime import datetime
-
 from ftw.builder import Builder
 from ftw.builder import create
 from ftw.referencewidget.browser.search import SearchView
@@ -43,6 +42,21 @@ class TestGeneratePathbar(TestCase):
         self.assertEquals("Testfolder (/plone/testfolder)", items[1]['title'])
 
         self.assertEquals("/plone/testfolder/test", items[0]['path'])
+        self.assertEquals("Test (/plone/testfolder/test)", items[0]['title'])
+
+    def test_search_only_from_current_path(self):
+        create(Builder('file').titled('Test File - not in search results'))
+
+        self.widget.request['term'] = 'tes'
+        self.widget.request['sort_on'] = 'sortable_title'
+        self.widget.request['search_current_path'] = 'on'
+        self.widget.request['request_path'] = '/'.join(self.folder.getPhysicalPath())
+
+        view = SearchView(self.widget, self.widget.request)
+        result = view()
+        results = json.loads(result)
+        items = results['items']
+        self.assertEquals(1, len(items))
         self.assertEquals("Test (/plone/testfolder/test)", items[0]['title'])
 
     def test_search_view_on_news(self):
