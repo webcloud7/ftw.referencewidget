@@ -1,9 +1,12 @@
+from datetime import datetime
+
 from ftw.builder import Builder
 from ftw.builder import create
 from ftw.referencewidget.browser.search import SearchView
 from ftw.referencewidget.testing import FTW_REFERENCE_FUNCTIONAL_TESTING
 from ftw.referencewidget.tests import FunctionalTestCase
 from ftw.referencewidget.tests.views.form import TestView
+from ftw.testing.freezer import freeze
 from plone.app.testing import login
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
@@ -41,6 +44,20 @@ class TestGeneratePathbar(TestCase):
 
         self.assertEquals("/plone/testfolder/test", items[0]['path'])
         self.assertEquals("Test (/plone/testfolder/test)", items[0]['title'])
+
+    def test_search_view_on_news(self):
+        with freeze(datetime(2017, 10, 04)):
+            create(Builder('event').within(self.folder).titled(u"Event"))
+        self.widget.request['term'] = 'Event'
+        self.widget.request['sort_on'] = 'sortable_title'
+        view = SearchView(self.widget, self.widget.request)
+        result = view()
+        results = json.loads(result)
+        items = results['items']
+        self.assertEquals(1, len(items))
+        self.assertEquals(u'/plone/testfolder/event', items[0]['path'])
+        self.assertEquals(u'Event (Oct 04, 2017) (/plone/testfolder/event)',
+                          items[0]['title'])
 
     def test_only_correct_types(self):
         self.widget.override = True

@@ -10,6 +10,7 @@ tests_require = [
     'ftw.builder',
     'unittest2',
     'ftw.testbrowser >= 1.26.1',
+    'ftw.testing',
 ]
 
 setup(name='ftw.referencewidget',

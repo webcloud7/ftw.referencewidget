@@ -4,6 +4,7 @@ from ftw.referencewidget.browser.utils import get_selectable_types
 from ftw.referencewidget.browser.utils import get_sort_options
 from ftw.referencewidget.browser.utils import get_sort_order_options
 from ftw.referencewidget.browser.utils import get_traversal_types
+from plone import api
 from Products.CMFCore.utils import getToolByName
 from Products.Five import BrowserView
 import json
@@ -45,7 +46,7 @@ class SearchView(BrowserView):
         json_prep['batching'] = batch_html
 
         traversel_type = get_traversal_types(self.context)
-
+        plone = api.portal.get()
         for item in results:
             contenttype = 'contenttype-' \
                 + item.portal_type.replace('.', '-').lower()
@@ -53,7 +54,9 @@ class SearchView(BrowserView):
             traversable = item.is_folderish and  \
                 (item.portal_type in traversel_type)
 
-            label = '{0} ({1})'.format(item.Title, item.getPath())
+            date = ' (%s)' % plone.toLocalizedTime(item.start) if item.start else ''
+
+            label = '{0}{1} ({2})'.format(item.Title, date, item.getPath())
             json_prep['items'].append({'title': label,
                                        'path': item.getPath(),
                                        'selectable': True,
