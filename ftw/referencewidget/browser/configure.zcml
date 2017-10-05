@@ -9,14 +9,7 @@
     <browser:page
         for="ftw.referencewidget.interfaces.IReferenceWidget"
         name="get_reference_data"
-        class=".jsongenerator.ReferenceJsonEndpoint"
-        permission="zope2.View"
-        />
-
-    <browser:page
-        for="ftw.referencewidget.interfaces.IReferenceWidget"
-        name="search_for_refs"
-        class=".search.SearchView"
+        class=".endpoint.ReferenceJsonEndpoint"
         permission="zope2.View"
         />
 

@@ -159,7 +159,7 @@
                      "sort_order": $('.refbrowser select[name="sort_order"]').val()
                    };
 
-      $.post(widget.widget_url + "/search_for_refs", payload, function(widget, data){
+      $.post(widget.widget_url + "/get_reference_data", payload, function(widget, data){
         $(".refbrowser .refbrowser_batching").remove();
         widget.build_list(widget, data);
         widget.request_data = data;
