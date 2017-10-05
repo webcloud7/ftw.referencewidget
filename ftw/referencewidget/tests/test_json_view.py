@@ -1,6 +1,6 @@
 from ftw.builder import Builder
 from ftw.builder import create
-from ftw.referencewidget.browser.jsongenerator import ReferenceJsonEndpoint
+from ftw.referencewidget.browser.endpoint import ReferenceJsonEndpoint
 from ftw.referencewidget.testing import FTW_REFERENCE_FUNCTIONAL_TESTING
 from ftw.referencewidget.tests.views.form import TestView
 from plone.app.testing import login
