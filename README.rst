@@ -8,13 +8,13 @@ The basequery is all types which are not in the types_not_searched property all 
 Traversal or Selectability can be changed for all widgets with the IReferenceSettings registry interface or per widget with the widget parameters.
 
 The widget takes the following parameters:
- - allow_traversal: These Types are traversable
- - block_traversal: These Types are not traversable
- - selectable: These Types are selectable
- - nonselectable: These Types are not selectable
+ - allow_traversal: List of Types which are added as traversable. Will act as complete configuration if `override` is set to True.
+ - block_traversal: List of Types which are added as not traversable. Will be ignored if `override` is set to True.
+ - selectable: List of Types which are added to the as selectable. Will act as complete configuration if `override` is set to True
+ - nonselectable: List of Types which are added as not selectable. Will be ignored if `override` is set to True.
  - start: The path first opened. Can either be a callable or a path. Additionaly the strings "parent", "navroot", "ploneroot" can be used.
  - allow_nonsearched_types: If this is set to true all the types will be traversable and selectable.
- - override: drops all global config and the base query if a list is passed to the widget. All types need to be added to be selectable.
+ - override: Drops all global config and the base query if a list is passed to the widget. If this is set to true, `selectable` & `allow_traversal` are not additive but act as the complete configuration instead. `nonselectable` & `block_traversal` will be ignored.
  - traversal_query: Updates the query used vor traversing by the given dict. The dict passed will be updated after everything is allready done. So make sure not to override sort_on/sort_order attributes.
 
 
@@ -63,10 +63,10 @@ The `filter` takes two parameter the actual source object and a value, which is 
 
 Only `ReferenceObjSourceBinder` are supported. The SourceBinder takes the following parameters:
 
-- selectable: These types are selectable
-- nonselectable: These Types are not selectable
+- selectable: Adds these types as selectable. Will act as complete configuration if `override` is set to True
+- nonselectable: Adds these Types are not selectable. Will be ignored if `override` is set to True.
 - allow_nonsearched_types: If this is set to true all the types will be traversable and selectable.
-- override: drops all global config and the base query if a list is passed to the widget. All types need to be added to be selectable.
+- override: Drops all global config and the base query if a list is passed to the widget. If this is set to true, `selectable` is not additive but acts as the complete configuration instead. `nonselectable` will be ignored.
 - selectable_class: Custom ISelectable Class to determine if a content is selectable or not.
 
 The parameters are same as for the widget (Backwards compatibility with 1.x releases).
