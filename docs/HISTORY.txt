@@ -5,6 +5,7 @@ Changelog
 1.5.0 (unreleased)
 ------------------
 
+- Add option to search in current path. [Nachtalb]
 - Show localized news date in title for all news items [Nachtalb]
 
 

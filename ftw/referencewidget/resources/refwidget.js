@@ -41,6 +41,7 @@
       widget.sel_type = "";
       widget.page = 1;
       widget.term = "";
+      widget.search_current_path = 0;
 
       widget.list_template = Handlebars.compile($("#listing-template").html());
       widget.checkbox_template = Handlebars.compile($("#checkbox-template").html());
@@ -135,20 +136,24 @@
       event.stopPropagation();
       event.preventDefault();
 
-      var value = $(".refbrowser .searchField").val();
+      var term = $(".refbrowser .searchField").val();
+      var search_current_path = $(".refbrowser #searchCurrentPath").val();
 
-      if (value.length === 0) {
+      if (term.length === 0) {
         return;
       }
 
 
-      widget.term = value;
+      widget.term = term;
+      widget.search_current_path = search_current_path;
       widget.page = 1;
       widget.search_results(widget);
     };
 
     initRefBrowser.prototype.search_results = function(widget){
       var payload = {"term": widget.term,
+                     "search_current_path": widget.search_current_path,
+                     "request_path": widget.request_path,
                      "page": widget.page,
                      "sort_on": $('.refbrowser select[name="sort_on"]').val(),
                      "sort_order": $('.refbrowser select[name="sort_order"]').val()

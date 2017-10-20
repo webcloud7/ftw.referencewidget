@@ -79,9 +79,13 @@ class ReferenceBrowserWidget(widget.HTMLTextInputWidget, Widget):
 
     def translations(self):
         msg_search = _(u"button_seach", default="Search")
+        msg_search_current_path = _(u"checkbox_search_current_path",
+                                 default="Search only in current path")
         msg_close = _(u"button_close", default="Close")
         msg_sort_by = _(u"label_sort_by", default="Sort by")
         return json.dumps({'search': translate(msg_search,
+                                               context=self.request),
+                           'search_current_path': translate(msg_search_current_path,
                                                context=self.request),
                            'close': translate(msg_close,
                                               context=self.request),

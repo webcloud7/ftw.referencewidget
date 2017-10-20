@@ -19,6 +19,8 @@ class SearchView(BrowserView):
                      'sortOrderOptions': get_sort_order_options(self.request)}
 
         search_term = self.request.get('term')
+        request_path = self.request.get('request_path')
+        only_current_path = self.request.get('search_current_path') == 'on'
         if not search_term:
             return json.dumps(json_prep)
 
@@ -32,6 +34,8 @@ class SearchView(BrowserView):
                                                 u'ascending').encode('utf-8'),
                  'sort_on': self.request.get('sort_on',
                                              u'modified').encode('utf-8')}
+        if only_current_path and request_path:
+            query['path'] = request_path
 
         query.update(self.context.traversal_query)
 
@@ -48,6 +52,9 @@ class SearchView(BrowserView):
         traversel_type = get_traversal_types(self.context)
         plone = api.portal.get()
         for item in results:
+            if only_current_path and request_path and item.getPath() == query['path']:
+                continue
+
             contenttype = 'contenttype-' \
                 + item.portal_type.replace('.', '-').lower()
 

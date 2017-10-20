@@ -59,3 +59,7 @@ msgstr ""
 msgid "sortable_title"
 msgstr ""
 
+#. Default: "Search only in current path"
+#: ./ftw/referencewidget/widget.py:82
+msgid "checkbox_search_current_path"
+msgstr ""
