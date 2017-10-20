@@ -7,6 +7,7 @@ from ftw.referencewidget.browser.utils import get_traversal_types
 from ftw.referencewidget.browser.utils import is_traversable
 from Products.CMFCore.utils import getToolByName
 from Products.Five import BrowserView
+from zope.component._api import getMultiAdapter
 import json
 
 
@@ -33,14 +34,20 @@ class ReferenceJsonEndpoint(BrowserView):
                   'sortOnOptions': get_sort_options(self.request),
                   'sortOrderOptions': get_sort_order_options(self.request)}
 
+        plone = getMultiAdapter((self.context, self.request), name="plone")
         for item in results:
             depth = len(item.getPath().split('/')) - current_depth
             if depth == 0:
                 continue
             contenttype = item.portal_type.replace('.', '-').lower()
+
+            label = item.Title or item.id
+            if item.portal_type == 'ftw.news.News':
+                news_object = item.getObject()
+                label += ' (%s)' % plone.toLocalizedTime(news_object.news_date)
             obj_dict = {'path': item.getPath(),
                         'id': item.id,
-                        'title': item.Title or item.id,
+                        'title': label,
                         'folderish': item.is_folderish,
                         'traversable': is_traversable(widget, item),
                         'selectable': item.portal_type in selectable_types,
