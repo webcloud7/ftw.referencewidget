@@ -42,9 +42,8 @@ class ReferenceJsonEndpoint(BrowserView):
             contenttype = item.portal_type.replace('.', '-').lower()
 
             label = item.Title or item.id
-            if item.portal_type == 'ftw.news.News':
-                news_object = item.getObject()
-                label += ' (%s)' % plone.toLocalizedTime(news_object.news_date)
+            label += ' (%s)' % plone.toLocalizedTime(item.start) if item.start else ''
+
             obj_dict = {'path': item.getPath(),
                         'id': item.id,
                         'title': label,
