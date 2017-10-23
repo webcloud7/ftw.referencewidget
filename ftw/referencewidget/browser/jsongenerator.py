@@ -42,7 +42,7 @@ class ReferenceJsonEndpoint(BrowserView):
             contenttype = item.portal_type.replace('.', '-').lower()
 
             label = item.Title or item.id
-            label += ' (%s)' % plone.toLocalizedTime(item.start) if item.start else ''
+            label += ' (%s)' % plone.toLocalizedTime(item.start).encode('utf-8') if item.start else ''
 
             obj_dict = {'path': item.getPath(),
                         'id': item.id,

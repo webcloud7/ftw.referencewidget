@@ -49,7 +49,7 @@ class TestGeneratePathbar(TestCase):
 
         self.widget.request['term'] = 'tes'
         self.widget.request['sort_on'] = 'sortable_title'
-        self.widget.request['search_current_path'] = 'on'
+        self.widget.request['search_current_path'] = '1'
         self.widget.request['request_path'] = '/'.join(self.folder.getPhysicalPath())
 
         view = SearchView(self.widget, self.widget.request)

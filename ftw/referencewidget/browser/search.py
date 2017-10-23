@@ -20,7 +20,7 @@ class SearchView(BrowserView):
 
         search_term = self.request.get('term')
         request_path = self.request.get('request_path')
-        only_current_path = self.request.get('search_current_path') == 'on'
+        only_current_path = self.request.get('search_current_path') == '1'
         if not search_term:
             return json.dumps(json_prep)
 
