@@ -56,6 +56,9 @@ div.refbrowser .search{
 div.refbrowser .search input{
     min-width: 180px;
 }
+div.refbrowser .search input#searchCurrentPath{
+    min-width: auto;
+}
 div.refbrowser .search .searchCurrentPathLabel{
     display: block;
 }
