@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.5.1 (unreleased)
+1.5.1 (2017-10-23)
 ------------------
 
 - Fix searching for current path only. [mathias.leimgruber]
