@@ -5,7 +5,8 @@ Changelog
 1.5.1 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Fix searching for current path only. [mathias.leimgruber]
+- Fix UniCodeDecodeError while displaying the news date. [mathias.leimgruber]
 
 
 1.5.0 (2017-10-23)

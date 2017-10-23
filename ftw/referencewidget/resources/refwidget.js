@@ -137,7 +137,7 @@
       event.preventDefault();
 
       var term = $(".refbrowser .searchField").val();
-      var search_current_path = $(".refbrowser #searchCurrentPath").val();
+      var search_current_path = $(".refbrowser #searchCurrentPath:checked").length;
 
       if (term.length === 0) {
         return;
