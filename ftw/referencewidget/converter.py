@@ -133,6 +133,8 @@ class GridDataConverter(converter.BaseDataConverter):
     adapts(IList, IDataGridField)
 
     def toWidgetValue(self, value):
+        if not value:
+            return value
         new_value = []
         for row in value:
             new_row = {}
@@ -145,6 +147,8 @@ class GridDataConverter(converter.BaseDataConverter):
         return new_value
 
     def toFieldValue(self, value):
+        if not value:
+            return value
         intids = component.queryUtility(IIntIds)
         for row in value:
             for key in row:
