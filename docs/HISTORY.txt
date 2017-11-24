@@ -6,6 +6,7 @@ Changelog
 ------------------
 
 - No longer use "plone.directives.form". [mbaechtold]
+- Fix an issue when loading a page with GridDataField turns out in a error [Nachtalb]
 
 
 1.5.2 (2017-10-23)
