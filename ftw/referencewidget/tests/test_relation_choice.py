@@ -17,7 +17,10 @@ class TestRelationChoice(FunctionalTestCase):
 
     @browsing
     def test_relation_choice(self, browser):
-        folder = create(Builder('folder').titled(u'Some folder'))
+        # It's important to use an umlaut in the title of the folder
+        # in order to test that there is no UnicodeDecodeError when
+        # rendering the widget. Please do not remove the umlaut.
+        folder = create(Builder('folder').titled(u'Some f\xf6lder'))
 
         content = create(Builder('refwidget sample content')
                          .titled(u'sample content'))

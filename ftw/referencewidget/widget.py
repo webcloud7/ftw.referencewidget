@@ -1,4 +1,5 @@
 from Acquisition import aq_parent
+from Products.CMFPlone.utils import safe_unicode
 from collective.z3cform.datagridfield.datagridfield import DataGridFieldObjectSubForm
 from ftw.referencewidget import _
 from ftw.referencewidget.browser.utils import get_path_from_widget_start
@@ -116,7 +117,7 @@ class ReferenceBrowserWidget(widget.HTMLTextInputWidget, Widget):
 
         def obj_to_dict(obj):
             return {'path': '/'.join(obj.getPhysicalPath()),
-                    'title': obj.Title()}
+                    'title': safe_unicode(obj.Title())}
 
         if isinstance(self.value, list):
             for item in self.value:
