@@ -35,40 +35,40 @@ class TestFieldConverter(TestCase):
     def test_traversable_types_more_blocked(self):
         registry = getUtility(IRegistry)
         proxy = registry.forInterface(IReferenceSettings)
-        proxy.block_traversal_additional = ('Document', 'Event')
+        proxy.block_traversal_additional = (u'Document', u'Event')
 
         result = get_traversal_types(self.widget)
         self.assertEquals(6, len(result))
-        self.assertTrue('Document' not in result)
-        self.assertTrue('Event' not in result)
+        self.assertTrue(u'Document' not in result)
+        self.assertTrue(u'Event' not in result)
 
     def test_traversable_types_more_allowed(self):
         registry = getUtility(IRegistry)
         proxy = registry.forInterface(IReferenceSettings)
-        proxy.traverse_additional = ('Folder',)
+        proxy.traverse_additional = (u'Folder',)
 
         result = get_traversal_types(self.widget)
         self.assertEquals(9, len(result))
-        self.assertIn('Folder', result)
+        self.assertIn(u'Folder', result)
 
     def test_selectable_types_more_allowed(self):
         registry = getUtility(IRegistry)
         proxy = registry.forInterface(IReferenceSettings)
-        proxy.select_additional = ('Folder',)
+        proxy.select_additional = (u'Folder',)
 
         result = get_selectable_types(self.widget)
         self.assertEquals(9, len(result))
-        self.assertIn('Folder', result)
+        self.assertIn(u'Folder', result)
 
     def test_selectable_types_more_blocked(self):
         registry = getUtility(IRegistry)
         proxy = registry.forInterface(IReferenceSettings)
-        proxy.block_additional = ('Document', 'Event')
+        proxy.block_additional = (u'Document', u'Event')
 
         result = get_selectable_types(self.widget)
         self.assertEquals(6, len(result))
-        self.assertTrue('Document' not in result)
-        self.assertTrue('Event' not in result)
+        self.assertTrue(u'Document' not in result)
+        self.assertTrue(u'Event' not in result)
 
     @browsing
     def test_handlebar_templates_available(self, browser):
