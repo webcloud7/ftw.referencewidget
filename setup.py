@@ -50,6 +50,7 @@ setup(name='ftw.referencewidget',
           'plone.app.intid',
           'collective.js.jqueryui',
           'plone.app.relationfield',
+          'ftw.upgrade',
           'plone.api',
       ],
 
