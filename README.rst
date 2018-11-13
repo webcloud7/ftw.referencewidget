@@ -18,6 +18,12 @@ The widget takes the following parameters:
  - traversal_query: Updates the query used vor traversing by the given dict. The dict passed will be updated after everything is allready done. So make sure not to override sort_on/sort_order attributes.
 
 
+Upgrading from 1.x to 2.x
+-------------------------
+
+There was no version number set for the ``ftw.referencewidget`` package. As a result of this upgradesteps wont be shown in ``../@@manage-upgrades`` from `ftw.upgrade <https://github.com/4teamwork/ftw.upgrade>`_.
+So the first upgradesetp ``Upgrade ftw.referencewidget:default to 20181112105705: Fix registry field frontend edit`` must be installed via the ZMI under ``../portal_setup/manage_fullImport``. This sets the version for the package and so further upgrades can be installed via ``../@@manage-upgrades``.
+
 ContextSourceBinder
 -------------------
 

@@ -7,6 +7,10 @@ Changelog
 
 - Fix not being able to edit portal_registry entries in frontend [Nachtalb]
 
+  There was no version number set for the ``ftw.referencewidget`` package. As a result of this upgradesteps wont be shown in ``../@@manage-upgrades`` from `ftw.upgrade <https://github.com/4teamwork/ftw.upgrade>`_.
+  So the first upgradesetp ``Upgrade ftw.referencewidget:default to 20181112105705: Fix registry field frontend edit`` must be installed via the ZMI under ``../portal_setup/manage_fullImport``. This sets the version for the package and so further upgrades can be installed via ``../@@manage-upgrades``.
+
+
 
 1.5.4 (2018-01-26)
 ------------------
