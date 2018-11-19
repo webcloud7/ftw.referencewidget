@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.5.5 (unreleased)
+2.0.0 (2018-11-19)
 ------------------
 
 - Fix not being able to edit portal_registry entries in frontend [Nachtalb]
