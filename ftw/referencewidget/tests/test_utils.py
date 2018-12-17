@@ -3,6 +3,8 @@ from ftw.referencewidget.browser.utils import get_traversal_types
 from ftw.referencewidget.interfaces import IReferenceSettings
 from ftw.referencewidget.testing import FTW_REFERENCE_FUNCTIONAL_TESTING
 from ftw.referencewidget.tests.views.form import TestView
+from ftw.referencewidget.utils import get_types_not_searched
+from ftw.referencewidget.utils import set_types_not_searched
 from ftw.testbrowser import browsing
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
@@ -20,27 +22,25 @@ class TestFieldConverter(TestCase):
         form = TestView(self.portal, self.portal.REQUEST)
         form.update()
         self.widget = form.form_instance.widgets['relation']
-        tns = self.portal.portal_properties.site_properties.types_not_searched
+        tns = get_types_not_searched(self.portal)
         tns = tns + ('Folder',)
-        self.portal.portal_properties.site_properties.types_not_searched = tns
+        set_types_not_searched(self.portal, tns)
 
     def test_traversable_types_default(self):
         expected = ['Document', 'Event', 'File', 'Folder', 'Image',
                     'Link', 'News Item', 'Topic', 'Collection']
         result = get_traversal_types(self.widget)
-        self.assertEquals(8, len(result))
         for item in result:
-            self.assertTrue(item in expected)
+            self.assertIn(item, expected)
 
     def test_traversable_types_more_blocked(self):
         registry = getUtility(IRegistry)
         proxy = registry.forInterface(IReferenceSettings)
-        proxy.block_traversal_additional = (u'Document', u'Event')
+        proxy.block_traversal_additional = (u'Document', u'Link')
 
         result = get_traversal_types(self.widget)
-        self.assertEquals(6, len(result))
         self.assertTrue(u'Document' not in result)
-        self.assertTrue(u'Event' not in result)
+        self.assertTrue(u'Link' not in result)
 
     def test_traversable_types_more_allowed(self):
         registry = getUtility(IRegistry)
@@ -48,7 +48,6 @@ class TestFieldConverter(TestCase):
         proxy.traverse_additional = (u'Folder',)
 
         result = get_traversal_types(self.widget)
-        self.assertEquals(9, len(result))
         self.assertIn(u'Folder', result)
 
     def test_selectable_types_more_allowed(self):
@@ -57,18 +56,16 @@ class TestFieldConverter(TestCase):
         proxy.select_additional = (u'Folder',)
 
         result = get_selectable_types(self.widget)
-        self.assertEquals(9, len(result))
         self.assertIn(u'Folder', result)
 
     def test_selectable_types_more_blocked(self):
         registry = getUtility(IRegistry)
         proxy = registry.forInterface(IReferenceSettings)
-        proxy.block_additional = (u'Document', u'Event')
+        proxy.block_additional = (u'Document', u'Link')
 
         result = get_selectable_types(self.widget)
-        self.assertEquals(6, len(result))
-        self.assertTrue(u'Document' not in result)
-        self.assertTrue(u'Event' not in result)
+        self.assertNotIn(u'Document', result)
+        self.assertNotIn(u'Link', result)
 
     @browsing
     def test_handlebar_templates_available(self, browser):
