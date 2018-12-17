@@ -110,8 +110,7 @@ class TestSearchWithPathRestriction(FunctionalTestCase):
 
     def test_root_path_restriction_of_source_is_respected(self):
         testfolder = create(Builder('folder')
-                            .titled(u'Test folder')
-                            .with_id('testfolder'))
+                            .titled(u'Test folder'))
         subfolder = create(Builder('folder')
                            .within(testfolder)
                            .titled(u'Some folder'))
