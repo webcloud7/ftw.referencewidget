@@ -109,21 +109,20 @@
       widget.build_pathbar(widget, "");
       widget.get_data(widget, "");
 
-      var overlay = (".refbrowser");
-
-      $(overlay).on("click", ".refbrowser .path a", widget.jump_to.bind(null, widget));
-      $(overlay).on("click", ".refbrowser .search button", widget.search.bind(null, widget));
-      $(overlay).on("keypress", ".refbrowser .search input", function(event){
+      var overlay = $(".refbrowser");
+      overlay.on("click", ".path a", widget.jump_to.bind(null, widget));
+      overlay.on("click", ".search button", widget.search.bind(null, widget));
+      overlay.on("keypress", ".search input", function(event){
         if(event.which == 13) {
           widget.search(widget, event);
       }});
 
-      $(overlay).on("change", ".refbrowser .listing input.ref-checkbox", widget.checkbox_flipped.bind(null, widget));
-      $(overlay).on("change", ".refbrowser select", widget.reload.bind(null, widget));
-      $(overlay).on("click", ".refbrowser button.cancel", function(){$(".refbrowser").remove();});
-      $(overlay).on("click", ".refbrowser .ref_list_entry", widget.switch_level.bind(null, widget));
-      $(overlay).on("click", ".refbrowser .listing input.ref-checkbox", function(e) {e.stopPropagation();});
-      $(overlay).on("click", ".refbrowser .refbrowser_batching a", widget.change_page.bind(null, widget));
+      overlay.on("change", ".listing input.ref-checkbox", widget.checkbox_flipped.bind(null, widget));
+      overlay.on("change", "select", widget.reload.bind(null, widget));
+      overlay.on("click", "button.cancel", function(){$(".refbrowser").remove();});
+      overlay.on("click", ".ref_list_entry", widget.switch_level.bind(null, widget));
+      overlay.on("click", ".listing input.ref-checkbox", function(e) {e.stopPropagation();});
+      overlay.on("click", ".refbrowser_batching a", widget.change_page.bind(null, widget));
 
     };
 

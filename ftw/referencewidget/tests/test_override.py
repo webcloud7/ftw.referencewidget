@@ -2,6 +2,8 @@ from ftw.referencewidget.browser.utils import get_selectable_types
 from ftw.referencewidget.browser.utils import get_traversal_types
 from ftw.referencewidget.testing import FTW_REFERENCE_FUNCTIONAL_TESTING
 from ftw.referencewidget.tests.views.form import TestView
+from ftw.referencewidget.utils import get_types_not_searched
+from ftw.referencewidget.utils import set_types_not_searched
 from unittest2 import TestCase
 
 
@@ -14,9 +16,9 @@ class TestWidgetConfig(TestCase):
         form.update()
         self.widget = form.form_instance.widgets['relation']
         self.widget.override = True
-        tns = self.portal.portal_properties.site_properties.types_not_searched
+        tns = get_types_not_searched(self.portal)
         tns = tns + ('Folder',)
-        self.portal.portal_properties.site_properties.types_not_searched = tns
+        set_types_not_searched(self.portal, tns)
 
     def test_traversable_types_allowed(self):
         self.widget.allow_traversal = ['Folder']

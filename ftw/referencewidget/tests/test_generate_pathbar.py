@@ -23,7 +23,7 @@ class TestGeneratePathbar(TestCase):
         login(self.portal, TEST_USER_NAME)
         self.folder = create(Builder('folder'))
         self.lower_file = create(Builder('file').within(
-            self.folder).titled("Test"))
+            self.folder).titled(u'Test'))
         self.file = create(Builder('file'))
 
     def test_generate_pathbar(self):
@@ -61,8 +61,7 @@ class TestPathBarWithPathRestriction(FunctionalTestCase):
 
     def test_root_path_restriction_of_source_is_respected(self):
         testfolder = create(Builder('folder')
-                            .titled(u'Test folder')
-                            .with_id('testfolder'))
+                            .titled(u'testfolder'))
         subfolder = create(Builder('folder')
                            .within(testfolder)
                            .titled(u'Some folder'))

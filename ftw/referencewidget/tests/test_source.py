@@ -3,6 +3,7 @@ from ftw.builder import create
 from ftw.referencewidget.selectable import DefaultSelectable
 from ftw.referencewidget.sources import ReferenceObjSourceBinder
 from ftw.referencewidget.tests import FunctionalTestCase
+from ftw.referencewidget.utils import set_types_not_searched
 
 
 class TestReferenceObjSource(FunctionalTestCase):
@@ -96,7 +97,7 @@ class TestReferenceObjSource(FunctionalTestCase):
         folder = create(Builder('folder'))
         sample = create(Builder('refwidget sample content'))
 
-        self._set_not_searched_types('Folder')
+        set_types_not_searched(self.portal, ('Folder', ))
         source = ReferenceObjSourceBinder()(sample)
         self.assertNotIn(folder, source)
 
@@ -104,11 +105,7 @@ class TestReferenceObjSource(FunctionalTestCase):
         folder = create(Builder('folder'))
         sample = create(Builder('refwidget sample content'))
 
-        self._set_not_searched_types('Folder')
+        set_types_not_searched(self.portal, ('Folder', ))
         source = ReferenceObjSourceBinder(
             allow_nonsearched_types=True)(sample)
         self.assertIn(folder, source)
-
-    def _set_not_searched_types(self, *types):
-        site_properties = self.portal.portal_properties.site_properties
-        site_properties.types_not_searched = tuple(types)

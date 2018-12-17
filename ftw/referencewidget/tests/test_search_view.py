@@ -1,6 +1,7 @@
 from datetime import datetime
 from ftw.builder import Builder
 from ftw.builder import create
+from ftw.referencewidget import IS_PLONE_5_OR_GREATER
 from ftw.referencewidget.browser.search import SearchView
 from ftw.referencewidget.testing import FTW_REFERENCE_FUNCTIONAL_TESTING
 from ftw.referencewidget.tests import FunctionalTestCase
@@ -10,21 +11,20 @@ from plone.app.testing import login
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
 from plone.app.testing import TEST_USER_NAME
-from Products.ATContentTypes.interfaces.folder import IATFolder
 from unittest2 import TestCase
 import json
 
 
-class TestGeneratePathbar(TestCase):
+class TestSearchView(TestCase):
     layer = FTW_REFERENCE_FUNCTIONAL_TESTING
 
     def setUp(self):
         self.portal = self.layer['portal']
         setRoles(self.portal, TEST_USER_ID, ['Manager'])
         login(self.portal, TEST_USER_NAME)
-        self.folder = create(Builder('folder').titled("Testfolder"))
+        self.folder = create(Builder('folder').titled(u'Testfolder'))
         self.lower_file = create(Builder('file').within(
-            self.folder).titled("Test"))
+            self.folder).titled(u'Test'))
         self.file = create(Builder('file').titled("Sch\xc3\xbctzenpanzer"))
         form = TestView(self.portal, self.portal.REQUEST)
         form.update()
@@ -60,8 +60,8 @@ class TestGeneratePathbar(TestCase):
         self.assertEquals("Test (/plone/testfolder/test)", items[0]['title'])
 
     def test_search_view_on_news(self):
-        with freeze(datetime(2017, 10, 04)):
-            create(Builder('event').within(self.folder).titled(u"Event"))
+        with freeze(datetime(2017, 10, 4)):
+            create(Builder('event').within(self.folder).titled(u'Event'))
         self.widget.request['term'] = 'Event'
         self.widget.request['sort_on'] = 'sortable_title'
         view = SearchView(self.widget, self.widget.request)
@@ -86,12 +86,19 @@ class TestGeneratePathbar(TestCase):
         self.assertEquals("Testfolder (/plone/testfolder)", items[0]['title'])
 
     def test_additional_traversable_query_is_applied(self):
-        create(Builder('file').titled("testfile"))
+        create(Builder('file').titled(u'testfile'))
 
         self.widget.request['term'] = 'tes'
         self.widget.request['sort_on'] = 'sortable_title'
-        self.widget.traversal_query = {
-            'object_provides': [IATFolder.__identifier__]}
+
+        if IS_PLONE_5_OR_GREATER:
+            from plone.dexterity.interfaces import IDexterityContainer
+            self.widget.traversal_query = {
+                'object_provides': [IDexterityContainer.__identifier__]}
+        else:
+            from Products.ATContentTypes.interfaces.folder import IATFolder
+            self.widget.traversal_query = {
+                'object_provides': [IATFolder.__identifier__]}
 
         result = json.loads(SearchView(
             self.widget, self.widget.request)())['items']
@@ -110,8 +117,7 @@ class TestSearchWithPathRestriction(FunctionalTestCase):
 
     def test_root_path_restriction_of_source_is_respected(self):
         testfolder = create(Builder('folder')
-                            .titled(u'Test folder')
-                            .with_id('testfolder'))
+                            .titled(u'testfolder'))
         subfolder = create(Builder('folder')
                            .within(testfolder)
                            .titled(u'Some folder'))
@@ -121,12 +127,12 @@ class TestSearchWithPathRestriction(FunctionalTestCase):
 
         other_folder = create(Builder('folder').titled(u'Other folder'))
 
-        self.portal.REQUEST['term'] = 'folder'
+        self.portal.REQUEST['term'] = 'folde'
         result = self._get_search_result_from_widget(
             content,
             'IRelationChoiceRestricted.realtionchoice_restricted_path')
 
-        self.assertEquals(3, len(result['items']))
+        self.assertEquals(2, len(result['items']))
         self.assertNotIn(other_folder.Title(),
                          [item['title'] for item in result['items']])
 
