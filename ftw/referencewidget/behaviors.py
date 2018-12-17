@@ -1,9 +1,9 @@
 from collective.z3cform.datagridfield import DataGridFieldFactory
 from collective.z3cform.datagridfield import DictRow
+from ftw.referencewidget import IS_PLONE_5_OR_GREATER
 from ftw.referencewidget.selectable import DefaultSelectable
 from ftw.referencewidget.sources import ReferenceObjSourceBinder
 from ftw.referencewidget.widget import ReferenceWidgetFactory
-from plone.app.dexterity import MessageFactory as _
 from plone.autoform import directives
 from plone.autoform.interfaces import IFormFieldProvider
 from plone.supermodel import model
@@ -12,6 +12,12 @@ from z3c.relationfield.schema import RelationChoice, RelationList
 from zope import schema
 from zope.interface import alsoProvides
 from zope.interface import Interface
+
+
+if IS_PLONE_5_OR_GREATER:
+    from plone.app.dexterity import _
+else:
+    from plone.app.dexterity import MessageFactory as _
 
 
 class IRelatedItems(Interface):
