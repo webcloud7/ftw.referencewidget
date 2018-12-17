@@ -66,8 +66,9 @@ class TestJsonView(TestCase):
         widget = form.form_instance.widgets['relation']
 
         if IS_PLONE_5_OR_GREATER:
+            from plone.dexterity.interfaces import IDexterityContainer
             widget.traversal_query = {
-                'object_provides': ['plone.dexterity.interfaces.IDexterityContainer']}
+                'object_provides': [IDexterityContainer.__identifier__]}
         else:
             from Products.ATContentTypes.interfaces.folder import IATFolder
             widget.traversal_query = {

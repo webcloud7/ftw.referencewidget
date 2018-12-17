@@ -92,8 +92,9 @@ class TestSearchView(TestCase):
         self.widget.request['sort_on'] = 'sortable_title'
 
         if IS_PLONE_5_OR_GREATER:
+            from plone.dexterity.interfaces import IDexterityContainer
             self.widget.traversal_query = {
-                'object_provides': ['plone.dexterity.interfaces.IDexterityContainer']}
+                'object_provides': [IDexterityContainer.__identifier__]}
         else:
             from Products.ATContentTypes.interfaces.folder import IATFolder
             self.widget.traversal_query = {
