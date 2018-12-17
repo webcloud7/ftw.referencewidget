@@ -2,6 +2,7 @@ from Acquisition import aq_parent
 from ftw.referencewidget import _
 from ftw.referencewidget.browser.refbrowser_batching import RefBrowserBatchView
 from ftw.referencewidget.interfaces import IReferenceSettings
+from ftw.referencewidget.utils import get_types_not_searched
 from plone.api import portal
 from plone.batching import Batch
 from plone.registry.interfaces import IRegistry
@@ -19,10 +20,10 @@ def get_traversal_types(widget):
 
     registry = getUtility(IRegistry)
     referencesettings = registry.forInterface(IReferenceSettings)
-    portal_props = getToolByName(widget.context, 'portal_properties')
+    types_not_searched = get_types_not_searched(widget.context)
     non_selectable = set()
     if not widget.allow_nonsearched_types:
-        non_selectable = set(portal_props.site_properties.types_not_searched)
+        non_selectable = set(types_not_searched)
     non_selectable = non_selectable.union(
         set(referencesettings.block_traversal_additional))
 
@@ -66,10 +67,10 @@ def get_selectable_types_base(source_or_widget):
 
     registry = getUtility(IRegistry)
     referencesettings = registry.forInterface(IReferenceSettings)
-    portal_props = getToolByName(source_or_widget.context, 'portal_properties')
     non_selectable = set()
+    types_not_searched = get_types_not_searched(source_or_widget.context)
     if not source_or_widget.allow_nonsearched_types:
-        non_selectable = set(portal_props.site_properties.types_not_searched)
+        non_selectable = set(types_not_searched)
     non_selectable = non_selectable.union(
         set(referencesettings.block_additional))
     non_selectable = non_selectable.difference(
