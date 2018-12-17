@@ -37,7 +37,15 @@ class FtwReferenceWidgetLayer(PloneSandboxLayer):
         if IS_PLONE_5_OR_GREATER:
             applyProfile(portal, 'plone.app.contenttypes:default')
 
+            file_fti = portal.portal_types.File
+            file_behaviors = list(file_fti.behaviors)
+            file_behaviors.remove('plone.app.dexterity.behaviors.filename.INameFromFileName')
+            file_behaviors += ['plone.app.content.interfaces.INameFromTitle']
+            file_fti.behaviors = tuple(file_behaviors)
+
+
 FTW_REFERENCE_FIXTURE = FtwReferenceWidgetLayer()
+
 
 FTW_REFERENCE_FUNCTIONAL_TESTING = FunctionalTesting(
     bases=(FTW_REFERENCE_FIXTURE,
