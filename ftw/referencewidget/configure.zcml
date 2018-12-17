@@ -68,7 +68,6 @@
         title="Related items"
         description="Adds the ability to assign related items"
         provides=".behaviors.IRelatedItems"
-        for="plone.dexterity.interfaces.IDexterityContent"
         />
 
     <!-- Some behaviors to demonstrate several use-cases -->
@@ -76,21 +75,18 @@
         title="Relation choice demo behavior"
         description="Adds the ability to assign one related item"
         provides=".behaviors.IRelationChoiceExample"
-        for="plone.dexterity.interfaces.IDexterityContent"
         />
 
     <plone:behavior
         title="Relation choice demo behavior with restricted source"
         description="Adds the ability to assign one related item"
         provides=".behaviors.IRelationChoiceRestricted"
-        for="plone.dexterity.interfaces.IDexterityContent"
         />
 
     <plone:behavior
         title="Data grid field demo behavior"
         description="Adds the ability to a data grid rows"
         provides=".behaviors.IDataGridFieldExample"
-        for="plone.dexterity.interfaces.IDexterityContent"
         />
 
 </configure>
