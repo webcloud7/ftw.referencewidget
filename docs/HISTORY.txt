@@ -5,6 +5,8 @@ Changelog
 2.0.1 (unreleased)
 ------------------
 
+- Disable amd check for handlbar.js [mathias.leimgruber]
+
 - Add Plone 5.1 support. [mathias.leimgruber]
 
 
