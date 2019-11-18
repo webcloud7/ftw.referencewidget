@@ -8,7 +8,6 @@ tests_require = [
     'collective.z3cform.datagridfield',
     'plone.app.testing',
     'ftw.builder',
-    'unittest2',
     'ftw.testbrowser >= 1.26.1',
     'ftw.testing',
 ]
