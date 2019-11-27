@@ -6,6 +6,7 @@ Changelog
 ------------------
 
 - Add separate Plone 5 profile. [tinagerber]
+- Add uninstall profile for Plone 5. [tinagerber]
 
 
 2.1.0 (2019-03-06)
