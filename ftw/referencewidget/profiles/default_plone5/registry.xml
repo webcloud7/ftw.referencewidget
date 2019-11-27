@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<registry>
+    <records interface="ftw.referencewidget.interfaces.IReferenceSettings" />
+
+    <records prefix="plone.resources/ftw.referencewidget" interface='Products.CMFPlone.interfaces.IResourceRegistry'>
+        <value key="js">++resource++ftw.referencewidget/refwidget.js</value>
+        <value key="deps">jquery</value>
+        <value key="css">
+            <element>++resource++ftw.referencewidget/refwidget.css</element>
+        </value>
+    </records>
+
+    <records prefix="plone.resources/ftw.referencewidget-handlebar_js" interface='Products.CMFPlone.interfaces.IResourceRegistry'>
+        <value key="js">++resource++ftw.referencewidget/handlebars.js</value>
+        <value key="deps">jquery</value>
+    </records>
+
+    <records prefix="plone.bundles/ftw.referencewidget-resources" interface="Products.CMFPlone.interfaces.IBundleRegistry">
+        <value key="resources">
+            <element>ftw.referencewidget</element>
+            <element>ftw.referencewidget-handlebar_js</element>
+        </value>
+        <value key="enabled">True</value>
+        <value key="depends">plone</value>
+        <value key="compile">False</value>
+        <value key="jscompilation">++plone++referencewidget/ftw-referencewidget-compiled.js</value>
+        <value key="csscompilation">++plone++referencewidgets/ftw-referencewidget-compiled.css</value>
+        <value key="merge_with">default</value>
+    </records>
+</registry>
