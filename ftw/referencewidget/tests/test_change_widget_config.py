@@ -4,7 +4,7 @@ from ftw.referencewidget.testing import FTW_REFERENCE_FUNCTIONAL_TESTING
 from ftw.referencewidget.tests.views.form import TestView
 from ftw.referencewidget.utils import get_types_not_searched
 from ftw.referencewidget.utils import set_types_not_searched
-from unittest2 import TestCase
+from unittest import TestCase
 
 
 class TestWidgetConfig(TestCase):
