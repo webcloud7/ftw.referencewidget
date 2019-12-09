@@ -3,15 +3,7 @@
     <records interface="ftw.referencewidget.interfaces.IReferenceSettings"
              remove="True" />
 
-    <records prefix="plone.resources/ftw.referencewidget"
-             interface="Products.CMFPlone.interfaces.IResourceRegistry"
-             remove="True" />
-
-    <records prefix="plone.resources/ftw.referencewidget-handlebar_js"
-             interface='Products.CMFPlone.interfaces.IResourceRegistry'
-             remove="True" />
-
-    <records prefix="plone.bundles/ftw.referencewidget-resources"
+    <records prefix="plone.bundles/ftw-referencewidget-resources"
              interface="Products.CMFPlone.interfaces.IBundleRegistry"
              remove="True" />
 </registry>

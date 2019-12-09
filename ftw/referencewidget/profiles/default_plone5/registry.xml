@@ -2,29 +2,14 @@
 <registry>
     <records interface="ftw.referencewidget.interfaces.IReferenceSettings" />
 
-    <records prefix="plone.resources/ftw.referencewidget" interface='Products.CMFPlone.interfaces.IResourceRegistry'>
-        <value key="js">++resource++ftw.referencewidget/refwidget.js</value>
-        <value key="deps">jquery</value>
-        <value key="css">
-            <element>++resource++ftw.referencewidget/refwidget.css</element>
-        </value>
-    </records>
-
-    <records prefix="plone.resources/ftw.referencewidget-handlebar_js" interface='Products.CMFPlone.interfaces.IResourceRegistry'>
-        <value key="js">++resource++ftw.referencewidget/handlebars.js</value>
-        <value key="deps">jquery</value>
-    </records>
-
-    <records prefix="plone.bundles/ftw.referencewidget-resources" interface="Products.CMFPlone.interfaces.IBundleRegistry">
-        <value key="resources">
-            <element>ftw.referencewidget</element>
-            <element>ftw.referencewidget-handlebar_js</element>
-        </value>
+    <records prefix="plone.bundles/ftw-referencewidget-resources" interface="Products.CMFPlone.interfaces.IBundleRegistry">
         <value key="enabled">True</value>
         <value key="depends">plone</value>
+        <value key="stub_js_modules">jquery</value>
         <value key="compile">False</value>
-        <value key="jscompilation">++plone++referencewidget/ftw-referencewidget-compiled.js</value>
-        <value key="csscompilation">++plone++referencewidgets/ftw-referencewidget-compiled.css</value>
+        <value key="jscompilation">++resource++ftw.referencewidget/referencewidget-compiled.js</value>
+        <value key="csscompilation">++resource++ftw.referencewidget/referencewidget-compiled.css</value>
+        <value key="last_compilation">2019-12-09 14:00:00</value>
         <value key="merge_with">default</value>
     </records>
 </registry>
