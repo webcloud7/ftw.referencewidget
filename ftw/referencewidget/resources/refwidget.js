@@ -69,6 +69,7 @@
             return;
           }
 
+          const portal_url = $('body').data('portal-url');
           context["path"] = inputElement.val();
           context["title"] = inputElement.data("title") + " (" + context["path"].substring(portal_url.replace(window.location.origin, '').length) + ")";
           context["selectable"] = true;
