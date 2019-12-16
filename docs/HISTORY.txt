@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-2.1.2 (unreleased)
+2.2.0 (2019-12-16)
 ------------------
 
 - Fix use of `portal_url`, it's no longer globally available. [mathias.leimgruber]
