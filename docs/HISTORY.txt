@@ -5,6 +5,7 @@ Changelog
 2.1.1 (unreleased)
 ------------------
 
+- Fix use of `portal_url`, it's no longer globally available. [mathias.leimgruber]
 - Add separate Plone 5 profile. [tinagerber]
 - Add uninstall profile for Plone 5. [tinagerber]
 
