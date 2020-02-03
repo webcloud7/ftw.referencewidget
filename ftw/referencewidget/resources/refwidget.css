@@ -136,8 +136,21 @@ div.refbrowser.overlay {
   list-style-type: none;
 }
 
-li.ref_list_entry.traversable {
-    background: #f2f2f2;
+.ref_list_entry::before {
+  display: inline-block;
+  width: 16px;
+  content: "";
+}
+
+.ref_list_entry.traversable::before {
+  font-family: 'FontAwesome';
+  content: "\f196";
+  margin: 0px 5px 0 -5px;
+}
+
+li.ref_list_entry.traversable:hover,
+li.ref_list_entry.traversable:hover a {
+  color: #75ad0a;
 }
 
 .ref_list_entry a.removeItem {
