@@ -7,21 +7,21 @@
     i18n_domain="ftw.referencewidget">
 
     <browser:page
-        for="ftw.referencewidget.interfaces.IReferenceWidget"
+        for="*"
         name="get_reference_data"
         class=".jsongenerator.ReferenceJsonEndpoint"
         permission="zope2.View"
         />
 
     <browser:page
-        for="ftw.referencewidget.interfaces.IReferenceWidget"
+        for="*"
         name="search_for_refs"
         class=".search.SearchView"
         permission="zope2.View"
         />
 
     <browser:page
-        for="ftw.referencewidget.interfaces.IReferenceWidget"
+        for="*"
         name="generate_pathbar"
         class=".generate_pathbar.GeneratePathbar"
         permission="zope2.View"

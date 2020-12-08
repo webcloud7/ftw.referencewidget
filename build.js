@@ -4,5 +4,6 @@
         jquery: "empty:",
     },
     name: "main",
-    out: "./ftw/referencewidget/resources/referencewidget-compiled.js"
+    out: "./ftw/referencewidget/resources/referencewidget-compiled.js",
+    // optimize: "none",
 })

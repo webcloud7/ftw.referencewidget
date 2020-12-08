@@ -87,7 +87,7 @@ div.refbrowser {
     right: 15%;
     top: 10%;
     background: #ffffff;
-    z-index: 2147483647;
+    z-index: 2147483647 !important;
     bottom: 5%;
 }
 

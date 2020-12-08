@@ -5,6 +5,7 @@ from ftw.referencewidget.browser.utils import get_sort_options
 from ftw.referencewidget.browser.utils import get_sort_order_options
 from ftw.referencewidget.browser.utils import get_traversal_types
 from ftw.referencewidget.browser.utils import is_traversable
+from ftw.referencewidget.widget import ReferenceBrowserWidget
 from Products.CMFCore.utils import getToolByName
 from Products.Five import BrowserView
 from zope.component._api import getMultiAdapter
@@ -15,6 +16,11 @@ class ReferenceJsonEndpoint(BrowserView):
 
     def __call__(self):
         widget = self.context
+
+        # Plone 5 tinymce integration - not a ref widget
+        if not isinstance(widget, ReferenceBrowserWidget):
+            widget = ReferenceBrowserWidget(self.request, allow_nonsearched_types=True)
+            widget.context = self.context.aq_parent
 
         if isinstance(self.context.form, DataGridFieldObjectSubForm):
             widget.context = self.context.__parent__.context
@@ -46,6 +52,7 @@ class ReferenceJsonEndpoint(BrowserView):
 
             obj_dict = {'path': item.getPath(),
                         'id': item.id,
+                        'uid': item.UID,
                         'title': label,
                         'folderish': item.is_folderish,
                         'traversable': is_traversable(widget, item),
