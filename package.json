@@ -13,6 +13,7 @@
   "private": true,
   "devDependencies": {
     "chokidar-cli": "^2.1.0",
-    "requirejs": "^2.3.6"
+    "requirejs": "^2.3.6",
+    "text": "github:requirejs/text"
   }
 }
