@@ -59,6 +59,12 @@ define([
 
       var url = widget.field.data('url') + "/search_for_refs";
       $.post(url, {'uid': val}, function(data){
+
+        if (data.items.length === '') {
+            // No access or delete internalt link
+            return;
+        }
+
         inputfield.data('title', data.items[0].title);
         inputfield.data('uid', data.items[0].uid);
         inputfield.val(data.items[0].path);
