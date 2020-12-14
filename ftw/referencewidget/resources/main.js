@@ -1,1 +1,1 @@
-require(['handlebars', 'refwidget'], function (handlebars, refwidget) {});
+require(['handlebars', 'refwidget', 'refwidget-tinymce'], function (handlebars, refwidget, refwidgetTinymce) {});

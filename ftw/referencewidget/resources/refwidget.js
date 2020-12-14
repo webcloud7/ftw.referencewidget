@@ -80,6 +80,7 @@
           context["selected"] = "checked=\"checked\"";
           context["type"] = widget.sel_type;
           context["name"] = widget.name;
+          context["uid"] = inputElement.data("uid");
           context["checkbox"] = widget.checkbox_template(context);
 
           inputElement.remove();

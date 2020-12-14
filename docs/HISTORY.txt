@@ -5,6 +5,7 @@ Changelog
 2.2.2 (unreleased)
 ------------------
 
+- Replace the plone select2 based reference widget for internal links with the ftw.reference widget version. [mathias.leimgruber]
 - Prepare usage within plone 5.x tinymce. [mathias.leimgruber]
 
 
