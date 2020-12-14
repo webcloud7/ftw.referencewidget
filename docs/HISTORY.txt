@@ -5,7 +5,7 @@ Changelog
 2.2.2 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Prepare usage within plone 5.x tinymce. [mathias.leimgruber]
 
 
 2.2.1 (2020-01-15)

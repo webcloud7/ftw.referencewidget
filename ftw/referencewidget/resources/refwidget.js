@@ -8,21 +8,22 @@
       var widget = this;
       widget.button = $(button);
       var buttonSelector = '#' + widget.button.attr('id');
+      widget.isInTinyMce = Boolean(widget.button.attr('name') === 'browse-internal');
 
-      $(document).off("click", buttonSelector);
-      $(document).on("click", buttonSelector, widget.openOverlay.bind(null, widget));
+      if (widget.isInTinyMce) {
+        // Plone 5 tinymce
+        $(document).off("mouseup", buttonSelector);
+        $(document).on("mouseup", buttonSelector, widget.openOverlay.bind(null, widget));
+      } else {
+        $(document).off("click", buttonSelector);
+        $(document).on("click", buttonSelector, widget.openOverlay.bind(null, widget));
+      }
+
       $(window).one("resize", widget.resize);
 
       $(document).one("keydown", function(event){
         if(event.which == 27){
           event.stopPropagation();
-          overlayClose(event);
-        }
-      });
-
-      $(document).on('click', function(event){
-        // Close overlay if click was not within the overlay
-        if(!$(event.target).closest('.refbrowser').length) {
           overlayClose(event);
         }
       });
@@ -43,8 +44,8 @@
       widget.term = "";
       widget.search_current_path = 0;
 
-      widget.list_template = Handlebars.compile($("#listing-template").html());
-      widget.checkbox_template = Handlebars.compile($("#checkbox-template").html());
+      widget.list_template = Handlebars.compile($("#listing-template", widget.field).html());
+      widget.checkbox_template = Handlebars.compile($("#checkbox-template", widget.field).html());
       widget.sel_type = widget.button.closest(".referencewidget").data("type");
 
       widget.loadSelectedItems(widget);
@@ -94,8 +95,8 @@
       event.stopPropagation();
       event.preventDefault();
       $("body").addClass("RefBrowserOverlayOpened");
-      widget.list_template = Handlebars.compile($("#listing-template").html());
-      widget.checkbox_template = Handlebars.compile($("#checkbox-template").html());
+      widget.list_template = Handlebars.compile($("#listing-template", widget.field).html());
+      widget.checkbox_template = Handlebars.compile($("#checkbox-template", widget.field).html());
       $(".sortable").sortable();
 
       var target = $(event.currentTarget);
@@ -104,8 +105,13 @@
       widget.sel_type = container.data("type");
       widget.field_id = widget.field.attr("id");
 
-      widget.widget_url = container.data("url") + "/++widget++" + widget.name;
-      var refbrowser_template = Handlebars.compile($("#refbrowser-template").html());
+      if (widget.isInTinyMce) {
+        widget.widget_url = container.data("url");
+      } else {
+        widget.widget_url = container.data("url") + "/++widget++" + widget.name;
+      }
+      
+      var refbrowser_template = Handlebars.compile($("#refbrowser-template", widget.field).html());
       $("body").append(refbrowser_template(widget.translations));
       widget.build_pathbar(widget, "");
       widget.get_data(widget, "");
@@ -121,7 +127,7 @@
       overlay.on("change", ".listing input.ref-checkbox", widget.checkbox_flipped.bind(null, widget));
       overlay.on("change", "select", widget.reload.bind(null, widget));
       overlay.on("click", "button.cancel", function(){$(".refbrowser").remove();});
-      overlay.on("click", ".ref_list_entry", widget.switch_level.bind(null, widget));
+      overlay.on("click", ".ref_list_entry a", widget.switch_level.bind(null, widget));
       overlay.on("click", ".listing input.ref-checkbox", function(e) {e.stopPropagation();});
       overlay.on("click", ".refbrowser_batching a", widget.change_page.bind(null, widget));
 
@@ -170,7 +176,7 @@
 
     initRefBrowser.prototype.build_pathbar = function(widget, path){
       $.post(widget.widget_url +"/generate_pathbar", {"origin": path}, function(data){
-        var hb_template = Handlebars.compile($("#node-template").html());
+        var hb_template = Handlebars.compile($("#node-template", widget.field).html());
         var pathbar = "";
         data.forEach(function(item){
           pathbar += hb_template(item);
@@ -184,7 +190,7 @@
       event.preventDefault();
       event.stopPropagation();
 
-      var target = $(event.currentTarget);
+      var target = $(event.currentTarget).parent();
       var traversable = target.data("traversable");
       if (traversable === false){
         return;
@@ -260,12 +266,12 @@
 
     initRefBrowser.prototype.build_list = function(widget, data){
       $(".refbrowser .refbrowser_batching").remove();
-      var batch_template = Handlebars.compile($("#batch_template").html());
+      var batch_template = Handlebars.compile($("#batch_template", widget.field).html());
       $(".refbrowser .batchingcontainer").append(batch_template(data));
       $(".refbrowser .batchingcontainer .previous").html("&laquo;");
       $(".refbrowser .batchingcontainer .next").html("&raquo;");
 
-      var hb_sorter = Handlebars.compile($("#sort-template").html());
+      var hb_sorter = Handlebars.compile($("#sort-template", widget.field).html());
       $(".refbrowser .sorter").html(
         hb_sorter({sortOnOptions: data.sortOnOptions,
                    sortOrderOptions: data.sortOrderOptions,
@@ -349,6 +355,10 @@
         widget.AddremoveLink(node);
 
         $('.selected_items ul', widget.container).append(node);
+
+        if ($(checkbox).attr('type') === 'radio') {
+            overlayClose();
+        }
       }
       else {
         var query = "#" + widget.field_id + " .referencewidget .selected_items li[data-path=\"" + $(event.currentTarget.parentNode).data("path") + "\"]";
