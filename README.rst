@@ -90,6 +90,14 @@ The following combinations are supported:
 - TextLine --> Stores a absolute path as string, without the portal root part
 
 
+TinyMCE Plone 5 - Internal Link widget replacement
+--------------------------------------------------
+
+With the version 3 of ftw.referencewidget within Plone 5.x the select2 internal link widget
+automatically gets replaced by the ftw.referencewidget interna link browser.
+Featering search and browsing within the referencebrowser popup. 
+
+
 Screenshots
 -----------
 The general Listing:
