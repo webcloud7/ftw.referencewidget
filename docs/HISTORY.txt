@@ -5,7 +5,7 @@ Changelog
 3.0.1 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Fix js bundle: Merge with logged-in and no dependency, since it's all loaded via requireJS. [mathias.leimgruber]
 
 
 3.0.0 (2020-12-15)
