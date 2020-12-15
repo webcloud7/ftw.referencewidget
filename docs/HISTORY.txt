@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-2.2.2 (unreleased)
+3.0.0 (2020-12-15)
 ------------------
 
 - Replace the plone select2 based reference widget for internal links with the ftw.reference widget version. [mathias.leimgruber]
