@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-3.0.1 (unreleased)
+3.0.1 (2020-12-15)
 ------------------
 
 - Fix js bundle: Merge with logged-in and no dependency, since it's all loaded via requireJS. [mathias.leimgruber]
