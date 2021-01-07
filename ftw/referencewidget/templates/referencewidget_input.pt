@@ -5,6 +5,7 @@
 <div class="referencewidget referencewidgetField"
      tal:attributes="name view/name;
                      data-url view/form_url;
+                     data-path view/current_path;
                      data-fieldname view/name;
                      data-type view/is_list;
                      data-trans view/translations">

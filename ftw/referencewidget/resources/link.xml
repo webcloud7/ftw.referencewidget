@@ -14,6 +14,7 @@
           <div class="form-group main">
             <div class="referencewidget referencewidgetField"
                 data-url="<%- options.base_url %>/@@edit"
+                data-path="<%- options.relatedItems.basePath %>"
                 data-fieldname="internal"
                 data-type="radio"
                 data-trans='{"close": "Schliessen", "search": "Suchen", "label_sort_by": "Sortieren nach", "search_current_path": "Suche nur im aktuellen Pfad"}'>

@@ -96,6 +96,9 @@ class ReferenceBrowserWidget(widget.HTMLTextInputWidget, Widget):
     def form_url(self):
         return self.form.request.getURL()
 
+    def current_path(self):
+        return '/'.join(self.context.getPhysicalPath())
+
     def get_object_by_path(self, path):
         storage = queryUtility(IRedirectionStorage)
 
