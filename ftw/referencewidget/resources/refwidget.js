@@ -38,7 +38,7 @@
       widget.field_id = "";
       widget.list_template = "";
       widget.checkbox_template = "";
-      widget.request_path = "";
+      widget.request_path = widget.field.data("path");
       widget.sel_type = "";
       widget.page = 1;
       widget.term = "";
