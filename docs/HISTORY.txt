@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-3.0.3 (unreleased)
+3.0.3 (2021-03-31)
 ------------------
 
 - Fix DictRow, DataGridFieldFactory imports to be compatible with 1.x and 2.x of collective.z3cform.datagridfield. [mathias.leimgruber]
