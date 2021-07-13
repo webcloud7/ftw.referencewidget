@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-3.0.4 (unreleased)
+3.0.4 (2021-07-13)
 ------------------
 
 - Fix tinymce internal link integration for portlets. [mathias.leimgruber]
