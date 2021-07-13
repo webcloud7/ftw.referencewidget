@@ -13,7 +13,7 @@
         <div>
           <div class="form-group main">
             <div class="referencewidget referencewidgetField"
-                data-url="<%- options.base_url %>/@@edit"
+                data-url="<%- options.base_url %>"
                 data-path="<%- options.relatedItems.basePath %>"
                 data-fieldname="internal"
                 data-type="radio"

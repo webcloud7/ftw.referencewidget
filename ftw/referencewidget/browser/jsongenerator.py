@@ -1,3 +1,5 @@
+from Products.CMFCore.utils import getToolByName
+from Products.Five import BrowserView
 from collective.z3cform.datagridfield.datagridfield import DataGridFieldObjectSubForm
 from ftw.referencewidget.browser.utils import extend_with_batching
 from ftw.referencewidget.browser.utils import get_selectable_types
@@ -6,8 +8,7 @@ from ftw.referencewidget.browser.utils import get_sort_order_options
 from ftw.referencewidget.browser.utils import get_traversal_types
 from ftw.referencewidget.browser.utils import is_traversable
 from ftw.referencewidget.widget import ReferenceBrowserWidget
-from Products.CMFCore.utils import getToolByName
-from Products.Five import BrowserView
+from plone.portlets.interfaces import IPortletAssignment
 from zope.component._api import getMultiAdapter
 import json
 
@@ -20,9 +21,13 @@ class ReferenceJsonEndpoint(BrowserView):
         # Plone 5 tinymce integration - not a ref widget
         if not isinstance(widget, ReferenceBrowserWidget):
             widget = ReferenceBrowserWidget(self.request, allow_nonsearched_types=True)
-            widget.context = self.context.aq_parent
 
-        if isinstance(self.context.form, DataGridFieldObjectSubForm):
+            if IPortletAssignment.providedBy(self.context):
+                widget.context = self.context.aq_parent.aq_parent
+            else:
+                widget.context = self.context.aq_parent
+
+        if hasattr(self.context, 'form') and isinstance(self.context.form, DataGridFieldObjectSubForm):
             widget.context = self.context.__parent__.context
 
         effective_path = widget.request.get('start', None)
@@ -40,7 +45,7 @@ class ReferenceJsonEndpoint(BrowserView):
                   'sortOnOptions': get_sort_options(self.request),
                   'sortOrderOptions': get_sort_order_options(self.request)}
 
-        plone = getMultiAdapter((self.context, self.request), name="plone")
+        plone = getMultiAdapter((widget.context, self.request), name="plone")
         for item in results:
             depth = len(item.getPath().split('/')) - current_depth
             if depth == 0:
@@ -69,7 +74,7 @@ class ReferenceJsonEndpoint(BrowserView):
         # XXX This method needs heavy refactoring
         # Also merge with the search.py
 
-        catalog = getToolByName(self.context.context, 'portal_catalog')
+        catalog = getToolByName(widget.context, 'portal_catalog')
         selectable_types = get_selectable_types(widget)
         traversel_types = get_traversal_types(widget)
 
