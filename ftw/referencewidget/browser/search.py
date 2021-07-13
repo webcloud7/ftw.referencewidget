@@ -1,3 +1,5 @@
+from Products.CMFCore.utils import getToolByName
+from Products.Five import BrowserView
 from ftw.referencewidget.browser.utils import extend_with_batching
 from ftw.referencewidget.browser.utils import get_root_path_from_source
 from ftw.referencewidget.browser.utils import get_selectable_types
@@ -6,8 +8,7 @@ from ftw.referencewidget.browser.utils import get_sort_order_options
 from ftw.referencewidget.browser.utils import get_traversal_types
 from ftw.referencewidget.widget import ReferenceBrowserWidget
 from plone import api
-from Products.CMFCore.utils import getToolByName
-from Products.Five import BrowserView
+from plone.portlets.interfaces import IPortletAssignment
 import json
 
 
@@ -19,8 +20,12 @@ class SearchView(BrowserView):
 
         # Plone 5 tinymce integration - not a ref widget
         if not isinstance(widget, ReferenceBrowserWidget):
-            widget = ReferenceBrowserWidget(self.request)
-            widget.context = self.context.aq_parent
+            widget = ReferenceBrowserWidget(self.request, allow_nonsearched_types=True)
+
+            if IPortletAssignment.providedBy(self.context):
+                widget.context = self.context.aq_parent.aq_parent
+            else:
+                widget.context = self.context.aq_parent
 
         json_prep = {'items': [],
                      'sortOnOptions': get_sort_options(self.request),
