@@ -7,6 +7,13 @@
     i18n_domain="ftw.referencewidget">
 
     <browser:page
+        for="Products.CMFPlone.interfaces.siteroot.IPloneSiteRoot"
+        name="edit"
+        class=".fake_edit.FakeEditView"
+        permission="zope2.View"
+        />
+
+    <browser:page
         for="*"
         name="get_reference_data"
         class=".jsongenerator.ReferenceJsonEndpoint"
