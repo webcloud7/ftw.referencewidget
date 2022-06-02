@@ -1,5 +1,3 @@
-from Products.CMFCore.utils import getToolByName
-from Products.Five import BrowserView
 from collective.z3cform.datagridfield.datagridfield import DataGridFieldObjectSubForm
 from ftw.referencewidget.browser.utils import extend_with_batching
 from ftw.referencewidget.browser.utils import get_selectable_types
@@ -9,6 +7,9 @@ from ftw.referencewidget.browser.utils import get_traversal_types
 from ftw.referencewidget.browser.utils import is_traversable
 from ftw.referencewidget.widget import ReferenceBrowserWidget
 from plone.portlets.interfaces import IPortletAssignment
+from Products.CMFCore.utils import getToolByName
+from Products.CMFPlone.interfaces.siteroot import IPloneSiteRoot
+from Products.Five import BrowserView
 from zope.component._api import getMultiAdapter
 import json
 
@@ -17,13 +18,14 @@ class ReferenceJsonEndpoint(BrowserView):
 
     def __call__(self):
         widget = self.context
-
         # Plone 5 tinymce integration - not a ref widget
         if not isinstance(widget, ReferenceBrowserWidget):
             widget = ReferenceBrowserWidget(self.request, allow_nonsearched_types=True)
 
             if IPortletAssignment.providedBy(self.context):
                 widget.context = self.context.aq_parent.aq_parent
+            elif IPloneSiteRoot.providedBy(self.context):
+                widget.context = self.context
             else:
                 widget.context = self.context.aq_parent
 
