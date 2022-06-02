@@ -5,7 +5,7 @@ Changelog
 3.0.6 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Handle edge case if the context is the plone root, not a edit view on root. [mathias.leimgruber]
 
 
 3.0.5 (2022-06-02)
