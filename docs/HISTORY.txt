@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-3.0.5 (unreleased)
+3.0.5 (2022-06-02)
 ------------------
 
 - Add fake edit view for plone site root in order to make widget work on add views on root. [mathias.leimgruber]
