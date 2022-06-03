@@ -6,7 +6,12 @@ from collective.z3cform.datagridfield.datagridfield import DataGridFieldObjectSu
 from ftw.referencewidget.browser.utils import get_root_path_from_source
 from ftw.referencewidget.widget import ReferenceBrowserWidget
 from plone.portlets.interfaces import IPortletAssignment
+
 import json
+import sys
+
+if sys.version_info.major == 3:
+    unicode = bytes
 
 
 class GeneratePathbar(BrowserView):
