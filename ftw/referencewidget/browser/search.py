@@ -1,5 +1,3 @@
-from Products.CMFCore.utils import getToolByName
-from Products.Five import BrowserView
 from ftw.referencewidget.browser.utils import extend_with_batching
 from ftw.referencewidget.browser.utils import get_root_path_from_source
 from ftw.referencewidget.browser.utils import get_selectable_types
@@ -9,6 +7,8 @@ from ftw.referencewidget.browser.utils import get_traversal_types
 from ftw.referencewidget.widget import ReferenceBrowserWidget
 from plone import api
 from plone.portlets.interfaces import IPortletAssignment
+from Products.CMFCore.utils import getToolByName
+from Products.Five import BrowserView
 import json
 
 
@@ -45,10 +45,8 @@ class SearchView(BrowserView):
         if not uid:
             query = {'portal_type': search_types,
                      'Title': search_term,
-                     'sort_order': self.request.get('sort_order',
-                                                    u'ascending').encode('utf-8'),
-                     'sort_on': self.request.get('sort_on',
-                                                 u'modified').encode('utf-8')}
+                     'sort_order': self.request.get('sort_order', 'ascending'),
+                     'sort_on': self.request.get('sort_on', 'modified')}
             if only_current_path and request_path:
                 query['path'] = request_path
 

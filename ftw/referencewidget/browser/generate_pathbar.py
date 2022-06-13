@@ -10,9 +10,6 @@ from plone.portlets.interfaces import IPortletAssignment
 import json
 import sys
 
-if sys.version_info.major == 3:
-    unicode = bytes
-
 
 class GeneratePathbar(BrowserView):
 
@@ -37,8 +34,8 @@ class GeneratePathbar(BrowserView):
         if not originpoint:
             originpoint = widget.get_start_path()
 
-        if isinstance(originpoint, unicode):
-            originpoint = originpoint.encode('utf-8')
+        if isinstance(originpoint, bytes):
+            originpoint = originpoint.decode('utf-8')
 
         obj = widget.context.unrestrictedTraverse(originpoint)
         results = []

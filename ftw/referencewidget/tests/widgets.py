@@ -28,14 +28,14 @@ class ReferenceBrowserWidget(PloneWidget):
 
         field = self.css('input[type="hidden"]').first
 
-        if isinstance(values, basestring):
+        if isinstance(values, str):
             field.value = values
         elif isinstance(values, list):
             for index, obj in enumerate(values):
                 template = deepcopy(field.node)
                 path = obj
 
-                if not isinstance(values, basestring):
+                if not isinstance(values, str):
                     path = '/'.join(obj.getPhysicalPath())
 
                 if index == 0:

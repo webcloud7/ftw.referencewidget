@@ -6,6 +6,7 @@ from ftw.referencewidget.testing import FTW_REFERENCE_FUNCTIONAL_TESTING
 from ftw.referencewidget.tests import FunctionalTestCase
 from ftw.referencewidget.tests.views.form import TestView
 from ftw.testing.freezer import freeze
+from plone.app.event.base import default_timezone
 from plone.app.testing import login
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
@@ -21,9 +22,9 @@ class TestSearchView(TestCase):
         self.portal = self.layer['portal']
         setRoles(self.portal, TEST_USER_ID, ['Manager'])
         login(self.portal, TEST_USER_NAME)
-        self.folder = create(Builder('folder').titled(u'Testfolder'))
+        self.folder = create(Builder('folder').titled('Testfolder'))
         self.lower_file = create(Builder('file').within(
-            self.folder).titled(u'Test'))
+            self.folder).titled('Test'))
         self.file = create(Builder('file').titled("Sch\xc3\xbctzenpanzer"))
         form = TestView(self.portal, self.portal.REQUEST)
         form.update()
@@ -59,8 +60,11 @@ class TestSearchView(TestCase):
         self.assertEquals("Test (/plone/testfolder/test)", items[0]['title'])
 
     def test_search_view_on_news(self):
-        with freeze(datetime(2017, 10, 4)):
-            create(Builder('event').within(self.folder).titled(u'Event'))
+        with freeze(datetime(2017, 10, 4, tzinfo=default_timezone(as_tzinfo=True))):
+            create(Builder('event')
+                   .within(self.folder)
+                   .titled('Event')
+                   .having(start=datetime.now()))
         self.widget.request['term'] = 'Event'
         self.widget.request['sort_on'] = 'sortable_title'
         view = SearchView(self.widget, self.widget.request)
@@ -68,8 +72,8 @@ class TestSearchView(TestCase):
         results = json.loads(result)
         items = results['items']
         self.assertEquals(1, len(items))
-        self.assertEquals(u'/plone/testfolder/event', items[0]['path'])
-        self.assertEquals(u'Event (Oct 04, 2017) (/plone/testfolder/event)',
+        self.assertEquals('/plone/testfolder/event', items[0]['path'])
+        self.assertEquals('Event (Oct 04, 2017) (/plone/testfolder/event)',
                           items[0]['title'])
 
     def test_only_correct_types(self):
@@ -85,7 +89,7 @@ class TestSearchView(TestCase):
         self.assertEquals("Testfolder (/plone/testfolder)", items[0]['title'])
 
     def test_additional_traversable_query_is_applied(self):
-        create(Builder('file').titled(u'testfile'))
+        create(Builder('file').titled('testfile'))
 
         self.widget.request['term'] = 'tes'
         self.widget.request['sort_on'] = 'sortable_title'
@@ -93,7 +97,7 @@ class TestSearchView(TestCase):
         from plone.dexterity.interfaces import IDexterityContainer
         self.widget.traversal_query = {
             'object_provides': [IDexterityContainer.__identifier__]}
-        
+
         result = json.loads(SearchView(
             self.widget, self.widget.request)())['items']
 
@@ -111,15 +115,15 @@ class TestSearchWithPathRestriction(FunctionalTestCase):
 
     def test_root_path_restriction_of_source_is_respected(self):
         testfolder = create(Builder('folder')
-                            .titled(u'testfolder'))
+                            .titled('testfolder'))
         subfolder = create(Builder('folder')
                            .within(testfolder)
-                           .titled(u'Some folder'))
+                           .titled('Some folder'))
         content = create(Builder('refwidget sample content')
                          .within(subfolder)
-                         .titled(u'Some folder'))
+                         .titled('Some folder'))
 
-        other_folder = create(Builder('folder').titled(u'Other folder'))
+        other_folder = create(Builder('folder').titled('Other folder'))
 
         self.portal.REQUEST['term'] = 'folde'
         result = self._get_search_result_from_widget(

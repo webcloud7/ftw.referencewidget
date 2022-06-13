@@ -4,14 +4,12 @@ from ftw.referencewidget.browser.generate_pathbar import GeneratePathbar
 from ftw.referencewidget.testing import FTW_REFERENCE_FUNCTIONAL_TESTING
 from ftw.referencewidget.tests import FunctionalTestCase
 from ftw.referencewidget.tests.views.form import TestView
-from ftw.testbrowser import browsing
 from plone.app.testing import login
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
 from plone.app.testing import TEST_USER_NAME
 from unittest import TestCase
 import json
-import transaction
 
 
 class TestGeneratePathbar(TestCase):
@@ -23,7 +21,7 @@ class TestGeneratePathbar(TestCase):
         login(self.portal, TEST_USER_NAME)
         self.folder = create(Builder('folder'))
         self.lower_file = create(Builder('file').within(
-            self.folder).titled(u'Test'))
+            self.folder).titled('Test'))
         self.file = create(Builder('file'))
 
     def test_generate_pathbar(self):
@@ -61,13 +59,13 @@ class TestPathBarWithPathRestriction(FunctionalTestCase):
 
     def test_root_path_restriction_of_source_is_respected(self):
         testfolder = create(Builder('folder')
-                            .titled(u'testfolder'))
+                            .titled('testfolder'))
         subfolder = create(Builder('folder')
                            .within(testfolder)
-                           .titled(u'Some folder'))
+                           .titled('Some folder'))
         content = create(Builder('refwidget sample content')
                          .within(subfolder)
-                         .titled(u'Some folder'))
+                         .titled('Some folder'))
 
         pathbar = self._get_pathbar_from_widget(
             content,

@@ -75,7 +75,7 @@ class ReferenceObjSourceBinder(object):
     def _get_root_path(self):
         if callable(self.root_path):
             return self.root_path(self.context)
-        elif isinstance(self.root_path, basestring):
+        elif isinstance(self.root_path, str):
             portal_path = '/'.join(api.portal.get().getPhysicalPath())
             return portal_path + self.root_path
         else:

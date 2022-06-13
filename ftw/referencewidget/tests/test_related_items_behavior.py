@@ -14,10 +14,10 @@ class TestRelatedItemsReplacement(FunctionalTestCase):
 
     @browsing
     def test_relateditems_behavior_with_one_item(self, browser):
-        folder = create(Builder('folder').titled(u'Some folder'))
+        folder = create(Builder('folder').titled('Some folder'))
 
         content = create(Builder('refwidget sample content').titled(
-            u'refwidget sample content'))
+            'refwidget sample content'))
 
         browser.login().visit(content, view='@@edit')
         browser.fill({'Related Items': folder})
@@ -29,11 +29,11 @@ class TestRelatedItemsReplacement(FunctionalTestCase):
 
     @browsing
     def test_relateditems_behavior_with_multiple_items(self, browser):
-        folder1 = create(Builder('folder').titled(u'Some folder'))
-        folder2 = create(Builder('folder').titled(u'Some folder'))
+        folder1 = create(Builder('folder').titled('Some folder'))
+        folder2 = create(Builder('folder').titled('Some folder'))
 
         content = create(Builder('refwidget sample content').titled(
-            u'refwidget sample content'))
+            'refwidget sample content'))
 
         browser.login().visit(content, view='@@edit')
         browser.fill({'Related Items': [folder1, folder2]})
@@ -45,11 +45,11 @@ class TestRelatedItemsReplacement(FunctionalTestCase):
 
     @browsing
     def test_relateditems_with_removed_relation(self, browser):
-        folder1 = create(Builder('folder').titled(u'Some folder'))
-        folder2 = create(Builder('folder').titled(u'Some folder'))
+        folder1 = create(Builder('folder').titled('Some folder'))
+        folder2 = create(Builder('folder').titled('Some folder'))
 
         content = create(Builder('refwidget sample content')
-                         .titled(u'refwidget sample content')
+                         .titled('refwidget sample content')
                          .having(relatedItems=[folder1, folder2]))
 
         self.portal.manage_delObjects([folder2.getId()])
@@ -68,11 +68,11 @@ class TestRelatedItemsReplacement(FunctionalTestCase):
 
     @browsing
     def test_render_stored_related_items(self, browser):
-        folder1 = create(Builder('folder').titled(u'Some folder'))
-        folder2 = create(Builder('folder').titled(u'Some folder'))
+        folder1 = create(Builder('folder').titled('Some folder'))
+        folder2 = create(Builder('folder').titled('Some folder'))
 
         content = create(Builder('refwidget sample content')
-                         .titled(u'refwidget sample content')
+                         .titled('refwidget sample content')
                          .having(relatedItems=[folder1, folder2]))
 
         browser.login().visit(content, view='@@edit')
@@ -92,11 +92,11 @@ class TestRelatedItemsReplacement(FunctionalTestCase):
 
     @browsing
     def test_multi_value_display_mode(self, browser):
-        folder1 = create(Builder('folder').titled(u'Folder 1'))
-        folder2 = create(Builder('folder').titled(u'Folder 2'))
+        folder1 = create(Builder('folder').titled('Folder 1'))
+        folder2 = create(Builder('folder').titled('Folder 2'))
 
         content = create(Builder('refwidget sample content')
-                         .titled(u'sample content')
+                         .titled('sample content')
                          .having(relatedItems=[folder1, folder2]))
 
         browser.login().visit(content)
@@ -106,6 +106,6 @@ class TestRelatedItemsReplacement(FunctionalTestCase):
 
         link1, link2 = links
         self.assertEquals(folder1.Title(), link1.text)
-        self.assertEquals(folder1.absolute_url(), link1.attrib['href'])
+        self.assertEquals(folder1.absolute_url(), link1.attrib['href'].replace(':80', ''))
         self.assertEquals(folder2.Title(), link2.text)
-        self.assertEquals(folder2.absolute_url(), link2.attrib['href'])
+        self.assertEquals(folder2.absolute_url(), link2.attrib['href'].replace(':80', ''))

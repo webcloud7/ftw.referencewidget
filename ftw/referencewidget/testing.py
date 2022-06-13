@@ -32,6 +32,12 @@ class FtwReferenceWidgetLayer(PloneSandboxLayer):
         applyProfile(portal, 'collective.z3cform.datagridfield:default')
         applyProfile(portal, 'plone.app.contenttypes:default')
 
+        file_fti = portal.portal_types.File
+        file_behaviors = list(file_fti.behaviors)
+        file_behaviors.remove('plone.namefromfilename')
+        file_behaviors += ['plone.app.content.interfaces.INameFromTitle']
+        file_fti.behaviors = tuple(file_behaviors)
+
 
 FTW_REFERENCE_FIXTURE = FtwReferenceWidgetLayer()
 
