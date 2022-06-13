@@ -2,7 +2,7 @@ from Acquisition import aq_parent
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.interfaces.siteroot import IPloneSiteRoot
 from Products.Five import BrowserView
-from collective.z3cform.datagridfield.datagridfield import DataGridFieldObjectSubForm
+# from collective.z3cform.datagridfield.datagridfield import DataGridFieldObjectSubForm
 from ftw.referencewidget.browser.utils import get_root_path_from_source
 from ftw.referencewidget.widget import ReferenceBrowserWidget
 from plone.portlets.interfaces import IPortletAssignment
@@ -28,8 +28,8 @@ class GeneratePathbar(BrowserView):
             else:
                 widget.context = self.context.aq_parent
 
-        if hasattr(self.context, 'form') and isinstance(self.context.form, DataGridFieldObjectSubForm):
-            widget.context = self.context.__parent__.context
+        # if hasattr(self.context, 'form') and isinstance(self.context.form, DataGridFieldObjectSubForm):
+        #     widget.context = self.context.__parent__.context
 
         mtool = getToolByName(widget.context, 'portal_membership')
 

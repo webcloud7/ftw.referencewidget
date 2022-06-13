@@ -1,6 +1,6 @@
 from Acquisition import aq_parent
 from Products.CMFPlone.utils import safe_unicode
-from collective.z3cform.datagridfield.datagridfield import DataGridFieldObjectSubForm
+# from collective.z3cform.datagridfield.datagridfield import DataGridFieldObjectSubForm
 from ftw.referencewidget import _
 from ftw.referencewidget.browser.utils import get_path_from_widget_start
 from ftw.referencewidget.browser.utils import is_traversable
@@ -67,8 +67,8 @@ class ReferenceBrowserWidget(widget.HTMLTextInputWidget, Widget):
     def update(self):
         super(ReferenceBrowserWidget, self).update()
 
-        if isinstance(self.form, DataGridFieldObjectSubForm):
-            self.context = self.form.__parent__.__parent__.context
+        # if isinstance(self.form, DataGridFieldObjectSubForm):
+        #     self.context = self.form.__parent__.__parent__.context
 
         widget.addFieldClass(self)
 
