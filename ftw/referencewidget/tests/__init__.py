@@ -8,7 +8,7 @@ from unittest import TestCase
 from zope.interface import implements
 from zope.interface import Interface
 import transaction
-import widgets
+from . import widgets
 
 
 class ISampleContentSchema(model.Schema):

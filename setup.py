@@ -1,31 +1,30 @@
 from setuptools import setup, find_packages
 import os
 
-version = '3.0.7.dev0'
-maintainer = 'Timon Tschanz'
+version = '4.0.0.dev0'
+maintainer = 'Mathias Leimgruber'
 
 tests_require = [
     'collective.z3cform.datagridfield',
     'plone.app.testing',
     'ftw.builder',
-    'ftw.testbrowser >= 1.26.1',
     'ftw.testing',
+    'ftw.testbrowser'
 ]
 
 setup(name='ftw.referencewidget',
       version=version,
       description="A reference browser widget (Maintainer %s)" % maintainer,
 
-      long_description=open("README.rst").read() + "\n" + \
-                       open(os.path.join("docs", "HISTORY.txt")).read(),
+      long_description=open("README.rst").read() + "\n" +
+      open(os.path.join("docs", "HISTORY.txt")).read(),
 
       classifiers=[
-        'Framework :: Plone',
-        'Framework :: Plone :: 4.3',
-        'Framework :: Plone :: 5.1',
-        'Intended Audience :: Developers',
-        'Programming Language :: Python',
-        ],
+          'Framework :: Plone',
+          'Framework :: Plone :: 6',
+          'Intended Audience :: Developers',
+          'Programming Language :: Python',
+      ],
 
       keywords='ftw 4teamwork widget reference browser',
       author='%s, 4teamwork AG' % maintainer,
@@ -48,20 +47,21 @@ setup(name='ftw.referencewidget',
           'plone.z3cform',
           'plone.app.z3cform',
           'plone.app.intid',
-          'collective.js.jqueryui',
           'plone.app.relationfield',
           'ftw.upgrade',
           'plone.api',
+          'plone.restapi',
       ],
 
       extras_require=dict(
           tests=tests_require,
-          ),
+          test=tests_require,
+      ),
       tests_require=tests_require,
 
       entry_points="""
       # -*- Entry points: -*-
-      [z3c.autoinclude.plugin]
+      [plone.autoinclude.plugin]
       target = plone
       """,
       )

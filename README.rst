@@ -18,11 +18,58 @@ The widget takes the following parameters:
  - traversal_query: Updates the query used vor traversing by the given dict. The dict passed will be updated after everything is allready done. So make sure not to override sort_on/sort_order attributes.
 
 
+Usage
+-----
+
+- Add ``ftw.referencewidget`` to your buildout configuration or as dependency to your package:
+
+.. code:: ini
+
+    [instance]
+    eggs +=
+        ftw.referencewidget
+
+- Install the default generic import profile.
+
+
+
+Installation / Development
+--------------------------
+
+Option 1 - Using buildout
+
+.. code:: sh
+
+    $ ./bootstrap.sh development.cfg
+    $ ./bin/instance fg
+
+
+Option 2 - Using Makefile
+
+.. code:: sh
+
+    $ make install
+    $ make run
+
+
+We support both option since the makefile approach does not support yet all the features
+from the zope2instance recipe. For example control scripts are not yet supported
+But it's faster and more convenient to setup a docker test image
+
+
+
 Upgrading from 1.x to 2.x
 -------------------------
 
 There was no version number set for the ``ftw.referencewidget`` package. As a result of this upgradesteps wont be shown in ``../@@manage-upgrades`` from `ftw.upgrade <https://github.com/4teamwork/ftw.upgrade>`_.
 So the first upgradesetp ``Upgrade ftw.referencewidget:default to 20181112105705: Fix registry field frontend edit`` must be installed via the ZMI under ``../portal_setup/manage_fullImport``. This sets the version for the package and so further upgrades can be installed via ``../@@manage-upgrades``.
+
+
+Version 4.x
+-----------
+Version 4.x of ftw.referencewidget is only compatible with Plone 6 and Python 3.9 (maybe 3.7 and 3.8 as well).
+It uses the module federation feature and boostrap 5 from Plone 6.
+
 
 ContextSourceBinder
 -------------------
@@ -97,15 +144,6 @@ With the version 3 of ftw.referencewidget within Plone 5.x the select2 internal 
 automatically gets replaced by the ftw.referencewidget interna link browser.
 Featering search and browsing within the referencebrowser popup. 
 
-
-Screenshots
------------
-The general Listing:
-![Listing](https://github.com/4teamwork/ftw.referencewidget/raw/master/docs/static/list.png)
-The Search Listing:
-![Search Listing](https://github.com/4teamwork/ftw.referencewidget/raw/master/docs/static/search.png)
-The Selected Items
-![Selected](https://github.com/4teamwork/ftw.referencewidget/raw/master/docs/static/selected.png)
 
 Links
 -----
