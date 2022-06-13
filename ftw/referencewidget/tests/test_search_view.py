@@ -1,7 +1,6 @@
 from datetime import datetime
 from ftw.builder import Builder
 from ftw.builder import create
-from ftw.referencewidget import IS_PLONE_5_OR_GREATER
 from ftw.referencewidget.browser.search import SearchView
 from ftw.referencewidget.testing import FTW_REFERENCE_FUNCTIONAL_TESTING
 from ftw.referencewidget.tests import FunctionalTestCase
@@ -91,15 +90,10 @@ class TestSearchView(TestCase):
         self.widget.request['term'] = 'tes'
         self.widget.request['sort_on'] = 'sortable_title'
 
-        if IS_PLONE_5_OR_GREATER:
-            from plone.dexterity.interfaces import IDexterityContainer
-            self.widget.traversal_query = {
-                'object_provides': [IDexterityContainer.__identifier__]}
-        else:
-            from Products.ATContentTypes.interfaces.folder import IATFolder
-            self.widget.traversal_query = {
-                'object_provides': [IATFolder.__identifier__]}
-
+        from plone.dexterity.interfaces import IDexterityContainer
+        self.widget.traversal_query = {
+            'object_provides': [IDexterityContainer.__identifier__]}
+        
         result = json.loads(SearchView(
             self.widget, self.widget.request)())['items']
 

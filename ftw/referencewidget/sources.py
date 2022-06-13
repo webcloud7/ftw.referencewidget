@@ -12,7 +12,6 @@ from zope.schema.interfaces import ISource
 @implementer(ISource)
 class ReferenceObjPathSource(object):
 
-
     def __init__(self, context, selectable_class, selectable, nonselectable,
                  override, allow_nonsearched_types, root_path):
 

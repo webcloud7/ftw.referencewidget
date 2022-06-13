@@ -36,7 +36,6 @@
         template="templates/referencewidget_display.pt" />
 
     <genericsetup:registerProfile
-        zcml:condition="not-have plone-5"
         name="default"
         title="ftw.referencewidget"
         directory="profiles/default"
@@ -45,19 +44,9 @@
         />
 
     <genericsetup:registerProfile
-        zcml:condition="have plone-5"
-        name="default"
-        title="ftw.referencewidget"
-        directory="profiles/default_plone5"
-        description="Register ftw.referencewidget generally"
-        provides="Products.GenericSetup.interfaces.EXTENSION"
-        />
-
-    <genericsetup:registerProfile
-        zcml:condition="have plone-5"
         name="uninstall"
         title="Uninstall ftw.referencewidget"
-        directory="profiles/uninstall_plone5"
+        directory="profiles/uninstall"
         provides="Products.GenericSetup.interfaces.EXTENSION"
         for="Products.CMFPlone.interfaces.IMigratingPloneSiteRoot"
         />

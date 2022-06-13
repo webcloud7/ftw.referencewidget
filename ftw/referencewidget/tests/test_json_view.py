@@ -3,7 +3,6 @@ from ftw.builder import create
 from ftw.referencewidget.browser.jsongenerator import ReferenceJsonEndpoint
 from ftw.referencewidget.testing import FTW_REFERENCE_FUNCTIONAL_TESTING
 from ftw.referencewidget.tests.views.form import TestView
-from ftw.referencewidget.utils import IS_PLONE_5_OR_GREATER
 from plone.app.testing import login
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
@@ -65,14 +64,9 @@ class TestJsonView(TestCase):
         form.update()
         widget = form.form_instance.widgets['relation']
 
-        if IS_PLONE_5_OR_GREATER:
-            from plone.dexterity.interfaces import IDexterityContainer
-            widget.traversal_query = {
-                'object_provides': [IDexterityContainer.__identifier__]}
-        else:
-            from Products.ATContentTypes.interfaces.folder import IATFolder
-            widget.traversal_query = {
-                'object_provides': [IATFolder.__identifier__]}
+        from plone.dexterity.interfaces import IDexterityContainer
+        widget.traversal_query = {
+            'object_provides': [IDexterityContainer.__identifier__]}
 
         result = json.loads(ReferenceJsonEndpoint(
             widget, widget.request)())['items']
