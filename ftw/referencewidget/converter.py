@@ -1,4 +1,4 @@
-from collective.z3cform.datagridfield.interfaces import IDataGridField
+from collective.z3cform.datagridfield.interfaces import IDataGridFieldWidget
 from ftw.referencewidget.interfaces import IReferenceWidget
 from plone import api
 from z3c.form import converter
@@ -130,7 +130,7 @@ class GridDataConverter(converter.BaseDataConverter):
 
     Inspired by https://github.com/collective/collective.z3cform.datagridfield/issues/50.
     """
-    adapts(IList, IDataGridField)
+    adapts(IList, IDataGridFieldWidget)
 
     def toWidgetValue(self, value):
         if not value:
