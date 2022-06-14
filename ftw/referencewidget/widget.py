@@ -66,7 +66,6 @@ class ReferenceBrowserWidget(widget.HTMLTextInputWidget, Widget):
 
     def update(self):
         super(ReferenceBrowserWidget, self).update()
-
         # if isinstance(self.form, DataGridFieldObjectSubForm):
         #     self.context = self.form.__parent__.__parent__.context
 

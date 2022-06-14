@@ -10,11 +10,11 @@ from plone.supermodel.model import fieldset
 from Products.CMFPlone import PloneMessageFactory as _
 from z3c.relationfield.schema import RelationChoice, RelationList
 from zope import schema
-from zope.interface import alsoProvides
-from zope.interface import Interface
+from zope.interface import provider
 
 
-class IRelatedItems(Interface):
+@provider(IFormFieldProvider)
+class IRelatedItems(model.Schema):
     """Behavior, which provides the same functionality as the
     plone.app.relationfield IRelatedItems behavior, BUT it uses a different
     widget.
@@ -34,10 +34,9 @@ class IRelatedItems(Interface):
         required=False,
     )
 
-alsoProvides(IRelatedItems, IFormFieldProvider)
 
-
-class IRelationChoiceExample(Interface):
+@provider(IFormFieldProvider)
+class IRelationChoiceExample(model.Schema):
     """Demo behavior containing a RelationChoice (single value).
 
     """
@@ -48,8 +47,6 @@ class IRelationChoiceExample(Interface):
         default=None,
         required=False,
     )
-
-alsoProvides(IRelationChoiceExample, IFormFieldProvider)
 
 
 class IDataGridRow(model.Schema):
@@ -66,7 +63,8 @@ class IDataGridRow(model.Schema):
     )
 
 
-class IDataGridFieldExample(Interface):
+@provider(IFormFieldProvider)
+class IDataGridFieldExample(model.Schema):
     """Demo behavior containing a DataGridField.
 
     """
@@ -79,16 +77,14 @@ class IDataGridFieldExample(Interface):
     )
 
 
-alsoProvides(IDataGridFieldExample, IFormFieldProvider)
-
-
 class CustomSelectableClass(DefaultSelectable):
 
     def is_selectable(self):
         return self.content.Title() == 'Immutable title'
 
 
-class IRelationChoiceRestricted(Interface):
+@provider(IFormFieldProvider)
+class IRelationChoiceRestricted(model.Schema):
     """Demo behavior containing a RelationChoice (single value).
     But it's not allowd to reference a folder.
 
@@ -119,6 +115,3 @@ class IRelationChoiceRestricted(Interface):
         default=None,
         required=False,
     )
-
-
-alsoProvides(IRelationChoiceRestricted, IFormFieldProvider)
