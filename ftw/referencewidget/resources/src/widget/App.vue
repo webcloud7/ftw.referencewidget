@@ -1,6 +1,15 @@
 <template>
   <div ref="root">
-    <input type="hidden" value="hans" name="hans" />
+    <div class="widget-selected-items">
+      <template v-for="item in selected" :key="item">
+        <input
+          type="checkbox"
+          checked
+          :name="fieldName"
+          :value="item.replace(portalURL, portalPath)"
+        /> {{ item }}
+      </template>
+    </div>
     <button
       type="button"
       class="btn btn-primary"
@@ -22,36 +31,11 @@
           <div class="modal-header">Choose content</div>
           <div class="modal-body">
             <searchForm @search="search" @reset="reset" />
-            <nav aria-label="breadcrumb">
-              <ol class="breadcrumb">
-                <li class="breadcrumb-item">
-                  <a
-                    :href="portalURL"
-                    @click.prevent.stop="fetchData(portalURL)"
-                    >Startpage</a
-                  >
-                </li>
-                <template
-                  v-for="(item, index) in breadcrumbs"
-                  :key="item['@id0']"
-                >
-                  <li
-                    class="breadcrumb-item"
-                    v-if="index != breadcrumbs.length - 1"
-                  >
-                    <a
-                      :href="item['@id']"
-                      @click.stop.prevent="fetchData(item['@id'])"
-                      >{{ item.title }}</a
-                    >
-                  </li>
-                  <li v-else class="breadcrumb-item active" aria-current="page">
-                    {{ item.title }}
-                  </li>
-                </template>
-              </ol>
-            </nav>
-
+            <Breadcrumbs
+              :breadcrumbs="breadcrumbs"
+              :fetchData="fetchData"
+              :portalURL="portalURL"
+            />
             <Pagination
               v-if="data.batching"
               @next="fetchData"
@@ -60,27 +44,12 @@
             />
             total {{ data.items_total }}
 
-            <ul class="list-group">
-              <template v-for="item in data.items" :key="item.UID">
-                <li class="list-group-item">
-                  <input
-                    class="form-check-input me-1"
-                    type="checkbox"
-                    :value="item['@id']"
-                    :checked="item['@id'] in selected"
-                    v-model="selected"
-                  />
-                  <a
-                    v-if="item.is_folderish"
-                    @click.prevent.stop="fetchData(item['@id'])"
-                    :href="item['@id']"
-                    class="list-group-item-action"
-                    >{{ item.title }}</a
-                  >
-                  <span v-else> {{ item.title }}</span>
-                </li>
-              </template>
-            </ul>
+            <ListItems
+              :fetchData="fetchData"
+              :items="data.items"
+              :selectedItems="selected"
+              @checked="updateSelected"
+            />
           </div>
 
           <div class="modal-footer">
@@ -100,16 +69,21 @@
 <script>
 import Pagination from "@/components/Pagination.vue";
 import SearchForm from "@/components/searchForm.vue";
+import Breadcrumbs from "@/components/Breadcrumbs.vue";
+import ListItems from "@/components/ListItems.vue";
 export default {
   components: {
     Pagination,
     SearchForm,
+    Breadcrumbs,
+    ListItems,
   },
   data() {
     return {
       portalURL: "",
       baseURL: "",
       startURL: "",
+      portalPath: "",
       fieldName: "",
       type: "",
       translations: {},
@@ -130,11 +104,14 @@ export default {
   mounted() {
     const wrapperElement = this.$refs.root.parentElement;
     this.startURL = wrapperElement.getAttribute("data-starturl");
+    this.portalPath = wrapperElement.getAttribute("data-portalpath");
     this.fieldName = wrapperElement.getAttribute("data-fieldname");
     this.type = wrapperElement.getAttribute("data-type");
     this.translations = JSON.parse(
       wrapperElement.getAttribute("data-translations")
     );
+
+    this.loadSelectedItems(wrapperElement);
 
     this.$refs.modal.addEventListener("show.bs.modal", () => {
       this.fetchData(this.startURL);
@@ -189,6 +166,19 @@ export default {
     reset(formData) {
       this.formData = formData;
       this.fetchData(this.startURL);
+    },
+    updateSelected(checked) {
+      this.selected = checked;
+    },
+    loadSelectedItems(wrapperElement) {
+      wrapperElement.parentElement
+        .querySelectorAll(".selected_items input")
+        .forEach((element) => {
+          this.selected.push(
+            this.portalURL + element.value.replace(this.portalPath, "")
+          );
+        });
+      wrapperElement.parentElement.querySelector(".selected_items").remove();
     },
   },
 };

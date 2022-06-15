@@ -92,9 +92,6 @@ class ReferenceBrowserWidget(widget.HTMLTextInputWidget, Widget):
                            'label_sort_by': translate(msg_sort_by,
                                                       context=self.request)})
 
-    def form_url(self):
-        return self.form.request.getURL()
-
     def get_object_by_path(self, path):
         storage = queryUtility(IRedirectionStorage)
 
@@ -147,6 +144,9 @@ class ReferenceBrowserWidget(widget.HTMLTextInputWidget, Widget):
     def get_start_url(self):
         path = self.get_start_path()
         return api.portal.get().unrestrictedTraverse(path).absolute_url()
+
+    def portal_path(self):
+        return '/'.join(api.portal.get().getPhysicalPath())
 
 
 @adapter(IReferenceWidget, IFormLayer)

@@ -11,12 +11,10 @@
                                              data-title item/title" />
     </tal:items>
 </div>
-
-<input type="hidden" tal:attributes="name view/name" />
-
 <div class="reference-widget referencewidget referencewidgetField"
      tal:attributes="name view/name;
                      data-starturl view/get_start_url;
+                     data-portalpath view/portal_path;
                      data-fieldname view/name;
                      data-type view/is_list;
                      data-translations view/translations"/>
