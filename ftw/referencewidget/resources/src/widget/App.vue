@@ -1,14 +1,17 @@
 <template>
   <div ref="root">
     <div class="widget-selected-items">
-      <template v-for="item in selected" :key="item">
-        <input
-          type="checkbox"
-          checked
-          :name="fieldName"
-          :value="item.replace(portalURL, portalPath)"
-        /> {{ item }}
-      </template>
+      <ul class="list-group">
+        <li class="list-group-item" v-for="item in selected" :key="item">
+          <input
+            type="checkbox"
+            checked
+            :name="fieldName"
+            :value="item.replace(portalURL, portalPath)"
+          />
+          {{ item }}
+        </li>
+      </ul>
     </div>
     <button
       type="button"
@@ -48,6 +51,7 @@
               :fetchData="fetchData"
               :items="data.items"
               :selectedItems="selected"
+              :inputType="inputType"
               @checked="updateSelected"
             />
           </div>
@@ -85,7 +89,7 @@ export default {
       startURL: "",
       portalPath: "",
       fieldName: "",
-      type: "",
+      inputType: "",
       translations: {},
       data: {},
       breadcrumbs: [],
@@ -106,7 +110,7 @@ export default {
     this.startURL = wrapperElement.getAttribute("data-starturl");
     this.portalPath = wrapperElement.getAttribute("data-portalpath");
     this.fieldName = wrapperElement.getAttribute("data-fieldname");
-    this.type = wrapperElement.getAttribute("data-type");
+    this.inputType = wrapperElement.getAttribute("data-inputtype");
     this.translations = JSON.parse(
       wrapperElement.getAttribute("data-translations")
     );

@@ -71,7 +71,7 @@ class ReferenceBrowserWidget(widget.HTMLTextInputWidget, Widget):
 
         widget.addFieldClass(self)
 
-    def is_list(self):
+    def input_type(self):
         if IList.providedBy(self.field):
             return 'checkbox'
         else:

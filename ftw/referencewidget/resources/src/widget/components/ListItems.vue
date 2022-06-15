@@ -4,10 +4,11 @@
       <li class="list-group-item">
         <input
           class="form-check-input me-1"
-          type="checkbox"
+          :type="inputType"
           :value="item['@id']"
-          :checked="item['@id'] in selected"
-          v-model="selected"
+          :checked="item['@id'] in selectedProxy"
+          :selected="item['@id'] in selectedProxy"
+          v-model="selectedProxy"
           @change="checked"
         />
         <a
@@ -44,6 +45,13 @@ export default {
         return [];
       },
     },
+    inputType: {
+      type: String,
+      required: true,
+      default: () => {
+        return "checkbox";
+      },
+    },
     fetchData: {
       type: Function,
       required: true,
@@ -58,6 +66,20 @@ export default {
   methods: {
     checked() {
       this.$emit("checked", this.selected);
+    },
+  },
+  computed: {
+    selectedProxy: {
+      get() {
+        return this.selected;
+      },
+      set(value) {
+        if (this.inputType == "checkbox") {
+          this.selected = value;
+        } else {
+          this.selected = [value];
+        }
+      },
     },
   },
 };

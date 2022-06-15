@@ -16,7 +16,7 @@
                      data-starturl view/get_start_url;
                      data-portalpath view/portal_path;
                      data-fieldname view/name;
-                     data-type view/is_list;
+                     data-inputtype view/input_type;
                      data-translations view/translations"/>
 
 </tal:html>
