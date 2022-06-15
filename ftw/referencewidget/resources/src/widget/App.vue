@@ -17,12 +17,12 @@
       type="button"
       class="btn btn-primary"
       data-bs-toggle="modal"
-      data-bs-target="#reference-widget-modal"
+      :data-bs-target="`#${modalName}`"
     >
       Browse
     </button>
     <div
-      id="reference-widget-modal"
+      :id="modalName"
       class="modal fade"
       tabindex="-1"
       aria-labelledby="ref-modal-title"
@@ -183,6 +183,11 @@ export default {
           );
         });
       wrapperElement.parentElement.querySelector(".selected_items").remove();
+    },
+  },
+  computed: {
+    modalName() {
+      return `reference-widget-modal-${this.fieldName.replace(/./g, "_")}`;
     },
   },
 };
