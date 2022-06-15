@@ -61,6 +61,7 @@
 
     <adapter factory=".converter.ReferenceDataListConverter" />
     <adapter factory=".converter.ReferenceDataChoiceConverter" />
+    <adapter factory=".converter.ReferenceDataRelationChoiceConverter" />
     <adapter factory=".converter.ReferenceDataListWithChoiceConverter" />
     <adapter factory=".converter.ReferenceDataTextConverter" />
 

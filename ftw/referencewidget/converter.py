@@ -65,6 +65,11 @@ class ReferenceDataChoiceConverter(converter.BaseDataConverter):
             return '/'.join(value.getPhysicalPath())
 
 
+class ReferenceDataRelationChoiceConverter(ReferenceDataChoiceConverter):
+
+    adapts(IRelationChoice, IReferenceWidget)
+
+
 class ReferenceDataTextConverter(converter.BaseDataConverter):
 
     adapts(ITextLine, IReferenceWidget)
