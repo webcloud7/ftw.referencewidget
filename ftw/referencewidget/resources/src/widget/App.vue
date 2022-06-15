@@ -75,6 +75,8 @@ import Pagination from "@/components/Pagination.vue";
 import SearchForm from "@/components/searchForm.vue";
 import Breadcrumbs from "@/components/Breadcrumbs.vue";
 import ListItems from "@/components/ListItems.vue";
+import jQuery from "jquery";
+
 export default {
   components: {
     Pagination,
@@ -173,6 +175,9 @@ export default {
     },
     updateSelected(checked) {
       this.selected = checked;
+      if (this.inputType == "radio") {
+        jQuery.fn.modal.Constructor.getInstance(this.$refs.modal).hide();
+      }
     },
     loadSelectedItems(wrapperElement) {
       wrapperElement.parentElement
