@@ -52,6 +52,7 @@
               :items="data.items"
               :selectedItems="selected"
               :inputType="inputType"
+              :selectableTypes="selectableTypes"
               @checked="updateSelected"
             />
           </div>
@@ -96,6 +97,7 @@ export default {
       data: {},
       breadcrumbs: [],
       selected: [],
+      selectableTypes: [],
       formData: {
         searchTerm: "",
         sortOn: "getObjPositionInParent",
@@ -113,6 +115,9 @@ export default {
     this.portalPath = wrapperElement.getAttribute("data-portalpath");
     this.fieldName = wrapperElement.getAttribute("data-fieldname");
     this.inputType = wrapperElement.getAttribute("data-inputtype");
+    this.selectableTypes = JSON.parse(
+      wrapperElement.getAttribute("data-selectabletypes")
+    );
     this.translations = JSON.parse(
       wrapperElement.getAttribute("data-translations")
     );
@@ -126,7 +131,7 @@ export default {
   methods: {
     async fetchData(url, options) {
       let params = {
-        metadata_fields: ["UID", "is_folderish"],
+        metadata_fields: ["UID", "is_folderish", "portal_type"],
         sort_on: this.formData.sortOn,
         sort_order: this.formData.sortOrder,
       };

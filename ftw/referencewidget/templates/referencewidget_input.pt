@@ -17,6 +17,7 @@
                      data-portalpath view/portal_path;
                      data-fieldname view/name;
                      data-inputtype view/input_type;
+                     data-selectabletypes view/selectable_types;
                      data-translations view/translations"/>
 
 </tal:html>
