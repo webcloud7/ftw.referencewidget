@@ -5,13 +5,9 @@ from ftw.referencewidget.testing import FTW_REFERENCE_FUNCTIONAL_TESTING
 from ftw.referencewidget.tests.views.form import TestView
 from ftw.referencewidget.utils import get_types_not_searched
 from ftw.referencewidget.utils import set_types_not_searched
-from ftw.testbrowser import browsing
-from plone.app.testing import setRoles
-from plone.app.testing import TEST_USER_ID
 from plone.registry.interfaces import IRegistry
 from unittest import TestCase
 from zope.component import getUtility
-import transaction
 
 
 class TestFieldConverter(TestCase):
@@ -66,12 +62,3 @@ class TestFieldConverter(TestCase):
         result = get_selectable_types(self.widget)
         self.assertNotIn('Document', result)
         self.assertNotIn('Link', result)
-
-    @browsing
-    def test_handlebar_templates_available(self, browser):
-        setRoles(self.portal, TEST_USER_ID, ['Manager'])
-        transaction.commit()
-        browser.login().open(view='test-refwidget')
-        self.assertTrue(browser.css('#refbrowser-template').first)
-        self.assertTrue(browser.css('#node-template').first)
-        self.assertTrue(browser.css('#listing-template').first)

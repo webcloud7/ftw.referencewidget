@@ -17,7 +17,7 @@ function axiosInstance() {
   return instance;
 }
 
-document.querySelectorAll(".reference-widget").forEach((element) => {
+document.querySelectorAll(".reference-widget-app").forEach((element) => {
   const app = createApp(App);
   app.use(VueAxios, {
     axios: axiosInstance(),
