@@ -17,10 +17,20 @@ function axiosInstance() {
   return instance;
 }
 
-document.querySelectorAll(".reference-widget-app").forEach((element) => {
-  const app = createApp(App);
-  app.use(VueAxios, {
-    axios: axiosInstance(),
+function initReferenceWidget() {
+  document.querySelectorAll(".reference-widget-app").forEach((element) => {
+    if (element.classList.contains("initialized")) {
+      return;
+    }
+
+    const app = createApp(App);
+    app.use(VueAxios, {
+      axios: axiosInstance(),
+    });
+    app.mount(element);
+    element.classList.add("initialized");
   });
-  app.mount(element);
-});
+}
+
+initReferenceWidget();
+window.initReferenceWidget = initReferenceWidget;
