@@ -15,11 +15,15 @@
           />
           <label class="form-check-label">
             <a
-              v-if="item.is_folderish"
+              v-if="
+                item.is_folderish &&
+                traversableTypes.indexOf(item.portal_type) != -1
+              "
               @click.prevent.stop="fetchData(item['@id'])"
               :href="item['@id']"
               class="list-group-item-action"
-              >{{ item.title }}</a>
+              >{{ item.title }}</a
+            >
             <span v-else> {{ item.title }}</span>
           </label>
         </div>
@@ -57,6 +61,13 @@ export default {
       },
     },
     selectableTypes: {
+      type: Array,
+      required: true,
+      default: () => {
+        return [];
+      },
+    },
+    traversableTypes: {
       type: Array,
       required: true,
       default: () => {

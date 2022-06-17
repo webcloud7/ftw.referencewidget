@@ -117,35 +117,6 @@ def is_traversable(widget, item):
         (item.portal_type in traversel_type)
 
 
-def get_sort_options(request):
-    sort_indexes = ['', 'sortable_title', 'created', 'modified']
-    options = []
-
-    for index in sort_indexes:
-        index_title = index != '' and index or 'no sort'
-        options.append(
-            {'title': translate(_(index_title), context=request),
-             'value': index,
-             'selected': index == request.get('sort_on', '')}
-        )
-
-    return options
-
-
-def get_sort_order_options(request):
-    sort_directions = ['ascending', 'descending']
-    options = []
-
-    for direction in sort_directions:
-        options.append(
-            {'title': translate(_(direction), context=request),
-             'value': direction,
-             'selected': direction == request.get('sort_order', '')}
-        )
-
-    return options
-
-
 def get_root_path_from_source(widget):
     field = widget.field
     if isinstance(field, RelationList) or isinstance(field, List):
