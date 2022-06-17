@@ -5,7 +5,9 @@ Changelog
 4.0.0a3 (unreleased)
 --------------------
 
-- Nothing changed yet.
+- Update readme. [mathias.leimgruber]
+
+- Fix modal id. [mathias.leimgruber]
 
 
 4.0.0a2 (2022-06-17)

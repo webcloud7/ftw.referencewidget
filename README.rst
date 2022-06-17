@@ -57,6 +57,36 @@ from the zope2instance recipe. For example control scripts are not yet supported
 But it's faster and more convenient to setup a docker test image
 
 
+Javascript development
+----------------------
+
+From version 4 the widget is based upon boorstrap 5.2 and Vuejs 3. It's not yet a pattern, but it might be possible to wrap it in a pattern.
+
+
+.. code:: sh
+
+    $ npm install
+
+
+Develop JS
+
+.. code:: sh
+
+    $ npm run dev
+
+
+Build for production:
+
+.. code:: sh
+
+    $ npm run build
+
+
+Javascript public API:
+----------------------
+
+You can run "window.initReferenceWidget" in your code. It will scan for all referencebrowser widgets an if not yet initialized it will initialized the JS widget.
+
 
 Upgrading from 1.x to 2.x
 -------------------------
