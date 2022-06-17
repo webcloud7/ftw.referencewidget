@@ -1,10 +1,8 @@
 from Acquisition import aq_parent
 from ftw.referencewidget import _
-from ftw.referencewidget.browser.refbrowser_batching import RefBrowserBatchView
 from ftw.referencewidget.interfaces import IReferenceSettings
 from ftw.referencewidget.utils import get_types_not_searched
 from plone.api import portal
-from plone.batching import Batch
 from plone.registry.interfaces import IRegistry
 from Products.CMFCore.utils import getToolByName
 from z3c.relationfield.schema import RelationChoice
@@ -102,15 +100,6 @@ def get_path_from_widget_start(widget):
     return effective_path
 
 
-def extend_with_batching(widget, results):
-    page = 1
-    if widget.request.get('page'):
-        page = int(widget.request.get('page'))
-    batch = Batch.fromPagenumber(results, pagenumber=page)
-    batch_view = RefBrowserBatchView(widget, widget.request)
-    return (batch, batch_view(batch, minimal_navigation=True))
-
-
 def is_traversable(widget, item):
 
     def _is_folderish(item):
@@ -126,35 +115,6 @@ def is_traversable(widget, item):
     traversel_type = get_traversal_types(widget)
     return _is_folderish(item) and  \
         (item.portal_type in traversel_type)
-
-
-def get_sort_options(request):
-    sort_indexes = ['', 'sortable_title', 'created', 'modified']
-    options = []
-
-    for index in sort_indexes:
-        index_title = index != '' and index or 'no sort'
-        options.append(
-            {'title': translate(_(index_title), context=request),
-             'value': index,
-             'selected': index == request.get('sort_on', '')}
-        )
-
-    return options
-
-
-def get_sort_order_options(request):
-    sort_directions = ['ascending', 'descending']
-    options = []
-
-    for direction in sort_directions:
-        options.append(
-            {'title': translate(_(direction), context=request),
-             'value': direction,
-             'selected': direction == request.get('sort_order', '')}
-        )
-
-    return options
 
 
 def get_root_path_from_source(widget):

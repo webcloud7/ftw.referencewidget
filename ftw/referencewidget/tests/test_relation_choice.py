@@ -2,8 +2,6 @@ from ftw.builder import Builder
 from ftw.builder import create
 from ftw.referencewidget.tests import FunctionalTestCase
 from ftw.testbrowser import browsing
-from ftw.testbrowser.pages import statusmessages
-import json
 import transaction
 
 
@@ -20,10 +18,10 @@ class TestRelationChoice(FunctionalTestCase):
         # It's important to use an umlaut in the title of the folder
         # in order to test that there is no UnicodeDecodeError when
         # rendering the widget. Please do not remove the umlaut.
-        folder = create(Builder('folder').titled(u'Some f\xf6lder'))
+        folder = create(Builder('folder').titled('Some f\xf6lder'))
 
         content = create(Builder('refwidget sample content')
-                         .titled(u'sample content'))
+                         .titled('sample content'))
 
         browser.login().visit(content, view='@@edit')
         browser.fill({'Related Choice': folder})
@@ -38,10 +36,10 @@ class TestRelationChoice(FunctionalTestCase):
 
     @browsing
     def test_relation_choice_with_removed_relation(self, browser):
-        folder1 = create(Builder('folder').titled(u'Some folder'))
+        folder1 = create(Builder('folder').titled('Some folder'))
 
         content = create(Builder('refwidget sample content')
-                         .titled(u'refwidget sample content')
+                         .titled('refwidget sample content')
                          .having(realtionchoice=folder1))
 
         self.portal.manage_delObjects([folder1.getId()])
@@ -55,17 +53,17 @@ class TestRelationChoice(FunctionalTestCase):
 
     @browsing
     def test_single_value_display_mode(self, browser):
-        folder = create(Builder('folder').titled(u'Some folder'))
+        folder = create(Builder('folder').titled('Some folder'))
 
         content = create(Builder('refwidget sample content')
-                         .titled(u'sample content')
+                         .titled('sample content')
                          .having(realtionchoice=folder))
 
         browser.login().visit(content)
 
         link = browser.css('.reference-widget.relationchoice-field a').first
         self.assertEquals(folder.Title(), link.text)
-        self.assertEquals(folder.absolute_url(), link.attrib['href'])
+        self.assertEquals(folder.absolute_url(), link.attrib['href'].replace(':80', ''))
 
 
 class TestRelationChoiceRestricted(FunctionalTestCase):
@@ -78,24 +76,24 @@ class TestRelationChoiceRestricted(FunctionalTestCase):
 
     @browsing
     def test_relation_choice_folder_is_not_allowed(self, browser):
-        folder = create(Builder('folder').titled(u'Some folder'))
+        folder = create(Builder('folder').titled('Some folder'))
 
-        content = create(Builder('refwidget sample content').titled(u'refwidget sample content'))
+        content = create(Builder('refwidget sample content').titled('refwidget sample content'))
 
         browser.login().visit(content, view='@@edit')
         browser.fill({'Related Choice Restricted': folder})
         browser.find_button_by_label('Save').click()
 
         self.assertEquals('Constraint not satisfied',
-                          browser.css('.fieldErrorBox .error').first.text)
-        self.assertEquals(['There were some errors.'],
-                          statusmessages.error_messages())
+                          browser.css('.error .invalid-feedback').first.text)
+        self.assertIn('There were some errors',
+                      browser.css('.statusmessage-error').first.text)
 
     @browsing
     def test_other_types_are_allowed(self, browser):
-        content1 = create(Builder('refwidget sample content').titled(u'Some content'))
+        content1 = create(Builder('refwidget sample content').titled('Some content'))
 
-        content2 = create(Builder('refwidget sample content').titled(u'refwidget sample content'))
+        content2 = create(Builder('refwidget sample content').titled('refwidget sample content'))
 
         browser.login().visit(content1, view='@@edit')
         browser.fill({'Related Choice Restricted': content2})
@@ -107,18 +105,18 @@ class TestRelationChoiceRestricted(FunctionalTestCase):
     @browsing
     def test_custom_selectable_class_for_source_binder(self, browser):
 
-        folder = create(Builder('folder').titled(u'Some folder'))
+        folder = create(Builder('folder').titled('Some folder'))
 
-        content = create(Builder('refwidget sample content').titled(u'refwidget sample content'))
+        content = create(Builder('refwidget sample content').titled('refwidget sample content'))
 
         browser.login().visit(content, view='@@edit')
         browser.fill({'Related Choice Restricted Title': folder})
         browser.find_button_by_label('Save').click()
 
-        self.assertEquals(['There were some errors.'],
-                          statusmessages.error_messages())
+        self.assertIn('There were some errors',
+                      browser.css('.statusmessage-error').first.text)
 
-        folder.title = u'Immutable title'
+        folder.title = 'Immutable title'
         transaction.commit()
 
         browser.login().visit(content, view='@@edit')

@@ -13,32 +13,4 @@
         permission="zope2.View"
         />
 
-    <browser:page
-        for="*"
-        name="get_reference_data"
-        class=".jsongenerator.ReferenceJsonEndpoint"
-        permission="zope2.View"
-        />
-
-    <browser:page
-        for="*"
-        name="search_for_refs"
-        class=".search.SearchView"
-        permission="zope2.View"
-        />
-
-    <browser:page
-        for="*"
-        name="generate_pathbar"
-        class=".generate_pathbar.GeneratePathbar"
-        permission="zope2.View"
-        />
-
-  <browser:page
-      name="refbrowsernavigation"
-      for="*"
-      class=".refbrowser_batching.RefBrowserBatchView"
-      permission="zope.Public"
-      />
-
 </configure>

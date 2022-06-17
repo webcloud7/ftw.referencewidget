@@ -1,4 +1,4 @@
-from collective.z3cform.datagridfield.interfaces import IDataGridField
+from collective.z3cform.datagridfield.interfaces import IDataGridFieldWidget
 from ftw.referencewidget.interfaces import IReferenceWidget
 from plone import api
 from z3c.form import converter
@@ -22,11 +22,10 @@ class ReferenceDataListConverter(converter.BaseDataConverter):
     def toFieldValue(self, value):
         if not value:
             return self.field.missing_value
-        elif isinstance(value, unicode):
-            return [self.widget.context.unrestrictedTraverse(
-                value.encode("utf8"))]
+        elif isinstance(value, bytes):
+            return [self.widget.context.unrestrictedTraverse(value)]
 
-        elif isinstance(value, basestring):
+        elif isinstance(value, str):
             return [self.widget.context.unrestrictedTraverse(value)]
 
         else:
@@ -34,8 +33,7 @@ class ReferenceDataListConverter(converter.BaseDataConverter):
             for item in value:
                 if not item:
                     continue
-                result.append(self.widget.context.unrestrictedTraverse(
-                    item.encode("utf-8")))
+                result.append(self.widget.context.unrestrictedTraverse(item))
             return result
 
     def toWidgetValue(self, value):
@@ -52,20 +50,24 @@ class ReferenceDataChoiceConverter(converter.BaseDataConverter):
     def toFieldValue(self, value):
         if not value:
             return self.field.missing_value
-        elif isinstance(value, unicode):
+        elif isinstance(value, bytes):
             return self.widget.context.unrestrictedTraverse(
-                value.encode("utf8"))
+                value.decode("utf8"))
 
-        elif isinstance(value, basestring):
+        elif isinstance(value, str):
             return self.widget.context.unrestrictedTraverse(value)
 
         else:
-            return self.widget.context.unrestrictedTraverse(
-                value[0].encode("utf-8"))
+            return self.widget.context.unrestrictedTraverse(value[0])
 
     def toWidgetValue(self, value):
         if value:
             return '/'.join(value.getPhysicalPath())
+
+
+class ReferenceDataRelationChoiceConverter(ReferenceDataChoiceConverter):
+
+    adapts(IRelationChoice, IReferenceWidget)
 
 
 class ReferenceDataTextConverter(converter.BaseDataConverter):
@@ -104,7 +106,7 @@ class ReferenceDataListWithChoiceConverter(converter.BaseDataConverter):
 
         if not value:
             return []
-        elif isinstance(value, (unicode, str)):
+        elif isinstance(value, str):
             return [os.path.relpath(value, portal_path)]
         else:
             portal_path = '/'.join(api.portal.get().getPhysicalPath())
@@ -130,7 +132,7 @@ class GridDataConverter(converter.BaseDataConverter):
 
     Inspired by https://github.com/collective/collective.z3cform.datagridfield/issues/50.
     """
-    adapts(IList, IDataGridField)
+    adapts(IList, IDataGridFieldWidget)
 
     def toWidgetValue(self, value):
         if not value:

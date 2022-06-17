@@ -68,12 +68,12 @@ class TestReferenceObjSource(FunctionalTestCase):
 
     def test_custom_selectable_class(self):
         folder = create(Builder('folder'))
-        folder_titled = create(Builder('folder').titled(u'dummy title'))
+        folder_titled = create(Builder('folder').titled('dummy title'))
         source_content = create(Builder('refwidget sample content'))
 
         class CustomSelectable(DefaultSelectable):
             def is_selectable(self):
-                return u'dummy title' == self.content.title
+                return 'dummy title' == self.content.title
 
         source = ReferenceObjSourceBinder(
             selectable_class=CustomSelectable)(source_content)

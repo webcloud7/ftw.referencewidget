@@ -1,12 +1,14 @@
+# from collective.z3cform.datagridfield.datagridfield import DataGridFieldObjectSubForm
 from Acquisition import aq_parent
-from Products.CMFPlone.utils import safe_unicode
-from collective.z3cform.datagridfield.datagridfield import DataGridFieldObjectSubForm
 from ftw.referencewidget import _
 from ftw.referencewidget.browser.utils import get_path_from_widget_start
+from ftw.referencewidget.browser.utils import get_selectable_types
+from ftw.referencewidget.browser.utils import get_traversal_types
 from ftw.referencewidget.browser.utils import is_traversable
 from ftw.referencewidget.interfaces import IReferenceWidget
 from plone import api
 from plone.app.redirector.interfaces import IRedirectionStorage
+from Products.CMFPlone.utils import safe_unicode
 from z3c.form.browser import widget
 from z3c.form.interfaces import IFieldWidget
 from z3c.form.interfaces import IFormLayer
@@ -16,15 +18,15 @@ from zope.component import adapter
 from zope.component import queryUtility
 from zope.i18n import translate
 from zope.interface import implementer
-from zope.interface import implementsOnly
+from zope.interface import implementer_only
 from zope.schema.interfaces import IList
 import json
 import os
 
 
+@implementer_only(IReferenceWidget)
 class ReferenceBrowserWidget(widget.HTMLTextInputWidget, Widget):
     """ Datepicker widget. """
-    implementsOnly(IReferenceWidget)
 
     klass = u'reference-widget'
     request = None
@@ -66,13 +68,12 @@ class ReferenceBrowserWidget(widget.HTMLTextInputWidget, Widget):
 
     def update(self):
         super(ReferenceBrowserWidget, self).update()
-
-        if isinstance(self.form, DataGridFieldObjectSubForm):
-            self.context = self.form.__parent__.__parent__.context
+        # if isinstance(self.form, DataGridFieldObjectSubForm):
+        #     self.context = self.form.__parent__.__parent__.context
 
         widget.addFieldClass(self)
 
-    def is_list(self):
+    def input_type(self):
         if IList.providedBy(self.field):
             return 'checkbox'
         else:
@@ -81,29 +82,23 @@ class ReferenceBrowserWidget(widget.HTMLTextInputWidget, Widget):
     def translations(self):
         msg_search = _(u"button_seach", default="Search")
         msg_search_current_path = _(u"checkbox_search_current_path",
-                                 default="Search only in current path")
+                                    default="Search only in current path")
         msg_close = _(u"button_close", default="Close")
         msg_sort_by = _(u"label_sort_by", default="Sort by")
         return json.dumps({'search': translate(msg_search,
                                                context=self.request),
                            'search_current_path': translate(msg_search_current_path,
-                                               context=self.request),
+                                                            context=self.request),
                            'close': translate(msg_close,
                                               context=self.request),
                            'label_sort_by': translate(msg_sort_by,
                                                       context=self.request)})
 
-    def form_url(self):
-        return self.form.request.getURL()
-
-    def current_path(self):
-        return '/'.join(self.context.getPhysicalPath())
-
     def get_object_by_path(self, path):
         storage = queryUtility(IRedirectionStorage)
 
-        if isinstance(path, unicode):
-            path = path.encode('utf8')
+        if isinstance(path, bytes):
+            path = path.decode('utf8')
 
         obj = self.context.unrestrictedTraverse(path, None)
         if obj is None:
@@ -147,6 +142,19 @@ class ReferenceBrowserWidget(widget.HTMLTextInputWidget, Widget):
                 obj = aq_parent(obj)
             effective_path = '/'.join(obj.getPhysicalPath())
         return effective_path
+
+    def get_start_url(self):
+        path = self.get_start_path()
+        return api.portal.get().unrestrictedTraverse(path).absolute_url()
+
+    def portal_path(self):
+        return '/'.join(api.portal.get().getPhysicalPath())
+
+    def selectable_types(self):
+        return json.dumps(get_selectable_types(self))
+
+    def traversable_types(self):
+        return json.dumps(get_traversal_types(self))
 
 
 @adapter(IReferenceWidget, IFormLayer)
