@@ -1,10 +1,8 @@
 from Acquisition import aq_parent
 from ftw.referencewidget import _
-from ftw.referencewidget.browser.refbrowser_batching import RefBrowserBatchView
 from ftw.referencewidget.interfaces import IReferenceSettings
 from ftw.referencewidget.utils import get_types_not_searched
 from plone.api import portal
-from plone.batching import Batch
 from plone.registry.interfaces import IRegistry
 from Products.CMFCore.utils import getToolByName
 from z3c.relationfield.schema import RelationChoice
@@ -100,15 +98,6 @@ def get_path_from_widget_start(widget):
     else:
         effective_path = widget.start(widget)
     return effective_path
-
-
-def extend_with_batching(widget, results):
-    page = 1
-    if widget.request.get('page'):
-        page = int(widget.request.get('page'))
-    batch = Batch.fromPagenumber(results, pagenumber=page)
-    batch_view = RefBrowserBatchView(widget, widget.request)
-    return (batch, batch_view(batch, minimal_navigation=True))
 
 
 def is_traversable(widget, item):

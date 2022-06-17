@@ -3,7 +3,7 @@
     <records interface="ftw.referencewidget.interfaces.IReferenceSettings"
              remove="True" />
 
-    <records prefix="plone.bundles/ftw-referencewidget-resources"
-             interface="Products.CMFPlone.interfaces.IBundleRegistry"
+    <records prefix="plone.bundles/referencewidget"
+             interface='Products.CMFPlone.interfaces.IBundleRegistry'
              remove="True" />
 </registry>

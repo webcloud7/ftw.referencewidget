@@ -14,13 +14,14 @@ build/
 buildout.cfg
 coverage/
 develop-eggs/
-dist/
+/dist/
 eggs/
 parts/
-src/
+/src/
 var/
 etc/
 var/
 instance/
 sources/
 pip-selfcheck.json
+node_modules/
