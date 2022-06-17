@@ -20,6 +20,7 @@ setup(name='ftw.referencewidget',
       open(os.path.join("docs", "HISTORY.txt")).read(),
 
       classifiers=[
+          'Development Status :: 6 - Alpha',
           'Framework :: Plone',
           'Framework :: Plone :: 6.0',
           'Intended Audience :: Developers',
