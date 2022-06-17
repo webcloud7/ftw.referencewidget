@@ -2,8 +2,8 @@ Changelog
 =========
 
 
-4.0.0 (unreleased)
-------------------
+4.0.0a1 (2022-06-17)
+--------------------
 
 - Plone5.2/6 and Python3 compatibility. [gbastien]
 
