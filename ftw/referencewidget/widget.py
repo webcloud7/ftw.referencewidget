@@ -3,6 +3,7 @@ from Acquisition import aq_parent
 from ftw.referencewidget import _
 from ftw.referencewidget.browser.utils import get_path_from_widget_start
 from ftw.referencewidget.browser.utils import get_selectable_types
+from ftw.referencewidget.browser.utils import get_traversal_types
 from ftw.referencewidget.browser.utils import is_traversable
 from ftw.referencewidget.interfaces import IReferenceWidget
 from plone import api
@@ -151,6 +152,9 @@ class ReferenceBrowserWidget(widget.HTMLTextInputWidget, Widget):
 
     def selectable_types(self):
         return json.dumps(get_selectable_types(self))
+
+    def traversable_types(self):
+        return json.dumps(get_traversal_types(self))
 
 
 @adapter(IReferenceWidget, IFormLayer)

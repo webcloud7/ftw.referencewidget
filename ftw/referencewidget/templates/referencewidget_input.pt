@@ -20,6 +20,7 @@
                              data-fieldname view/name;
                              data-inputtype view/input_type;
                              data-selectabletypes view/selectable_types;
+                             data-traversabletypes view/traversable_types;
                              data-translations view/translations"/>
 
     </div>

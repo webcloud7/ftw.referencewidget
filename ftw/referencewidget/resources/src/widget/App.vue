@@ -53,6 +53,7 @@
               :selectedItems="selected"
               :inputType="inputType"
               :selectableTypes="selectableTypes"
+              :traversableTypes="traversableTypes"
               @checked="updateSelected"
             />
           </div>
@@ -98,6 +99,7 @@ export default {
       breadcrumbs: [],
       selected: [],
       selectableTypes: [],
+      traversableTypes: [],
       formData: {
         searchTerm: "",
         sortOn: "getObjPositionInParent",
@@ -117,6 +119,9 @@ export default {
     this.inputType = wrapperElement.getAttribute("data-inputtype");
     this.selectableTypes = JSON.parse(
       wrapperElement.getAttribute("data-selectabletypes")
+    );
+    this.traversableTypes = JSON.parse(
+      wrapperElement.getAttribute("data-traversabletypes")
     );
     this.translations = JSON.parse(
       wrapperElement.getAttribute("data-translations")
