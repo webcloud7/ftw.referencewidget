@@ -7,6 +7,8 @@ Changelog
 
 - Plone5.2/6 and Python3 compatibility. [gbastien]
 
+- Complete rewrite of widget (JS) for Plone 6 based on bootstrap 5.2 + vuejs + webpack module federation. [mathias.leimgruber]
+
 
 3.0.6 (2022-06-02)
 ------------------
