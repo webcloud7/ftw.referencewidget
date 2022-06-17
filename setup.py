@@ -21,9 +21,10 @@ setup(name='ftw.referencewidget',
 
       classifiers=[
           'Framework :: Plone',
-          'Framework :: Plone :: 6',
+          'Framework :: Plone :: 6.0',
           'Intended Audience :: Developers',
           'Programming Language :: Python',
+          'Programming Language :: Python :: 3.9',
       ],
 
       keywords='ftw 4teamwork widget reference browser',
