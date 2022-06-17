@@ -5,7 +5,7 @@ Changelog
 4.0.0a2 (unreleased)
 --------------------
 
-- Nothing changed yet.
+- Fix classifierts and make installable release. [mathias.leimgruber]
 
 
 4.0.0a1 (2022-06-17)
