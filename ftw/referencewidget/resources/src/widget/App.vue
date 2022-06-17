@@ -202,7 +202,7 @@ export default {
   },
   computed: {
     modalName() {
-      return `reference-widget-modal-${this.fieldName.replace(/./g, "_")}`;
+      return `reference-widget-modal-${this.fieldName.replace(/\./g, "_")}`;
     },
   },
 };
