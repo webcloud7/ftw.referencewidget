@@ -98,9 +98,10 @@
         />
 
     <plone:behavior
+        zcml:condition="installed collective.z3cform.datagridfield"
         title="Data grid field demo behavior"
         description="Adds the ability to a data grid rows"
-        provides=".behaviors.IDataGridFieldExample"
+        provides=".datagridfield.IDataGridFieldExample"
         />
 
 </configure>

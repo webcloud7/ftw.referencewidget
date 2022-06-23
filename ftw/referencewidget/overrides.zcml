@@ -1,6 +1,10 @@
-<configure xmlns="http://namespaces.zope.org/zope"
-           i18n_domain="bern.web">
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:zcml="http://namespaces.zope.org/zcml"
+    i18n_domain="ftw.referencewidget">
 
-    <adapter factory="ftw.referencewidget.converter.GridDataConverter"/>
+    <adapter
+        zcml:condition="installed collective.z3cform.datagridfield"
+        factory="ftw.referencewidget.datagridfield.GridDataConverter"/>
 
 </configure>
