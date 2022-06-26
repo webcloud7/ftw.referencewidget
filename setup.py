@@ -42,7 +42,6 @@ setup(name='ftw.referencewidget',
 
       install_requires=[
           'Plone',
-          'collective.z3cform.datagridfield',
           'setuptools',
           'plone.app.registry',
           'z3c.relationfield',
