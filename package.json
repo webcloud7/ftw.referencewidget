@@ -1,6 +1,6 @@
 {
     "private": true,
-    "name": "simplelayout",
+    "name": "referencewidget",
     "description": null,
     "scripts": {
         "dev": "webpack --watch --progress",
