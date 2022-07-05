@@ -81,7 +81,6 @@ import Pagination from "@/components/Pagination.vue";
 import SearchForm from "@/components/searchForm.vue";
 import Breadcrumbs from "@/components/Breadcrumbs.vue";
 import ListItems from "@/components/ListItems.vue";
-import jQuery from "jquery";
 
 export default {
   components: {
@@ -93,6 +92,7 @@ export default {
   data() {
     return {
       open: false,
+      bootstrap: null,
       portalURL: "",
       baseURL: "",
       startURL: "",
@@ -141,6 +141,8 @@ export default {
     this.$refs.browser.addEventListener("hidden.bs.collapse", () => {
       this.open = false;
     });
+
+    this.loadBootstrapCollapse();
   },
   methods: {
     async fetchData(url, options) {
@@ -195,7 +197,7 @@ export default {
     updateSelected(checked) {
       this.selected = checked;
       if (this.inputType == "radio") {
-        jQuery.fn.collapse.Constructor.getInstance(this.$refs.browser).hide();
+        this.bootstrap.Collapse.getInstance(this.$refs.browser).hide();
       }
     },
     loadSelectedItems(wrapperElement) {
@@ -207,6 +209,9 @@ export default {
           );
         });
       wrapperElement.parentElement.querySelector(".selected_items").remove();
+    },
+    async loadBootstrapCollapse() {
+      this.bootstrap = await import("bootstrap");
     },
   },
   computed: {
