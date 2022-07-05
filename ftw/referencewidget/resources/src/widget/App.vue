@@ -92,7 +92,7 @@ export default {
   data() {
     return {
       open: false,
-      bootstrap: null,
+      // bootstrap: null,
       portalURL: "",
       baseURL: "",
       startURL: "",
@@ -142,7 +142,7 @@ export default {
       this.open = false;
     });
 
-    this.loadBootstrapCollapse();
+    // this.loadBootstrap();
   },
   methods: {
     async fetchData(url, options) {
@@ -197,7 +197,7 @@ export default {
     updateSelected(checked) {
       this.selected = checked;
       if (this.inputType == "radio") {
-        this.bootstrap.Collapse.getInstance(this.$refs.browser).hide();
+        window.jQuery.fn.collapse.Constructor.getInstance(this.$refs.browser).hide();
       }
     },
     loadSelectedItems(wrapperElement) {
@@ -210,9 +210,9 @@ export default {
         });
       wrapperElement.parentElement.querySelector(".selected_items").remove();
     },
-    async loadBootstrapCollapse() {
-      this.bootstrap = await import("bootstrap");
-    },
+    // async loadBootstrap() {
+    //   this.bootstrap = await import("bootstrap");
+    // },
   },
   computed: {
     browserName() {
