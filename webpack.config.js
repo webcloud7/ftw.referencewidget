@@ -80,6 +80,12 @@ module.exports = (env) => {
       filename: "referencewidget-remote.min.js",
       package_json: package_json,
       remote_entry: config.entry["referencewidget.min"],
+      shared: {
+        referencewidget: {
+          singleton: true,
+          requiredVersion: package_json.dependencies["referencewidget"],
+        },
+      },
     })
   );
 
