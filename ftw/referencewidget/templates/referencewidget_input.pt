@@ -10,9 +10,6 @@
                                                      data-title item/title" />
             </tal:items>
         </div>
-        <!-- non js hidden field for testing -->
-        <input type="hidden" tal:attributes="name view/name" />
-
         <div class="reference-widget-app"
              tal:attributes="name view/name;
                              data-starturl view/get_start_url;
@@ -23,5 +20,8 @@
                              data-traversabletypes view/traversable_types;
                              data-translations view/translations"/>
 
+
+        <!-- non js hidden field for testing -->
+        <input type="hidden" tal:attributes="name view/name" />
     </div>
 </tal:html>
