@@ -1,33 +1,12 @@
 <template>
   <div ref="root">
-    <div class="widget-selected-items">
-      <ul class="list-group">
-        <li class="list-group-item" v-for="item in selected" :key="item">
-          <input
-            type="checkbox"
-            checked
-            :name="fieldName"
-            :value="item.replace(portalURL, portalPath)"
-          />
-          {{ item }}
-        </li>
-      </ul>
-    </div>
-    <button
-      type="button"
-      class="btn btn-primary"
-      data-bs-toggle="modal"
-      :data-bs-target="`#${modalName}`"
-    >
-      Browse
-    </button>
     <div
-      :id="modalName"
-      class="modal fade"
+      :id="browserName"
+      class="collapse"
       tabindex="-1"
       aria-labelledby="ref-modal-title"
       aria-hidden="true"
-      ref="modal"
+      ref="browser"
     >
       <div class="modal-dialog modal-dialog-scrollable modal-xl">
         <div class="modal-content">
@@ -62,7 +41,8 @@
             <button
               type="button"
               class="btn btn-secondary"
-              data-bs-dismiss="modal"
+              data-bs-toggle="collapse"
+              :data-bs-target="`#${browserName}`"
             >
               Close
             </button>
@@ -70,6 +50,30 @@
         </div>
       </div>
     </div>
+
+    <div class="widget-selected-items">
+      <ul class="list-group">
+        <li class="list-group-item" v-for="item in selected" :key="item">
+          <input
+            type="checkbox"
+            checked
+            :name="fieldName"
+            :value="item.replace(portalURL, portalPath)"
+          />
+          {{ item }}
+        </li>
+      </ul>
+    </div>
+    <button
+      type="button"
+      class="btn btn-primary"
+      data-bs-toggle="collapse"
+      aria-expanded="false"
+      :aria-controls="browserName"
+      :data-bs-target="`#${browserName}`"
+    >
+      {{ buttonLable }}
+    </button>
   </div>
 </template>
 <script>
@@ -88,6 +92,7 @@ export default {
   },
   data() {
     return {
+      open: false,
       portalURL: "",
       baseURL: "",
       startURL: "",
@@ -129,8 +134,12 @@ export default {
 
     this.loadSelectedItems(wrapperElement);
 
-    this.$refs.modal.addEventListener("show.bs.modal", () => {
+    this.$refs.browser.addEventListener("show.bs.collapse", () => {
       this.fetchData(this.startURL);
+      this.open = true;
+    });
+    this.$refs.browser.addEventListener("hidden.bs.collapse", () => {
+      this.open = false;
     });
   },
   methods: {
@@ -186,7 +195,7 @@ export default {
     updateSelected(checked) {
       this.selected = checked;
       if (this.inputType == "radio") {
-        jQuery.fn.modal.Constructor.getInstance(this.$refs.modal).hide();
+        jQuery.fn.collapse.Constructor.getInstance(this.$refs.browser).hide();
       }
     },
     loadSelectedItems(wrapperElement) {
@@ -201,8 +210,11 @@ export default {
     },
   },
   computed: {
-    modalName() {
-      return `reference-widget-modal-${this.fieldName.replace(/\./g, "_")}`;
+    browserName() {
+      return `reference-widget-browser-${this.fieldName.replace(/\./g, "_")}`;
+    },
+    buttonLable() {
+      return this.open ? "Close" : "Browse";
     },
   },
 };
