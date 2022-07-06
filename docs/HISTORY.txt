@@ -5,7 +5,9 @@ Changelog
 4.0.0a5 (unreleased)
 --------------------
 
-- Nothing changed yet.
+- Implement ref browser as collapseable element to avoid nested overlays. [mathias.leimgruber]
+
+- webpack module federation config fixes [mathias.leimgruber]
 
 
 4.0.0a4 (2022-06-26)
