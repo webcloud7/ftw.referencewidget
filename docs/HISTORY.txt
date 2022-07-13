@@ -5,7 +5,9 @@ Changelog
 4.0.0a6 (unreleased)
 --------------------
 
-- Nothing changed yet.
+- Use vite based setup. [mathias.leimgruber]
+
+- Make Plone 6.0.0a6 compatible. [mathias.leimgruber]
 
 
 4.0.0a5 (2022-07-06)

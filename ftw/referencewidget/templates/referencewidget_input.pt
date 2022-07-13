@@ -20,8 +20,23 @@
                              data-traversabletypes view/traversable_types;
                              data-translations view/translations"/>
 
+        <script>
+                var body = document.getElementsByTagName('body')[0];
+                var head = document.getElementsByTagName('head')[0];
+                var loadScript = function(url) {    
+                    var script = document.createElement('script');
+                    script.type = 'module';
+                    script.id = 'referencewidget-js';
+                    script.src = body.getAttribute('data-portal-url') + url;
+                    head.appendChild(script);
+                };
+                if (!document.getElementById('referencewidget-js')) {
+                    loadScript('/++resource++ftw.referencewidget/dist/referencewidget.es.js');
+                }
+        </script>
 
         <!-- non js hidden field for testing -->
         <input type="hidden" tal:attributes="name view/name" />
     </div>
+
 </tal:html>
