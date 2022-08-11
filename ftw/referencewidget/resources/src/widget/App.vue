@@ -17,6 +17,8 @@
               :breadcrumbs="breadcrumbs"
               :fetchData="fetchData"
               :portalURL="portalURL"
+              :workflowTitleMapping="workflowTitleMapping"
+              :additionalContextData="additionalContextData"
             />
             <Pagination
               v-if="data.batching"
@@ -34,6 +36,7 @@
               :selectableTypes="selectableTypes"
               :traversableTypes="traversableTypes"
               :iconMapping="iconMapping"
+              :workflowTitleMapping="workflowTitleMapping"
               @checked="updateSelected"
             />
           </div>
@@ -106,6 +109,8 @@ export default {
       selectableTypes: [],
       traversableTypes: [],
       iconMapping: {},
+      workflowTitleMapping: {},
+      additionalContextData: {},
       formData: {
         searchTerm: "",
         sortOn: "getObjPositionInParent",
@@ -140,12 +145,12 @@ export default {
 
     this.$refs.browser.addEventListener("show.bs.collapse", () => {
       this.fetchData(this.startURL);
+      this.fetchWorkflowTitles();
       this.open = true;
     });
     this.$refs.browser.addEventListener("hidden.bs.collapse", () => {
       this.open = false;
     });
-
   },
   methods: {
     async fetchData(url, options) {
@@ -181,6 +186,19 @@ export default {
       if (response.data["@components"]) {
         this.breadcrumbs = response.data["@components"].breadcrumbs.items;
       }
+      this.additionalContextData["review_state"] = response.data.review_state;
+      this.additionalContextData["review_state_title"] =
+        this.workflowTitleMapping[response.data.review_state];
+    },
+    async fetchWorkflowTitles() {
+      const response = await this.axios.get(
+        this.portalURL + "/@vocabularies/plone.app.vocabularies.WorkflowStates"
+      );
+      response.data.items.forEach((item) => {
+        this.workflowTitleMapping[item.token] = item.title
+          .replace(/(\[.+?\])/g, "")
+          .trim();
+      });
     },
     search(formData) {
       this.formData = Object.assign({}, this.formData, formData);

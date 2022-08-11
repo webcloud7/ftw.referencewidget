@@ -24,9 +24,16 @@
               @click.prevent.stop="fetchData(item['@id'])"
               :href="item['@id']"
               class="list-group-item-action"
-              >{{ item.title }}</a
+              >{{ item.title }}
+              <span :class="`state-${item['review_state']}`">{{
+                workflowTitleMapping[item["review_state"]]
+              }}</span></a
             >
-            <span v-else> {{ item.title }}</span>
+            <span v-else> {{ item.title }}
+              <span :class="`state-${item['review_state']}`">{{
+                workflowTitleMapping[item["review_state"]]
+              }}</span>
+            </span>
           </label>
         </div>
       </li>
@@ -81,6 +88,13 @@ export default {
       },
     },
     iconMapping: {
+      type: Object,
+      required: true,
+      default: () => {
+        return {};
+      },
+    },
+    workflowTitleMapping: {
       type: Object,
       required: true,
       default: () => {
