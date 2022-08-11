@@ -21,7 +21,6 @@ from zope.interface import implementer
 from zope.interface import implementer_only
 from zope.schema.interfaces import IList
 import json
-import os
 
 
 @implementer_only(IReferenceWidget)
@@ -38,13 +37,6 @@ class ReferenceBrowserWidget(widget.HTMLTextInputWidget, Widget):
     override = None
 
     traversal_query = None
-
-    # Handlebar templates should not be rendered with a page templating engine,
-    # because 1) <script> tags are not rendered by the zope.pagetemplate
-    # implementation and 2) chameleon has troubles with handlebars.
-    with open(os.path.join(os.path.dirname(__file__),
-                           'templates', 'handlebars.html'), 'r') as fio:
-        handlebars_html = fio.read()
 
     def __init__(self,
                  request,
