@@ -8,49 +8,36 @@
       aria-hidden="true"
       ref="browser"
     >
-      <div class="modal-dialog modal-dialog-scrollable modal-xl">
-        <div class="modal-content">
-          <div class="modal-header">Choose content</div>
-          <div class="modal-body">
-            <searchForm @search="search" @reset="reset" />
-            <Breadcrumbs
-              :breadcrumbs="breadcrumbs"
-              :fetchData="fetchData"
-              :portalURL="portalURL"
-              :workflowTitleMapping="workflowTitleMapping"
-              :additionalContextData="additionalContextData"
-            />
-            <Pagination
-              v-if="data.batching"
-              @next="fetchData"
-              @previous="fetchData"
-              :batching="data.batching"
-            />
-            total {{ data.items_total }}
+      <div class="card">
+        <div class="card-header">{{ $i18n("Choose content") }}</div>
+        <div class="card-body">
+          <searchForm @search="search" @reset="reset" />
+          <Breadcrumbs
+            :breadcrumbs="breadcrumbs"
+            :fetchData="fetchData"
+            :portalURL="portalURL"
+            :workflowTitleMapping="workflowTitleMapping"
+            :additionalContextData="additionalContextData"
+          />
+          <Pagination
+            v-if="data.batching"
+            @next="fetchData"
+            @previous="fetchData"
+            :batching="data.batching"
+          />
+          total {{ data.items_total }}
 
-            <ListItems
-              :fetchData="fetchData"
-              :items="data.items"
-              :selectedItems="selected"
-              :inputType="inputType"
-              :selectableTypes="selectableTypes"
-              :traversableTypes="traversableTypes"
-              :iconMapping="iconMapping"
-              :workflowTitleMapping="workflowTitleMapping"
-              @checked="updateSelected"
-            />
-          </div>
-
-          <div class="modal-footer">
-            <button
-              type="button"
-              class="btn btn-secondary"
-              data-bs-toggle="collapse"
-              :data-bs-target="`#${browserName}`"
-            >
-              Close
-            </button>
-          </div>
+          <ListItems
+            :fetchData="fetchData"
+            :items="data.items"
+            :selectedItems="selected"
+            :inputType="inputType"
+            :selectableTypes="selectableTypes"
+            :traversableTypes="traversableTypes"
+            :iconMapping="iconMapping"
+            :workflowTitleMapping="workflowTitleMapping"
+            @checked="updateSelected"
+          />
         </div>
       </div>
     </div>
@@ -102,7 +89,6 @@ export default {
       portalPath: "",
       fieldName: "",
       inputType: "",
-      translations: {},
       data: {},
       breadcrumbs: [],
       selected: [],
@@ -136,9 +122,6 @@ export default {
     );
     this.traversableTypes = JSON.parse(
       wrapperElement.getAttribute("data-traversabletypes")
-    );
-    this.translations = JSON.parse(
-      wrapperElement.getAttribute("data-translations")
     );
 
     this.loadSelectedItems(wrapperElement);
@@ -239,7 +222,7 @@ export default {
       return `reference-widget-browser-${this.fieldName.replace(/\./g, "_")}`;
     },
     buttonLable() {
-      return this.open ? "Close" : "Browse";
+      return this.open ? this.$i18n("Close") : this.$i18n("Browse");
     },
   },
 };

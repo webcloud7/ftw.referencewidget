@@ -72,20 +72,30 @@ class ReferenceBrowserWidget(widget.HTMLTextInputWidget, Widget):
         else:
             return 'radio'
 
+    def _translate(self, msg):
+        return translate(msg, context=self.request)
+
     def translations(self):
-        msg_search = _(u"button_seach", default="Search")
-        msg_search_current_path = _(u"checkbox_search_current_path",
-                                    default="Search only in current path")
-        msg_close = _(u"button_close", default="Close")
-        msg_sort_by = _(u"label_sort_by", default="Sort by")
-        return json.dumps({'search': translate(msg_search,
-                                               context=self.request),
-                           'search_current_path': translate(msg_search_current_path,
-                                                            context=self.request),
-                           'close': translate(msg_close,
-                                              context=self.request),
-                           'label_sort_by': translate(msg_sort_by,
-                                                      context=self.request)})
+        messages = {
+            'Choose content': self._translate(_(u"label_choose_content", default="Choose content")),
+            'Search': self._translate(_(u"button_seach", default="Search")),
+            'Sort on': self._translate(_(u"label_sort_by", default="Sort by")),
+            'Sort order': self._translate(_(u"label_sort_order", default="Sort order")),
+            'Position': self._translate(_(u"label_sort_by_pos", default="Position")),
+            'Title': self._translate(_(u"label_sort_by_title", default="Title")),
+            'Created': self._translate(_(u"label_sort_by_created", default="Created")),
+            'Modified': self._translate(_(u"label_sort_by_modified", default="Modified")),
+            'Ascending': self._translate(_(u"label_sort_ascending", default="Ascending")),
+            'Descending': self._translate(_(u"label_sort_descending", default="Descending")),
+            'Reset': self._translate(_(u"label_reset", default="Reset")),
+            'Startpage': self._translate(_(u"label_startpage", default="Startpage")),
+            'Previous': self._translate(_(u"label_previous", default="Previous")),
+            'Next': self._translate(_(u"label_next", default="Next")),
+            'Search text': self._translate(_(u"label_searchtext", default="Search text")),
+            'Close': self._translate(_(u"label_close", default="Close")),
+            'Browse': self._translate(_(u"label_browse", default="Browse")),
+        }
+        return json.dumps(messages)
 
     def get_object_by_path(self, path):
         storage = queryUtility(IRedirectionStorage)

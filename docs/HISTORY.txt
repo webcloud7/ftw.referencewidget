@@ -5,8 +5,11 @@ Changelog
 4.0.0a7 (unreleased)
 --------------------
 
-- Nothing changed yet.
+- Improve styling [mathias.leimgruber]
 
+- Add options to translate the js widget and add translations (german) [mathias.leimgruber]
+
+- Show icons and wf state titles [mathias.leimgruber]
 
 4.0.0a6 (2022-07-13)
 --------------------

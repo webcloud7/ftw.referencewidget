@@ -3,7 +3,7 @@
     <ol class="breadcrumb">
       <li class="breadcrumb-item">
         <a :href="portalURL" @click.prevent.stop="fetchData(portalURL)"
-          >Startpage</a
+          >{{ $i18n("Startpage") }}</a
         >
       </li>
       <template v-for="(item, index) in breadcrumbs" :key="item['@id0']">

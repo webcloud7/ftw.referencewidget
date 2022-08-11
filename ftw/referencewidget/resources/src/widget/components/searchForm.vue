@@ -8,7 +8,7 @@
         <select
           class="form-select"
           id="sortattr"
-          aria-label="Sort attribute"
+          :aria-label="$i18n('Sort on')"
           v-model="sortOn"
           @change="() => search()"
         >
@@ -21,7 +21,7 @@
             </option>
           </template>
         </select>
-        <label for="sortattr">Sort on</label>
+        <label for="sortattr">{{ $i18n("Sort on") }}</label>
       </div>
     </div>
     <div class="col">
@@ -29,14 +29,14 @@
         <select
           class="form-select"
           id="sortorder"
-          aria-label="Sort order"
+          :aria-label="$i18n('Sort order')"
           v-model="sortOrder"
           @change="() => search()"
         >
-          <option selected value="ascending">Ascending</option>
-          <option selected value="descending">Descending</option>
+          <option selected value="ascending">{{ $i18n("Ascending") }}</option>
+          <option selected value="descending">{{ $i18n("Descending") }}</option>
         </select>
-        <label for="sortorder">Sort order</label>
+        <label for="sortorder">{{ $i18n("Sort order") }}</label>
       </div>
     </div>
     <div class="col">
@@ -48,13 +48,13 @@
           placeholder="Text"
           v-model="searchTerm"
         />
-        <label for="searchFilter">Search</label>
+        <label for="searchFilter">{{ $i18n("Search text") }}</label>
       </div>
     </div>
     <div class="col">
-      <button type="submit" class="btn btn-primary">Search</button>
+      <button type="submit" class="btn btn-primary">{{ $i18n("Search") }}</button>
       <button @click.stop.prevent="reset" class="btn btn-danger">
-        Reset
+        {{ $i18n("Reset") }}
       </button>
     </div>
   </form>
@@ -67,10 +67,10 @@ export default {
       sortOn: "getObjPositionInParent",
       sortOrder: "ascending",
       sortAttribute: [
-        { title: "Position", value: "getObjPositionInParent" },
-        { title: "Title", value: "sortable_title" },
-        { title: "Created", value: "created" },
-        { title: "Modified", value: "modified" },
+        { title: this.$i18n("Position"), value: "getObjPositionInParent" },
+        { title: this.$i18n("Title"), value: "sortable_title" },
+        { title: this.$i18n("Created"), value: "created" },
+        { title: this.$i18n("Modified"), value: "modified" },
       ],
     };
   },
