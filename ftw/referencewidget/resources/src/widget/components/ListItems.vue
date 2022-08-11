@@ -11,14 +11,15 @@
             :selected="item['@id'] in selectedProxy"
             v-model="selectedProxy"
             @change="checked"
-            :disabled="selectableTypes.indexOf(item.portal_type) == -1"
+            :disabled="isDisabled(item)"
           />
-          <label class="form-check-label">
+          <label
+            :class="
+              isDisabled(item) && isTraversable(item) ? '' : 'form-check-label'
+            "
+          >
             <a
-              v-if="
-                item.is_folderish &&
-                traversableTypes.indexOf(item.portal_type) != -1
-              "
+              v-if="item.is_folderish && isTraversable(item)"
               @click.prevent.stop="fetchData(item['@id'])"
               :href="item['@id']"
               class="list-group-item-action"
@@ -88,6 +89,12 @@ export default {
   methods: {
     checked() {
       this.$emit("checked", this.selected);
+    },
+    isDisabled(item) {
+      return this.selectableTypes.indexOf(item.portal_type) == -1;
+    },
+    isTraversable(item) {
+      return this.traversableTypes.indexOf(item.portal_type) != -1;
     },
   },
   computed: {
