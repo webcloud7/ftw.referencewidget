@@ -33,6 +33,7 @@
               :inputType="inputType"
               :selectableTypes="selectableTypes"
               :traversableTypes="traversableTypes"
+              :iconMapping="iconMapping"
               @checked="updateSelected"
             />
           </div>
@@ -92,7 +93,6 @@ export default {
   data() {
     return {
       open: false,
-      // bootstrap: null,
       portalURL: "",
       baseURL: "",
       startURL: "",
@@ -105,6 +105,7 @@ export default {
       selected: [],
       selectableTypes: [],
       traversableTypes: [],
+      iconMapping: {},
       formData: {
         searchTerm: "",
         sortOn: "getObjPositionInParent",
@@ -122,6 +123,9 @@ export default {
     this.portalPath = wrapperElement.getAttribute("data-portalpath");
     this.fieldName = wrapperElement.getAttribute("data-fieldname");
     this.inputType = wrapperElement.getAttribute("data-inputtype");
+    this.iconMapping = JSON.parse(
+      wrapperElement.getAttribute("data-icon-mapping")
+    );
     this.selectableTypes = JSON.parse(
       wrapperElement.getAttribute("data-selectabletypes")
     );
@@ -142,7 +146,6 @@ export default {
       this.open = false;
     });
 
-    // this.loadBootstrap();
   },
   methods: {
     async fetchData(url, options) {
@@ -197,7 +200,9 @@ export default {
     updateSelected(checked) {
       this.selected = checked;
       if (this.inputType == "radio") {
-        window.jQuery.fn.collapse.Constructor.getInstance(this.$refs.browser).hide();
+        window.jQuery.fn.collapse.Constructor.getInstance(
+          this.$refs.browser
+        ).hide();
       }
     },
     loadSelectedItems(wrapperElement) {
@@ -210,9 +215,6 @@ export default {
         });
       wrapperElement.parentElement.querySelector(".selected_items").remove();
     },
-    // async loadBootstrap() {
-    //   this.bootstrap = await import("bootstrap");
-    // },
   },
   computed: {
     browserName() {

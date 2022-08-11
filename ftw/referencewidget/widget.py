@@ -8,6 +8,7 @@ from ftw.referencewidget.browser.utils import is_traversable
 from ftw.referencewidget.interfaces import IReferenceWidget
 from plone import api
 from plone.app.redirector.interfaces import IRedirectionStorage
+from Products.CMFCore.Expression import createExprContext
 from Products.CMFPlone.utils import safe_unicode
 from z3c.form.browser import widget
 from z3c.form.interfaces import IFieldWidget
@@ -147,6 +148,19 @@ class ReferenceBrowserWidget(widget.HTMLTextInputWidget, Widget):
 
     def traversable_types(self):
         return json.dumps(get_traversal_types(self))
+
+    def icon_mapping(self):
+        portal = api.portal.get()
+        expr_context = createExprContext(
+            portal, portal, portal
+        )
+        mapping = {}
+        for fti in api.portal.get_tool('portal_types').objectValues():
+            icon = fti.getIconExprObject()
+            if icon:
+                icon = icon(expr_context)
+            mapping[fti.getId()] = icon
+        return json.dumps(mapping)
 
 
 @adapter(IReferenceWidget, IFormLayer)

@@ -18,6 +18,7 @@
               isDisabled(item) && isTraversable(item) ? '' : 'form-check-label'
             "
           >
+            <ResolveIcon :item="item" :iconMapping="iconMapping" />
             <a
               v-if="item.is_folderish && isTraversable(item)"
               @click.prevent.stop="fetchData(item['@id'])"
@@ -33,7 +34,11 @@
   </ul>
 </template>
 <script>
+import ResolveIcon from "./ResolveIcon.vue";
 export default {
+  components: {
+    ResolveIcon,
+  },
   data() {
     return {
       selected: [],
@@ -73,6 +78,13 @@ export default {
       required: true,
       default: () => {
         return [];
+      },
+    },
+    iconMapping: {
+      type: Object,
+      required: true,
+      default: () => {
+        return {};
       },
     },
     fetchData: {

@@ -18,6 +18,7 @@
                              data-inputtype view/input_type;
                              data-selectabletypes view/selectable_types;
                              data-traversabletypes view/traversable_types;
+                             data-icon-mapping view/icon_mapping;
                              data-translations view/translations"/>
 
         <script>
