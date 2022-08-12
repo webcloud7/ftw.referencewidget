@@ -5,7 +5,8 @@ from plone.autoform import directives
 from plone.autoform.interfaces import IFormFieldProvider
 from plone.supermodel import model
 from plone.supermodel.model import fieldset
-from Products.CMFPlone import PloneMessageFactory as _
+from Products.CMFPlone import PloneMessageFactory as pmf
+from ftw.referencewidget import _
 from z3c.relationfield.schema import RelationChoice, RelationList
 from zope.interface import provider
 
@@ -19,12 +20,12 @@ class IRelatedItems(model.Schema):
     """
 
     fieldset('categorization',
-             label=_(u'Categorization'),
+             label=pmf('Categorization'),
              fields=['relatedItems'])
 
     directives.widget(relatedItems=ReferenceWidgetFactory)
     relatedItems = RelationList(
-        title=_(u'label_related_items', default=u'Related Items'),
+        title=_('label_related_items', default='Related Items'),
         default=[],
         value_type=RelationChoice(title=u"Related",
                                   source=ReferenceObjSourceBinder()),
@@ -39,7 +40,7 @@ class IRelationChoiceExample(model.Schema):
     """
     directives.widget(realtionchoice=ReferenceWidgetFactory)
     realtionchoice = RelationChoice(
-        title=_(u'Related Choice'),
+        title=_('Related Choice'),
         source=ReferenceObjSourceBinder(),
         default=None,
         required=False,
@@ -60,7 +61,7 @@ class IRelationChoiceRestricted(model.Schema):
     """
     directives.widget(realtionchoice_restricted=ReferenceWidgetFactory)
     realtionchoice_restricted = RelationChoice(
-        title=_(u'Related Choice Restricted'),
+        title=_('Related Choice Restricted'),
         source=ReferenceObjSourceBinder(
             nonselectable=['Folder']),
         default=None,
@@ -69,7 +70,7 @@ class IRelationChoiceRestricted(model.Schema):
 
     directives.widget(realtionchoice_restricted_title=ReferenceWidgetFactory)
     realtionchoice_restricted_title = RelationChoice(
-        title=_(u'Related Choice Restricted Title'),
+        title=_('Related Choice Restricted Title'),
         source=ReferenceObjSourceBinder(
             selectable_class=CustomSelectableClass),
         default=None,
@@ -78,7 +79,7 @@ class IRelationChoiceRestricted(model.Schema):
 
     directives.widget(realtionchoice_restricted_path=ReferenceWidgetFactory)
     realtionchoice_restricted_path = RelationChoice(
-        title=_(u'Related Choice Restricted Title'),
+        title=_('Related Choice Restricted Title'),
         source=ReferenceObjSourceBinder(
             root_path='/testfolder'),
         default=None,

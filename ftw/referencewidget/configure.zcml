@@ -80,7 +80,7 @@
 
     <plone:behavior
         title="Related items"
-        description="Adds the ability to assign related items"
+        description="Adds the ability to assign related items via ftw.referencewidget"
         provides=".behaviors.IRelatedItems"
         />
 
