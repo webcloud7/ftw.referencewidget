@@ -5042,9 +5042,9 @@ const _hoisted_1$4 = { class: "col" };
 const _hoisted_2$4 = { class: "form-floating" };
 const _hoisted_3$4 = ["aria-label"];
 const _hoisted_4$4 = ["selected", "value"];
-const _hoisted_5$2 = { for: "sortattr" };
-const _hoisted_6$2 = { class: "col" };
-const _hoisted_7$2 = { class: "form-floating" };
+const _hoisted_5$3 = { for: "sortattr" };
+const _hoisted_6$3 = { class: "col" };
+const _hoisted_7$3 = { class: "form-floating" };
 const _hoisted_8$1 = ["aria-label"];
 const _hoisted_9$1 = {
   selected: "",
@@ -5087,11 +5087,11 @@ function _sfc_render$4(_ctx, _cache, $props, $setup, $data, $options) {
         ], 40, _hoisted_3$4), [
           [vModelSelect, $data.sortOn]
         ]),
-        createBaseVNode("label", _hoisted_5$2, toDisplayString(_ctx.$i18n("Sort on")), 1)
+        createBaseVNode("label", _hoisted_5$3, toDisplayString(_ctx.$i18n("Sort on")), 1)
       ])
     ]),
-    createBaseVNode("div", _hoisted_6$2, [
-      createBaseVNode("div", _hoisted_7$2, [
+    createBaseVNode("div", _hoisted_6$3, [
+      createBaseVNode("div", _hoisted_7$3, [
         withDirectives(createBaseVNode("select", {
           class: "form-select",
           id: "sortorder",
@@ -5167,12 +5167,12 @@ const _hoisted_1$3 = { "aria-label": "breadcrumb" };
 const _hoisted_2$3 = { class: "breadcrumb" };
 const _hoisted_3$3 = { class: "breadcrumb-item" };
 const _hoisted_4$3 = ["href"];
-const _hoisted_5$1 = {
+const _hoisted_5$2 = {
   key: 0,
   class: "breadcrumb-item"
 };
-const _hoisted_6$1 = ["href", "onClick"];
-const _hoisted_7$1 = {
+const _hoisted_6$2 = ["href", "onClick"];
+const _hoisted_7$2 = {
   key: 1,
   class: "breadcrumb-item active",
   "aria-current": "page"
@@ -5190,12 +5190,12 @@ function _sfc_render$3(_ctx, _cache, $props, $setup, $data, $options) {
         return openBlock(), createElementBlock(Fragment, {
           key: item["@id0"]
         }, [
-          index != $props.breadcrumbs.length - 1 ? (openBlock(), createElementBlock("li", _hoisted_5$1, [
+          index != $props.breadcrumbs.length - 1 ? (openBlock(), createElementBlock("li", _hoisted_5$2, [
             createBaseVNode("a", {
               href: item["@id"],
               onClick: withModifiers(($event) => $props.fetchData(item["@id"]), ["stop", "prevent"])
-            }, toDisplayString(item.title), 9, _hoisted_6$1)
-          ])) : (openBlock(), createElementBlock("li", _hoisted_7$1, [
+            }, toDisplayString(item.title), 9, _hoisted_6$2)
+          ])) : (openBlock(), createElementBlock("li", _hoisted_7$2, [
             createTextVNode(toDisplayString(item.title) + " ", 1),
             createBaseVNode("span", {
               class: normalizeClass(`state-${$props.additionalContextData.review_state}`)
@@ -5347,17 +5347,25 @@ const _sfc_main$1 = {
 const _hoisted_1$1 = { class: "list-group" };
 const _hoisted_2$1 = ["type", "value", "disabled", "role"];
 const _hoisted_3$1 = ["onClick", "href"];
-const _hoisted_4$1 = { key: 1 };
+const _hoisted_4$1 = { class: "portal-type" };
+const _hoisted_5$1 = { key: 1 };
+const _hoisted_6$1 = { class: "portal-type" };
+const _hoisted_7$1 = {
+  key: 0,
+  class: "badge bg-primary rounded-pill"
+};
 function _sfc_render$1(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_ResolveIcon = resolveComponent("ResolveIcon");
   return openBlock(), createElementBlock("ul", _hoisted_1$1, [
     (openBlock(true), createElementBlock(Fragment, null, renderList($props.items, (item) => {
       return openBlock(), createElementBlock("li", {
         key: item.UID,
-        class: "list-group-item"
+        class: "list-group-item d-flex justify-content-between align-items-start"
       }, [
         createBaseVNode("div", {
-          class: normalizeClass(this.inputType == "checkbox" ? "form-check form-switch" : "form-check")
+          class: normalizeClass(
+            this.inputType == "checkbox" ? "form-check form-switch" : "form-check"
+          )
         }, [
           withDirectives(createBaseVNode("input", {
             class: "form-check-input me-1",
@@ -5386,17 +5394,23 @@ function _sfc_render$1(_ctx, _cache, $props, $setup, $data, $options) {
               class: "list-group-item-action"
             }, [
               createTextVNode(toDisplayString(item.title) + " ", 1),
-              createBaseVNode("span", {
-                class: normalizeClass(`state-${item["review_state"]}`)
-              }, toDisplayString($props.workflowTitleMapping[item["review_state"]]), 3)
-            ], 8, _hoisted_3$1)) : (openBlock(), createElementBlock("span", _hoisted_4$1, [
+              createBaseVNode("span", _hoisted_4$1, "(" + toDisplayString(item["portal_type"]) + ")", 1)
+            ], 8, _hoisted_3$1)) : (openBlock(), createElementBlock("span", _hoisted_5$1, [
               createTextVNode(toDisplayString(item.title) + " ", 1),
               createBaseVNode("span", {
                 class: normalizeClass(`state-${item["review_state"]}`)
-              }, toDisplayString($props.workflowTitleMapping[item["review_state"]]), 3)
+              }, [
+                createTextVNode(toDisplayString($props.workflowTitleMapping[item["review_state"]]) + " ", 1),
+                createBaseVNode("span", _hoisted_6$1, "(" + toDisplayString(item["portal_type"]) + ")", 1)
+              ], 2)
             ]))
           ], 2)
-        ], 2)
+        ], 2),
+        item["review_state"] ? (openBlock(), createElementBlock("span", _hoisted_7$1, [
+          createBaseVNode("span", {
+            class: normalizeClass(`state-${item["review_state"]}`)
+          }, toDisplayString($props.workflowTitleMapping[item["review_state"]]), 3)
+        ])) : createCommentVNode("", true)
       ]);
     }), 128))
   ]);
