@@ -3,6 +3,7 @@ import { createApp } from "vue";
 import VueAxios from "vue-axios";
 import axios from "axios";
 import qs from "qs";
+import i18n from "./widget/i18n.js";
 
 function axiosInstance() {
   const instance = axios.create({
@@ -27,6 +28,9 @@ function initReferenceWidget() {
     app.use(VueAxios, {
       axios: axiosInstance(),
     });
+
+    const messages = JSON.parse(element.getAttribute("data-translations"));
+    app.use(i18n, messages);
     app.mount(element);
     element.classList.add("initialized");
   });

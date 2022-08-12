@@ -3,7 +3,7 @@
     <ol class="breadcrumb">
       <li class="breadcrumb-item">
         <a :href="portalURL" @click.prevent.stop="fetchData(portalURL)"
-          >Startpage</a
+          >{{ $i18n("Startpage") }}</a
         >
       </li>
       <template v-for="(item, index) in breadcrumbs" :key="item['@id0']">
@@ -14,6 +14,9 @@
         </li>
         <li v-else class="breadcrumb-item active" aria-current="page">
           {{ item.title }}
+          <span :class="`state-${additionalContextData.review_state}`">
+            {{ additionalContextData.review_state_title }}
+          </span>
         </li>
       </template>
     </ol>
@@ -27,6 +30,13 @@ export default {
       required: true,
       default: () => {
         return [];
+      },
+    },
+    additionalContextData: {
+      type: Object,
+      required: true,
+      default: () => {
+        return {};
       },
     },
     portalURL: {

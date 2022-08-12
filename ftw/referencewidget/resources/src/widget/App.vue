@@ -8,45 +8,36 @@
       aria-hidden="true"
       ref="browser"
     >
-      <div class="modal-dialog modal-dialog-scrollable modal-xl">
-        <div class="modal-content">
-          <div class="modal-header">Choose content</div>
-          <div class="modal-body">
-            <searchForm @search="search" @reset="reset" />
-            <Breadcrumbs
-              :breadcrumbs="breadcrumbs"
-              :fetchData="fetchData"
-              :portalURL="portalURL"
-            />
-            <Pagination
-              v-if="data.batching"
-              @next="fetchData"
-              @previous="fetchData"
-              :batching="data.batching"
-            />
-            total {{ data.items_total }}
+      <div class="card">
+        <div class="card-header">{{ $i18n("Choose content") }}</div>
+        <div class="card-body">
+          <searchForm @search="search" @reset="reset" />
+          <Breadcrumbs
+            :breadcrumbs="breadcrumbs"
+            :fetchData="fetchData"
+            :portalURL="portalURL"
+            :workflowTitleMapping="workflowTitleMapping"
+            :additionalContextData="additionalContextData"
+          />
+          <Pagination
+            v-if="data.batching"
+            @next="fetchData"
+            @previous="fetchData"
+            :batching="data.batching"
+          />
+          total {{ data.items_total }}
 
-            <ListItems
-              :fetchData="fetchData"
-              :items="data.items"
-              :selectedItems="selected"
-              :inputType="inputType"
-              :selectableTypes="selectableTypes"
-              :traversableTypes="traversableTypes"
-              @checked="updateSelected"
-            />
-          </div>
-
-          <div class="modal-footer">
-            <button
-              type="button"
-              class="btn btn-secondary"
-              data-bs-toggle="collapse"
-              :data-bs-target="`#${browserName}`"
-            >
-              Close
-            </button>
-          </div>
+          <ListItems
+            :fetchData="fetchData"
+            :items="data.items"
+            :selectedItems="selected"
+            :inputType="inputType"
+            :selectableTypes="selectableTypes"
+            :traversableTypes="traversableTypes"
+            :iconMapping="iconMapping"
+            :workflowTitleMapping="workflowTitleMapping"
+            @checked="updateSelected"
+          />
         </div>
       </div>
     </div>
@@ -92,19 +83,20 @@ export default {
   data() {
     return {
       open: false,
-      // bootstrap: null,
       portalURL: "",
       baseURL: "",
       startURL: "",
       portalPath: "",
       fieldName: "",
       inputType: "",
-      translations: {},
       data: {},
       breadcrumbs: [],
       selected: [],
       selectableTypes: [],
       traversableTypes: [],
+      iconMapping: {},
+      workflowTitleMapping: {},
+      additionalContextData: {},
       formData: {
         searchTerm: "",
         sortOn: "getObjPositionInParent",
@@ -122,27 +114,26 @@ export default {
     this.portalPath = wrapperElement.getAttribute("data-portalpath");
     this.fieldName = wrapperElement.getAttribute("data-fieldname");
     this.inputType = wrapperElement.getAttribute("data-inputtype");
+    this.iconMapping = JSON.parse(
+      wrapperElement.getAttribute("data-icon-mapping")
+    );
     this.selectableTypes = JSON.parse(
       wrapperElement.getAttribute("data-selectabletypes")
     );
     this.traversableTypes = JSON.parse(
       wrapperElement.getAttribute("data-traversabletypes")
     );
-    this.translations = JSON.parse(
-      wrapperElement.getAttribute("data-translations")
-    );
 
     this.loadSelectedItems(wrapperElement);
 
     this.$refs.browser.addEventListener("show.bs.collapse", () => {
       this.fetchData(this.startURL);
+      this.fetchWorkflowTitles();
       this.open = true;
     });
     this.$refs.browser.addEventListener("hidden.bs.collapse", () => {
       this.open = false;
     });
-
-    // this.loadBootstrap();
   },
   methods: {
     async fetchData(url, options) {
@@ -178,6 +169,19 @@ export default {
       if (response.data["@components"]) {
         this.breadcrumbs = response.data["@components"].breadcrumbs.items;
       }
+      this.additionalContextData["review_state"] = response.data.review_state;
+      this.additionalContextData["review_state_title"] =
+        this.workflowTitleMapping[response.data.review_state];
+    },
+    async fetchWorkflowTitles() {
+      const response = await this.axios.get(
+        this.portalURL + "/@vocabularies/plone.app.vocabularies.WorkflowStates"
+      );
+      response.data.items.forEach((item) => {
+        this.workflowTitleMapping[item.token] = item.title
+          .replace(/(\[.+?\])/g, "")
+          .trim();
+      });
     },
     search(formData) {
       this.formData = Object.assign({}, this.formData, formData);
@@ -197,7 +201,9 @@ export default {
     updateSelected(checked) {
       this.selected = checked;
       if (this.inputType == "radio") {
-        window.jQuery.fn.collapse.Constructor.getInstance(this.$refs.browser).hide();
+        window.jQuery.fn.collapse.Constructor.getInstance(
+          this.$refs.browser
+        ).hide();
       }
     },
     loadSelectedItems(wrapperElement) {
@@ -210,16 +216,13 @@ export default {
         });
       wrapperElement.parentElement.querySelector(".selected_items").remove();
     },
-    // async loadBootstrap() {
-    //   this.bootstrap = await import("bootstrap");
-    // },
   },
   computed: {
     browserName() {
       return `reference-widget-browser-${this.fieldName.replace(/\./g, "_")}`;
     },
     buttonLable() {
-      return this.open ? "Close" : "Browse";
+      return this.open ? this.$i18n("Close") : this.$i18n("Browse");
     },
   },
 };

@@ -11,20 +11,29 @@
             :selected="item['@id'] in selectedProxy"
             v-model="selectedProxy"
             @change="checked"
-            :disabled="selectableTypes.indexOf(item.portal_type) == -1"
+            :disabled="isDisabled(item)"
           />
-          <label class="form-check-label">
+          <label
+            :class="
+              isDisabled(item) && isTraversable(item) ? '' : 'form-check-label'
+            "
+          >
+            <ResolveIcon :item="item" :iconMapping="iconMapping" />
             <a
-              v-if="
-                item.is_folderish &&
-                traversableTypes.indexOf(item.portal_type) != -1
-              "
+              v-if="item.is_folderish && isTraversable(item)"
               @click.prevent.stop="fetchData(item['@id'])"
               :href="item['@id']"
               class="list-group-item-action"
-              >{{ item.title }}</a
+              >{{ item.title }}
+              <span :class="`state-${item['review_state']}`">{{
+                workflowTitleMapping[item["review_state"]]
+              }}</span></a
             >
-            <span v-else> {{ item.title }}</span>
+            <span v-else> {{ item.title }}
+              <span :class="`state-${item['review_state']}`">{{
+                workflowTitleMapping[item["review_state"]]
+              }}</span>
+            </span>
           </label>
         </div>
       </li>
@@ -32,7 +41,11 @@
   </ul>
 </template>
 <script>
+import ResolveIcon from "./ResolveIcon.vue";
 export default {
+  components: {
+    ResolveIcon,
+  },
   data() {
     return {
       selected: [],
@@ -74,6 +87,20 @@ export default {
         return [];
       },
     },
+    iconMapping: {
+      type: Object,
+      required: true,
+      default: () => {
+        return {};
+      },
+    },
+    workflowTitleMapping: {
+      type: Object,
+      required: true,
+      default: () => {
+        return {};
+      },
+    },
     fetchData: {
       type: Function,
       required: true,
@@ -88,6 +115,12 @@ export default {
   methods: {
     checked() {
       this.$emit("checked", this.selected);
+    },
+    isDisabled(item) {
+      return this.selectableTypes.indexOf(item.portal_type) == -1;
+    },
+    isTraversable(item) {
+      return this.traversableTypes.indexOf(item.portal_type) != -1;
     },
   },
   computed: {

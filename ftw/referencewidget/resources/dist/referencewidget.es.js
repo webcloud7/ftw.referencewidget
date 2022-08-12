@@ -6062,7 +6062,7 @@ var _export_sfc = (sfc, props) => {
   }
   return target;
 };
-const _sfc_main$4 = {
+const _sfc_main$5 = {
   props: {
     batching: {
       type: Object,
@@ -6081,14 +6081,14 @@ const _sfc_main$4 = {
     }
   }
 };
-const _hoisted_1$4 = {
+const _hoisted_1$5 = {
   key: 0,
   "aria-label": "Pagination for this listing"
 };
-const _hoisted_2$4 = { class: "pagination" };
-function _sfc_render$4(_ctx, _cache, $props, $setup, $data, $options) {
-  return $props.batching ? (openBlock(), createElementBlock("nav", _hoisted_1$4, [
-    createBaseVNode("ul", _hoisted_2$4, [
+const _hoisted_2$5 = { class: "pagination" };
+function _sfc_render$5(_ctx, _cache, $props, $setup, $data, $options) {
+  return $props.batching ? (openBlock(), createElementBlock("nav", _hoisted_1$5, [
+    createBaseVNode("ul", _hoisted_2$5, [
       createBaseVNode("li", {
         class: normalizeClass($props.batching.prev ? "page-item" : "page-item disabled")
       }, [
@@ -6096,7 +6096,7 @@ function _sfc_render$4(_ctx, _cache, $props, $setup, $data, $options) {
           href: "#",
           onClick: _cache[0] || (_cache[0] = withModifiers((...args) => $options.triggerPrevious && $options.triggerPrevious(...args), ["prevent"])),
           class: "page-link"
-        }, " Previous ")
+        }, toDisplayString(_ctx.$i18n("Previous")), 1)
       ], 2),
       createBaseVNode("li", {
         class: normalizeClass($props.batching.next ? "page-item" : "page-item disabled")
@@ -6105,23 +6105,23 @@ function _sfc_render$4(_ctx, _cache, $props, $setup, $data, $options) {
           href: "#",
           onClick: _cache[1] || (_cache[1] = withModifiers((...args) => $options.triggerNext && $options.triggerNext(...args), ["prevent"])),
           class: "page-link"
-        }, " Next ")
+        }, toDisplayString(_ctx.$i18n("Next")), 1)
       ], 2)
     ])
   ])) : createCommentVNode("v-if", true);
 }
-var Pagination = /* @__PURE__ */ _export_sfc(_sfc_main$4, [["render", _sfc_render$4], ["__file", "/Users/maethu/4teamwork/ftw.referencewidget/ftw/referencewidget/resources/src/widget/components/Pagination.vue"]]);
-const _sfc_main$3 = {
+var Pagination = /* @__PURE__ */ _export_sfc(_sfc_main$5, [["render", _sfc_render$5], ["__file", "/Users/maethu/4teamwork/ftw.referencewidget/ftw/referencewidget/resources/src/widget/components/Pagination.vue"]]);
+const _sfc_main$4 = {
   data() {
     return {
       searchTerm: "",
       sortOn: "getObjPositionInParent",
       sortOrder: "ascending",
       sortAttribute: [
-        { title: "Position", value: "getObjPositionInParent" },
-        { title: "Title", value: "sortable_title" },
-        { title: "Created", value: "created" },
-        { title: "Modified", value: "modified" }
+        { title: this.$i18n("Position"), value: "getObjPositionInParent" },
+        { title: this.$i18n("Title"), value: "sortable_title" },
+        { title: this.$i18n("Created"), value: "created" },
+        { title: this.$i18n("Modified"), value: "modified" }
       ]
     };
   },
@@ -6142,44 +6142,42 @@ const _sfc_main$3 = {
     }
   }
 };
-const _hoisted_1$3 = { class: "col" };
-const _hoisted_2$3 = { class: "form-floating" };
-const _hoisted_3$3 = ["selected", "value"];
-const _hoisted_4$3 = /* @__PURE__ */ createBaseVNode("label", { for: "sortattr" }, "Sort on", -1);
-const _hoisted_5$3 = { class: "col" };
-const _hoisted_6$3 = { class: "form-floating" };
-const _hoisted_7$2 = /* @__PURE__ */ createBaseVNode("option", {
+const _hoisted_1$4 = { class: "col" };
+const _hoisted_2$4 = { class: "form-floating" };
+const _hoisted_3$4 = ["aria-label"];
+const _hoisted_4$4 = ["selected", "value"];
+const _hoisted_5$3 = { for: "sortattr" };
+const _hoisted_6$2 = { class: "col" };
+const _hoisted_7$2 = { class: "form-floating" };
+const _hoisted_8$1 = ["aria-label"];
+const _hoisted_9$1 = {
   selected: "",
   value: "ascending"
-}, "Ascending", -1);
-const _hoisted_8$1 = /* @__PURE__ */ createBaseVNode("option", {
+};
+const _hoisted_10 = {
   selected: "",
   value: "descending"
-}, "Descending", -1);
-const _hoisted_9$1 = [
-  _hoisted_7$2,
-  _hoisted_8$1
-];
-const _hoisted_10$1 = /* @__PURE__ */ createBaseVNode("label", { for: "sortorder" }, "Sort order", -1);
-const _hoisted_11$1 = { class: "col" };
-const _hoisted_12$1 = { class: "form-floating" };
-const _hoisted_13 = /* @__PURE__ */ createBaseVNode("label", { for: "searchFilter" }, "Search", -1);
-const _hoisted_14 = { class: "col" };
-const _hoisted_15 = /* @__PURE__ */ createBaseVNode("button", {
+};
+const _hoisted_11 = { for: "sortorder" };
+const _hoisted_12 = { class: "col" };
+const _hoisted_13 = { class: "form-floating" };
+const _hoisted_14 = { for: "searchFilter" };
+const _hoisted_15 = { class: "col" };
+const _hoisted_16 = {
   type: "submit",
   class: "btn btn-primary"
-}, "Search", -1);
-function _sfc_render$3(_ctx, _cache, $props, $setup, $data, $options) {
+};
+function _sfc_render$4(_ctx, _cache, $props, $setup, $data, $options) {
   return openBlock(), createElementBlock("form", {
     onSubmit: _cache[6] || (_cache[6] = withModifiers((...args) => $options.search && $options.search(...args), ["stop", "prevent"])),
     class: "row my-2 gy-2 gx-3 align-items-center"
   }, [
-    createBaseVNode("div", _hoisted_1$3, [
-      createBaseVNode("div", _hoisted_2$3, [
+    createBaseVNode("div", _hoisted_1$4, [
+      createBaseVNode("div", _hoisted_2$4, [
         withDirectives(createBaseVNode("select", {
           class: "form-select",
           id: "sortattr",
-          "aria-label": "Sort attribute",
+          "aria-label": _ctx.$i18n("Sort on"),
           "onUpdate:modelValue": _cache[0] || (_cache[0] = ($event) => $data.sortOn = $event),
           onChange: _cache[1] || (_cache[1] = () => $options.search())
         }, [
@@ -6188,30 +6186,33 @@ function _sfc_render$3(_ctx, _cache, $props, $setup, $data, $options) {
               key: option.value,
               selected: index == 0,
               value: option.value
-            }, toDisplayString(option.title), 9, _hoisted_3$3);
+            }, toDisplayString(option.title), 9, _hoisted_4$4);
           }), 128))
-        ], 544), [
+        ], 40, _hoisted_3$4), [
           [vModelSelect, $data.sortOn]
         ]),
-        _hoisted_4$3
+        createBaseVNode("label", _hoisted_5$3, toDisplayString(_ctx.$i18n("Sort on")), 1)
       ])
     ]),
-    createBaseVNode("div", _hoisted_5$3, [
-      createBaseVNode("div", _hoisted_6$3, [
+    createBaseVNode("div", _hoisted_6$2, [
+      createBaseVNode("div", _hoisted_7$2, [
         withDirectives(createBaseVNode("select", {
           class: "form-select",
           id: "sortorder",
-          "aria-label": "Sort order",
+          "aria-label": _ctx.$i18n("Sort order"),
           "onUpdate:modelValue": _cache[2] || (_cache[2] = ($event) => $data.sortOrder = $event),
           onChange: _cache[3] || (_cache[3] = () => $options.search())
-        }, _hoisted_9$1, 544), [
+        }, [
+          createBaseVNode("option", _hoisted_9$1, toDisplayString(_ctx.$i18n("Ascending")), 1),
+          createBaseVNode("option", _hoisted_10, toDisplayString(_ctx.$i18n("Descending")), 1)
+        ], 40, _hoisted_8$1), [
           [vModelSelect, $data.sortOrder]
         ]),
-        _hoisted_10$1
+        createBaseVNode("label", _hoisted_11, toDisplayString(_ctx.$i18n("Sort order")), 1)
       ])
     ]),
-    createBaseVNode("div", _hoisted_11$1, [
-      createBaseVNode("div", _hoisted_12$1, [
+    createBaseVNode("div", _hoisted_12, [
+      createBaseVNode("div", _hoisted_13, [
         withDirectives(createBaseVNode("input", {
           type: "text",
           class: "form-control",
@@ -6221,26 +6222,33 @@ function _sfc_render$3(_ctx, _cache, $props, $setup, $data, $options) {
         }, null, 512), [
           [vModelText, $data.searchTerm]
         ]),
-        _hoisted_13
+        createBaseVNode("label", _hoisted_14, toDisplayString(_ctx.$i18n("Search text")), 1)
       ])
     ]),
-    createBaseVNode("div", _hoisted_14, [
-      _hoisted_15,
+    createBaseVNode("div", _hoisted_15, [
+      createBaseVNode("button", _hoisted_16, toDisplayString(_ctx.$i18n("Search")), 1),
       createBaseVNode("button", {
         onClick: _cache[5] || (_cache[5] = withModifiers((...args) => $options.reset && $options.reset(...args), ["stop", "prevent"])),
         class: "btn btn-danger"
-      }, " Reset ")
+      }, toDisplayString(_ctx.$i18n("Reset")), 1)
     ])
   ], 32);
 }
-var SearchForm = /* @__PURE__ */ _export_sfc(_sfc_main$3, [["render", _sfc_render$3], ["__file", "/Users/maethu/4teamwork/ftw.referencewidget/ftw/referencewidget/resources/src/widget/components/searchForm.vue"]]);
-const _sfc_main$2 = {
+var SearchForm = /* @__PURE__ */ _export_sfc(_sfc_main$4, [["render", _sfc_render$4], ["__file", "/Users/maethu/4teamwork/ftw.referencewidget/ftw/referencewidget/resources/src/widget/components/searchForm.vue"]]);
+const _sfc_main$3 = {
   props: {
     breadcrumbs: {
       type: Array,
       required: true,
       default: () => {
         return [];
+      }
+    },
+    additionalContextData: {
+      type: Object,
+      required: true,
+      default: () => {
+        return {};
       }
     },
     portalURL: {
@@ -6259,28 +6267,28 @@ const _sfc_main$2 = {
     }
   }
 };
-const _hoisted_1$2 = { "aria-label": "breadcrumb" };
-const _hoisted_2$2 = { class: "breadcrumb" };
-const _hoisted_3$2 = { class: "breadcrumb-item" };
-const _hoisted_4$2 = ["href"];
+const _hoisted_1$3 = { "aria-label": "breadcrumb" };
+const _hoisted_2$3 = { class: "breadcrumb" };
+const _hoisted_3$3 = { class: "breadcrumb-item" };
+const _hoisted_4$3 = ["href"];
 const _hoisted_5$2 = {
   key: 0,
   class: "breadcrumb-item"
 };
-const _hoisted_6$2 = ["href", "onClick"];
+const _hoisted_6$1 = ["href", "onClick"];
 const _hoisted_7$1 = {
   key: 1,
   class: "breadcrumb-item active",
   "aria-current": "page"
 };
-function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
-  return openBlock(), createElementBlock("nav", _hoisted_1$2, [
-    createBaseVNode("ol", _hoisted_2$2, [
-      createBaseVNode("li", _hoisted_3$2, [
+function _sfc_render$3(_ctx, _cache, $props, $setup, $data, $options) {
+  return openBlock(), createElementBlock("nav", _hoisted_1$3, [
+    createBaseVNode("ol", _hoisted_2$3, [
+      createBaseVNode("li", _hoisted_3$3, [
         createBaseVNode("a", {
           href: $props.portalURL,
           onClick: _cache[0] || (_cache[0] = withModifiers(($event) => $props.fetchData($props.portalURL), ["prevent", "stop"]))
-        }, "Startpage", 8, _hoisted_4$2)
+        }, toDisplayString(_ctx.$i18n("Startpage")), 9, _hoisted_4$3)
       ]),
       (openBlock(true), createElementBlock(Fragment, null, renderList($props.breadcrumbs, (item, index) => {
         return openBlock(), createElementBlock(Fragment, {
@@ -6290,15 +6298,60 @@ function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
             createBaseVNode("a", {
               href: item["@id"],
               onClick: withModifiers(($event) => $props.fetchData(item["@id"]), ["stop", "prevent"])
-            }, toDisplayString(item.title), 9, _hoisted_6$2)
-          ])) : (openBlock(), createElementBlock("li", _hoisted_7$1, toDisplayString(item.title), 1))
+            }, toDisplayString(item.title), 9, _hoisted_6$1)
+          ])) : (openBlock(), createElementBlock("li", _hoisted_7$1, [
+            createTextVNode(toDisplayString(item.title) + " ", 1),
+            createBaseVNode("span", {
+              class: normalizeClass(`state-${$props.additionalContextData.review_state}`)
+            }, toDisplayString($props.additionalContextData.review_state_title), 3)
+          ]))
         ], 64);
       }), 128))
     ])
   ]);
 }
-var Breadcrumbs = /* @__PURE__ */ _export_sfc(_sfc_main$2, [["render", _sfc_render$2], ["__file", "/Users/maethu/4teamwork/ftw.referencewidget/ftw/referencewidget/resources/src/widget/components/Breadcrumbs.vue"]]);
+var Breadcrumbs = /* @__PURE__ */ _export_sfc(_sfc_main$3, [["render", _sfc_render$3], ["__file", "/Users/maethu/4teamwork/ftw.referencewidget/ftw/referencewidget/resources/src/widget/components/Breadcrumbs.vue"]]);
+const _sfc_main$2 = {
+  props: {
+    item: {
+      type: Object,
+      required: true,
+      default: () => {
+        return {};
+      }
+    },
+    iconMapping: {
+      type: Object,
+      required: true,
+      default: () => {
+        return {};
+      }
+    }
+  }
+};
+const _hoisted_1$2 = { class: "d-inline-block me-1" };
+const _hoisted_2$2 = ["src"];
+const _hoisted_3$2 = ["src"];
+const _hoisted_4$2 = ["src"];
+function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
+  return openBlock(), createElementBlock("div", _hoisted_1$2, [
+    $props.item["@type"] == "File" ? (openBlock(), createElementBlock("img", {
+      key: 0,
+      src: `${$props.item["@id"]}/@@iconresolver/mimetype-${$props.item.file["content-type"]}`
+    }, null, 8, _hoisted_2$2)) : $props.item["@type"] == "Image" ? (openBlock(), createElementBlock("img", {
+      key: 1,
+      src: `${$props.item["@id"]}/@@iconresolver/mimetype-${$props.item.image["content-type"]}`
+    }, null, 8, _hoisted_3$2)) : (openBlock(), createElementBlock("img", {
+      key: 2,
+      src: `${$props.item["@id"]}/@@iconresolver/${$props.iconMapping[$props.item["@type"]]}`
+    }, null, 8, _hoisted_4$2))
+  ]);
+}
+var ResolveIcon = /* @__PURE__ */ _export_sfc(_sfc_main$2, [["render", _sfc_render$2], ["__file", "/Users/maethu/4teamwork/ftw.referencewidget/ftw/referencewidget/resources/src/widget/components/ResolveIcon.vue"]]);
 const _sfc_main$1 = {
+  components: {
+    ResolveIcon
+  },
   data() {
     return {
       selected: []
@@ -6340,6 +6393,20 @@ const _sfc_main$1 = {
         return [];
       }
     },
+    iconMapping: {
+      type: Object,
+      required: true,
+      default: () => {
+        return {};
+      }
+    },
+    workflowTitleMapping: {
+      type: Object,
+      required: true,
+      default: () => {
+        return {};
+      }
+    },
     fetchData: {
       type: Function,
       required: true,
@@ -6354,6 +6421,12 @@ const _sfc_main$1 = {
   methods: {
     checked() {
       this.$emit("checked", this.selected);
+    },
+    isDisabled(item) {
+      return this.selectableTypes.indexOf(item.portal_type) == -1;
+    },
+    isTraversable(item) {
+      return this.traversableTypes.indexOf(item.portal_type) != -1;
     }
   },
   computed: {
@@ -6374,10 +6447,10 @@ const _sfc_main$1 = {
 const _hoisted_1$1 = { class: "list-group" };
 const _hoisted_2$1 = { class: "form-check" };
 const _hoisted_3$1 = ["type", "value", "checked", "selected", "disabled"];
-const _hoisted_4$1 = { class: "form-check-label" };
-const _hoisted_5$1 = ["onClick", "href"];
-const _hoisted_6$1 = { key: 1 };
+const _hoisted_4$1 = ["onClick", "href"];
+const _hoisted_5$1 = { key: 1 };
 function _sfc_render$1(_ctx, _cache, $props, $setup, $data, $options) {
+  const _component_ResolveIcon = resolveComponent("ResolveIcon");
   return openBlock(), createElementBlock("ul", _hoisted_1$1, [
     (openBlock(true), createElementBlock(Fragment, null, renderList($props.items, (item) => {
       return openBlock(), createElementBlock("li", {
@@ -6393,18 +6466,34 @@ function _sfc_render$1(_ctx, _cache, $props, $setup, $data, $options) {
             selected: item["@id"] in $options.selectedProxy,
             "onUpdate:modelValue": _cache[0] || (_cache[0] = ($event) => $options.selectedProxy = $event),
             onChange: _cache[1] || (_cache[1] = (...args) => $options.checked && $options.checked(...args)),
-            disabled: $props.selectableTypes.indexOf(item.portal_type) == -1
+            disabled: $options.isDisabled(item)
           }, null, 40, _hoisted_3$1), [
             [vModelDynamic, $options.selectedProxy]
           ]),
-          createBaseVNode("label", _hoisted_4$1, [
-            item.is_folderish && $props.traversableTypes.indexOf(item.portal_type) != -1 ? (openBlock(), createElementBlock("a", {
+          createBaseVNode("label", {
+            class: normalizeClass($options.isDisabled(item) && $options.isTraversable(item) ? "" : "form-check-label")
+          }, [
+            createVNode(_component_ResolveIcon, {
+              item,
+              iconMapping: $props.iconMapping
+            }, null, 8, ["item", "iconMapping"]),
+            item.is_folderish && $options.isTraversable(item) ? (openBlock(), createElementBlock("a", {
               key: 0,
               onClick: withModifiers(($event) => $props.fetchData(item["@id"]), ["prevent", "stop"]),
               href: item["@id"],
               class: "list-group-item-action"
-            }, toDisplayString(item.title), 9, _hoisted_5$1)) : (openBlock(), createElementBlock("span", _hoisted_6$1, toDisplayString(item.title), 1))
-          ])
+            }, [
+              createTextVNode(toDisplayString(item.title) + " ", 1),
+              createBaseVNode("span", {
+                class: normalizeClass(`state-${item["review_state"]}`)
+              }, toDisplayString($props.workflowTitleMapping[item["review_state"]]), 3)
+            ], 8, _hoisted_4$1)) : (openBlock(), createElementBlock("span", _hoisted_5$1, [
+              createTextVNode(toDisplayString(item.title) + " ", 1),
+              createBaseVNode("span", {
+                class: normalizeClass(`state-${item["review_state"]}`)
+              }, toDisplayString($props.workflowTitleMapping[item["review_state"]]), 3)
+            ]))
+          ], 2)
         ])
       ]);
     }), 128))
@@ -6427,12 +6516,14 @@ const _sfc_main = {
       portalPath: "",
       fieldName: "",
       inputType: "",
-      translations: {},
       data: {},
       breadcrumbs: [],
       selected: [],
       selectableTypes: [],
       traversableTypes: [],
+      iconMapping: {},
+      workflowTitleMapping: {},
+      additionalContextData: {},
       formData: {
         searchTerm: "",
         sortOn: "getObjPositionInParent",
@@ -6450,12 +6541,13 @@ const _sfc_main = {
     this.portalPath = wrapperElement.getAttribute("data-portalpath");
     this.fieldName = wrapperElement.getAttribute("data-fieldname");
     this.inputType = wrapperElement.getAttribute("data-inputtype");
+    this.iconMapping = JSON.parse(wrapperElement.getAttribute("data-icon-mapping"));
     this.selectableTypes = JSON.parse(wrapperElement.getAttribute("data-selectabletypes"));
     this.traversableTypes = JSON.parse(wrapperElement.getAttribute("data-traversabletypes"));
-    this.translations = JSON.parse(wrapperElement.getAttribute("data-translations"));
     this.loadSelectedItems(wrapperElement);
     this.$refs.browser.addEventListener("show.bs.collapse", () => {
       this.fetchData(this.startURL);
+      this.fetchWorkflowTitles();
       this.open = true;
     });
     this.$refs.browser.addEventListener("hidden.bs.collapse", () => {
@@ -6489,6 +6581,14 @@ const _sfc_main = {
       if (response.data["@components"]) {
         this.breadcrumbs = response.data["@components"].breadcrumbs.items;
       }
+      this.additionalContextData["review_state"] = response.data.review_state;
+      this.additionalContextData["review_state_title"] = this.workflowTitleMapping[response.data.review_state];
+    },
+    async fetchWorkflowTitles() {
+      const response = await this.axios.get(this.portalURL + "/@vocabularies/plone.app.vocabularies.WorkflowStates");
+      response.data.items.forEach((item) => {
+        this.workflowTitleMapping[item.token] = item.title.replace(/(\[.+?\])/g, "").trim();
+      });
     },
     search(formData) {
       this.formData = Object.assign({}, this.formData, formData);
@@ -6523,22 +6623,19 @@ const _sfc_main = {
       return `reference-widget-browser-${this.fieldName.replace(/\./g, "_")}`;
     },
     buttonLable() {
-      return this.open ? "Close" : "Browse";
+      return this.open ? this.$i18n("Close") : this.$i18n("Browse");
     }
   }
 };
 const _hoisted_1 = { ref: "root" };
 const _hoisted_2 = ["id"];
-const _hoisted_3 = { class: "modal-dialog modal-dialog-scrollable modal-xl" };
-const _hoisted_4 = { class: "modal-content" };
-const _hoisted_5 = /* @__PURE__ */ createBaseVNode("div", { class: "modal-header" }, "Choose content", -1);
-const _hoisted_6 = { class: "modal-body" };
-const _hoisted_7 = { class: "modal-footer" };
-const _hoisted_8 = ["data-bs-target"];
-const _hoisted_9 = { class: "widget-selected-items" };
-const _hoisted_10 = { class: "list-group" };
-const _hoisted_11 = ["name", "value"];
-const _hoisted_12 = ["aria-controls", "data-bs-target"];
+const _hoisted_3 = { class: "card" };
+const _hoisted_4 = { class: "card-header" };
+const _hoisted_5 = { class: "card-body" };
+const _hoisted_6 = { class: "widget-selected-items" };
+const _hoisted_7 = { class: "list-group" };
+const _hoisted_8 = ["name", "value"];
+const _hoisted_9 = ["aria-controls", "data-bs-target"];
 function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_searchForm = resolveComponent("searchForm");
   const _component_Breadcrumbs = resolveComponent("Breadcrumbs");
@@ -6554,48 +6651,42 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
       ref: "browser"
     }, [
       createBaseVNode("div", _hoisted_3, [
-        createBaseVNode("div", _hoisted_4, [
-          _hoisted_5,
-          createBaseVNode("div", _hoisted_6, [
-            createVNode(_component_searchForm, {
-              onSearch: $options.search,
-              onReset: $options.reset
-            }, null, 8, ["onSearch", "onReset"]),
-            createVNode(_component_Breadcrumbs, {
-              breadcrumbs: $data.breadcrumbs,
-              fetchData: $options.fetchData,
-              portalURL: $data.portalURL
-            }, null, 8, ["breadcrumbs", "fetchData", "portalURL"]),
-            $data.data.batching ? (openBlock(), createBlock(_component_Pagination, {
-              key: 0,
-              onNext: $options.fetchData,
-              onPrevious: $options.fetchData,
-              batching: $data.data.batching
-            }, null, 8, ["onNext", "onPrevious", "batching"])) : createCommentVNode("v-if", true),
-            createTextVNode(" total " + toDisplayString($data.data.items_total) + " ", 1),
-            createVNode(_component_ListItems, {
-              fetchData: $options.fetchData,
-              items: $data.data.items,
-              selectedItems: $data.selected,
-              inputType: $data.inputType,
-              selectableTypes: $data.selectableTypes,
-              traversableTypes: $data.traversableTypes,
-              onChecked: $options.updateSelected
-            }, null, 8, ["fetchData", "items", "selectedItems", "inputType", "selectableTypes", "traversableTypes", "onChecked"])
-          ]),
-          createBaseVNode("div", _hoisted_7, [
-            createBaseVNode("button", {
-              type: "button",
-              class: "btn btn-secondary",
-              "data-bs-toggle": "collapse",
-              "data-bs-target": `#${$options.browserName}`
-            }, " Close ", 8, _hoisted_8)
-          ])
+        createBaseVNode("div", _hoisted_4, toDisplayString(_ctx.$i18n("Choose content")), 1),
+        createBaseVNode("div", _hoisted_5, [
+          createVNode(_component_searchForm, {
+            onSearch: $options.search,
+            onReset: $options.reset
+          }, null, 8, ["onSearch", "onReset"]),
+          createVNode(_component_Breadcrumbs, {
+            breadcrumbs: $data.breadcrumbs,
+            fetchData: $options.fetchData,
+            portalURL: $data.portalURL,
+            workflowTitleMapping: $data.workflowTitleMapping,
+            additionalContextData: $data.additionalContextData
+          }, null, 8, ["breadcrumbs", "fetchData", "portalURL", "workflowTitleMapping", "additionalContextData"]),
+          $data.data.batching ? (openBlock(), createBlock(_component_Pagination, {
+            key: 0,
+            onNext: $options.fetchData,
+            onPrevious: $options.fetchData,
+            batching: $data.data.batching
+          }, null, 8, ["onNext", "onPrevious", "batching"])) : createCommentVNode("v-if", true),
+          createTextVNode(" total " + toDisplayString($data.data.items_total) + " ", 1),
+          createVNode(_component_ListItems, {
+            fetchData: $options.fetchData,
+            items: $data.data.items,
+            selectedItems: $data.selected,
+            inputType: $data.inputType,
+            selectableTypes: $data.selectableTypes,
+            traversableTypes: $data.traversableTypes,
+            iconMapping: $data.iconMapping,
+            workflowTitleMapping: $data.workflowTitleMapping,
+            onChecked: $options.updateSelected
+          }, null, 8, ["fetchData", "items", "selectedItems", "inputType", "selectableTypes", "traversableTypes", "iconMapping", "workflowTitleMapping", "onChecked"])
         ])
       ])
     ], 8, _hoisted_2),
-    createBaseVNode("div", _hoisted_9, [
-      createBaseVNode("ul", _hoisted_10, [
+    createBaseVNode("div", _hoisted_6, [
+      createBaseVNode("ul", _hoisted_7, [
         (openBlock(true), createElementBlock(Fragment, null, renderList($data.selected, (item) => {
           return openBlock(), createElementBlock("li", {
             class: "list-group-item",
@@ -6606,7 +6697,7 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
               checked: "",
               name: $data.fieldName,
               value: item.replace($data.portalURL, $data.portalPath)
-            }, null, 8, _hoisted_11),
+            }, null, 8, _hoisted_8),
             createTextVNode(" " + toDisplayString(item), 1)
           ]);
         }), 128))
@@ -6619,7 +6710,7 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
       "aria-expanded": "false",
       "aria-controls": $options.browserName,
       "data-bs-target": `#${$options.browserName}`
-    }, toDisplayString($options.buttonLable), 9, _hoisted_12)
+    }, toDisplayString($options.buttonLable), 9, _hoisted_9)
   ], 512);
 }
 var App = /* @__PURE__ */ _export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "/Users/maethu/4teamwork/ftw.referencewidget/ftw/referencewidget/resources/src/widget/App.vue"]]);
@@ -9584,6 +9675,16 @@ var lib = {
   parse,
   stringify
 };
+var i18n = {
+  install: (app, options) => {
+    app.config.globalProperties.$i18n = (message) => {
+      if (message in options) {
+        return options[message];
+      }
+      return message;
+    };
+  }
+};
 function axiosInstance() {
   const instance = axios.create({
     paramsSerializer: (params) => lib.stringify(params, { arrayFormat: "repeat" }),
@@ -9604,6 +9705,8 @@ function initReferenceWidget() {
     app.use(plugin, {
       axios: axiosInstance()
     });
+    const messages = JSON.parse(element.getAttribute("data-translations"));
+    app.use(i18n, messages);
     app.mount(element);
     element.classList.add("initialized");
   });
