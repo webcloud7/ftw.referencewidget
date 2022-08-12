@@ -9,6 +9,8 @@ Changelog
 
 - Use switch instead of checkboxes for better readability. [mathias.leimgruber]
 
+- Fix mimetype icons for files and images. [mathias.leimgruber]
+
 
 4.0.0b1 (2022-08-11)
 --------------------

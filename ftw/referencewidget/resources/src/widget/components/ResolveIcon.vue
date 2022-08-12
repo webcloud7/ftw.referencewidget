@@ -2,12 +2,12 @@
   <div class="d-inline-block me-1">
     <template v-if="item['@type'] == 'File'">
       <img
-        :src="`${item['@id']}/@@iconresolver/mimetype-${item.file['content-type']}`"
+        :src="`${item['@id']}/@@iconresolver/mimetype-${item['mime_type']}`"
       />
     </template>
     <template v-else-if="item['@type'] == 'Image'">
       <img
-        :src="`${item['@id']}/@@iconresolver/mimetype-${item.image['content-type']}`"
+        :src="`${item['@id']}/@@iconresolver/mimetype-${item['mime_type']}`"
       />
     </template>
     <template v-else>

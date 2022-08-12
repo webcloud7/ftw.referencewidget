@@ -170,7 +170,9 @@ const toRawType = (value) => {
 };
 const isPlainObject$1 = (val) => toTypeString(val) === "[object Object]";
 const isIntegerKey = (key) => isString$2(key) && key !== "NaN" && key[0] !== "-" && "" + parseInt(key, 10) === key;
-const isReservedProp = /* @__PURE__ */ makeMap(",key,ref,ref_for,ref_key,onVnodeBeforeMount,onVnodeMounted,onVnodeBeforeUpdate,onVnodeUpdated,onVnodeBeforeUnmount,onVnodeUnmounted");
+const isReservedProp = /* @__PURE__ */ makeMap(
+  ",key,ref,ref_for,ref_key,onVnodeBeforeMount,onVnodeMounted,onVnodeBeforeUpdate,onVnodeUpdated,onVnodeBeforeUnmount,onVnodeUnmounted"
+);
 const cacheStringFunction = (fn) => {
   const cache = /* @__PURE__ */ Object.create(null);
   return (str) => {
@@ -493,7 +495,9 @@ function triggerEffect(effect, debuggerEventExtraInfo) {
   }
 }
 const isNonTrackableKeys = /* @__PURE__ */ makeMap(`__proto__,__v_isRef,__isVue`);
-const builtInSymbols = new Set(/* @__PURE__ */ Object.getOwnPropertyNames(Symbol).filter((key) => key !== "arguments" && key !== "caller").map((key) => Symbol[key]).filter(isSymbol$1));
+const builtInSymbols = new Set(
+  /* @__PURE__ */ Object.getOwnPropertyNames(Symbol).filter((key) => key !== "arguments" && key !== "caller").map((key) => Symbol[key]).filter(isSymbol$1)
+);
 const get = /* @__PURE__ */ createGetter();
 const shallowGet = /* @__PURE__ */ createGetter(false, true);
 const readonlyGet = /* @__PURE__ */ createGetter(true);
@@ -3344,7 +3348,9 @@ function baseCreateRenderer(options, createHydrationFns) {
             hydrateNode(el, instance.subTree, instance, parentSuspense, null);
           };
           if (isAsyncWrapperVNode) {
-            initialVNode.type.__asyncLoader().then(() => !instance.isUnmounted && hydrateSubTree());
+            initialVNode.type.__asyncLoader().then(
+              () => !instance.isUnmounted && hydrateSubTree()
+            );
           } else {
             hydrateSubTree();
           }
@@ -3386,7 +3392,15 @@ function baseCreateRenderer(options, createHydrationFns) {
         const nextTree = renderComponentRoot(instance);
         const prevTree = instance.subTree;
         instance.subTree = nextTree;
-        patch(prevTree, nextTree, hostParentNode(prevTree.el), getNextHostNode(prevTree), instance, parentSuspense, isSVG);
+        patch(
+          prevTree,
+          nextTree,
+          hostParentNode(prevTree.el),
+          getNextHostNode(prevTree),
+          instance,
+          parentSuspense,
+          isSVG
+        );
         next.el = nextTree.el;
         if (originNext === null) {
           updateHOCHostEl(instance, nextTree.el);
@@ -3399,7 +3413,11 @@ function baseCreateRenderer(options, createHydrationFns) {
         }
       }
     };
-    const effect = instance.effect = new ReactiveEffect(componentUpdateFn, () => queueJob(update), instance.scope);
+    const effect = instance.effect = new ReactiveEffect(
+      componentUpdateFn,
+      () => queueJob(update),
+      instance.scope
+    );
     const update = instance.update = () => effect.run();
     update.id = instance.uid;
     toggleRecurse(instance, true);
@@ -4012,7 +4030,11 @@ function normalizeVNode(child) {
   if (child == null || typeof child === "boolean") {
     return createVNode(Comment);
   } else if (isArray$5(child)) {
-    return createVNode(Fragment, null, child.slice());
+    return createVNode(
+      Fragment,
+      null,
+      child.slice()
+    );
   } else if (typeof child === "object") {
     return cloneIfMounted(child);
   } else {
@@ -5211,10 +5233,10 @@ function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
   return openBlock(), createElementBlock("div", _hoisted_1$2, [
     $props.item["@type"] == "File" ? (openBlock(), createElementBlock("img", {
       key: 0,
-      src: `${$props.item["@id"]}/@@iconresolver/mimetype-${$props.item.file["content-type"]}`
+      src: `${$props.item["@id"]}/@@iconresolver/mimetype-${$props.item["mime_type"]}`
     }, null, 8, _hoisted_2$2)) : $props.item["@type"] == "Image" ? (openBlock(), createElementBlock("img", {
       key: 1,
-      src: `${$props.item["@id"]}/@@iconresolver/mimetype-${$props.item.image["content-type"]}`
+      src: `${$props.item["@id"]}/@@iconresolver/mimetype-${$props.item["mime_type"]}`
     }, null, 8, _hoisted_3$2)) : (openBlock(), createElementBlock("img", {
       key: 2,
       src: `${$props.item["@id"]}/@@iconresolver/${$props.iconMapping[$props.item["@type"]]}`
@@ -5349,7 +5371,9 @@ function _sfc_render$1(_ctx, _cache, $props, $setup, $data, $options) {
             [vModelDynamic, $options.selectedProxy]
           ]),
           createBaseVNode("label", {
-            class: normalizeClass($options.isDisabled(item) && $options.isTraversable(item) ? "" : "form-check-label")
+            class: normalizeClass(
+              $options.isDisabled(item) && $options.isTraversable(item) ? "" : "form-check-label"
+            )
           }, [
             createVNode(_component_ResolveIcon, {
               item,
@@ -5419,9 +5443,15 @@ const _sfc_main = {
     this.portalPath = wrapperElement.getAttribute("data-portalpath");
     this.fieldName = wrapperElement.getAttribute("data-fieldname");
     this.inputType = wrapperElement.getAttribute("data-inputtype");
-    this.iconMapping = JSON.parse(wrapperElement.getAttribute("data-icon-mapping"));
-    this.selectableTypes = JSON.parse(wrapperElement.getAttribute("data-selectabletypes"));
-    this.traversableTypes = JSON.parse(wrapperElement.getAttribute("data-traversabletypes"));
+    this.iconMapping = JSON.parse(
+      wrapperElement.getAttribute("data-icon-mapping")
+    );
+    this.selectableTypes = JSON.parse(
+      wrapperElement.getAttribute("data-selectabletypes")
+    );
+    this.traversableTypes = JSON.parse(
+      wrapperElement.getAttribute("data-traversabletypes")
+    );
     this.loadSelectedItems(wrapperElement);
     this.$refs.browser.addEventListener("show.bs.collapse", () => {
       this.fetchData(this.startURL);
@@ -5435,7 +5465,7 @@ const _sfc_main = {
   methods: {
     async fetchData(url, options) {
       let params = {
-        metadata_fields: ["UID", "is_folderish", "portal_type"],
+        metadata_fields: ["UID", "is_folderish", "portal_type", "mime_type"],
         sort_on: this.formData.sortOn,
         sort_order: this.formData.sortOrder
       };
@@ -5463,7 +5493,9 @@ const _sfc_main = {
       this.additionalContextData["review_state_title"] = this.workflowTitleMapping[response.data.review_state];
     },
     async fetchWorkflowTitles() {
-      const response = await this.axios.get(this.portalURL + "/@vocabularies/plone.app.vocabularies.WorkflowStates");
+      const response = await this.axios.get(
+        this.portalURL + "/@vocabularies/plone.app.vocabularies.WorkflowStates"
+      );
       response.data.items.forEach((item) => {
         this.workflowTitleMapping[item.token] = item.title.replace(/(\[.+?\])/g, "").trim();
       });
@@ -5486,7 +5518,9 @@ const _sfc_main = {
     updateSelected(checked) {
       this.selected = checked;
       if (this.inputType == "radio") {
-        window.jQuery.fn.collapse.Constructor.getInstance(this.$refs.browser).hide();
+        window.jQuery.fn.collapse.Constructor.getInstance(
+          this.$refs.browser
+        ).hide();
       }
     },
     loadSelectedItems(wrapperElement) {
@@ -6070,7 +6104,13 @@ var settle$1 = function settle2(resolve2, reject, response) {
   if (!response.status || !validateStatus2 || validateStatus2(response.status)) {
     resolve2(response);
   } else {
-    reject(new AxiosError$4("Request failed with status code " + response.status, [AxiosError$4.ERR_BAD_REQUEST, AxiosError$4.ERR_BAD_RESPONSE][Math.floor(response.status / 100) - 4], response.config, response.request, response));
+    reject(new AxiosError$4(
+      "Request failed with status code " + response.status,
+      [AxiosError$4.ERR_BAD_REQUEST, AxiosError$4.ERR_BAD_RESPONSE][Math.floor(response.status / 100) - 4],
+      response.config,
+      response.request,
+      response
+    ));
   }
 };
 var utils$e = utils$k;
@@ -6308,7 +6348,12 @@ var xhr = function xhrAdapter(config) {
       if (config.timeoutErrorMessage) {
         timeoutErrorMessage = config.timeoutErrorMessage;
       }
-      reject(new AxiosError$2(timeoutErrorMessage, transitional3.clarifyTimeoutError ? AxiosError$2.ETIMEDOUT : AxiosError$2.ECONNABORTED, config, request2));
+      reject(new AxiosError$2(
+        timeoutErrorMessage,
+        transitional3.clarifyTimeoutError ? AxiosError$2.ETIMEDOUT : AxiosError$2.ECONNABORTED,
+        config,
+        request2
+      ));
       request2 = null;
     };
     if (utils$a.isStandardBrowserEnv()) {
@@ -6498,21 +6543,43 @@ function throwIfCancellationRequested(config) {
 var dispatchRequest$1 = function dispatchRequest2(config) {
   throwIfCancellationRequested(config);
   config.headers = config.headers || {};
-  config.data = transformData.call(config, config.data, config.headers, config.transformRequest);
-  config.headers = utils$7.merge(config.headers.common || {}, config.headers[config.method] || {}, config.headers);
-  utils$7.forEach(["delete", "get", "head", "post", "put", "patch", "common"], function cleanHeaderConfig(method) {
-    delete config.headers[method];
-  });
+  config.data = transformData.call(
+    config,
+    config.data,
+    config.headers,
+    config.transformRequest
+  );
+  config.headers = utils$7.merge(
+    config.headers.common || {},
+    config.headers[config.method] || {},
+    config.headers
+  );
+  utils$7.forEach(
+    ["delete", "get", "head", "post", "put", "patch", "common"],
+    function cleanHeaderConfig(method) {
+      delete config.headers[method];
+    }
+  );
   var adapter = config.adapter || defaults$3.adapter;
   return adapter(config).then(function onAdapterResolution(response) {
     throwIfCancellationRequested(config);
-    response.data = transformData.call(config, response.data, response.headers, config.transformResponse);
+    response.data = transformData.call(
+      config,
+      response.data,
+      response.headers,
+      config.transformResponse
+    );
     return response;
   }, function onAdapterRejection(reason) {
     if (!isCancel(reason)) {
       throwIfCancellationRequested(config);
       if (reason && reason.response) {
-        reason.response.data = transformData.call(config, reason.response.data, reason.response.headers, config.transformResponse);
+        reason.response.data = transformData.call(
+          config,
+          reason.response.data,
+          reason.response.headers,
+          config.transformResponse
+        );
       }
     }
     return Promise.reject(reason);
@@ -6612,11 +6679,19 @@ validators$1.transitional = function transitional2(validator2, version2, message
   }
   return function(value, opt, opts) {
     if (validator2 === false) {
-      throw new AxiosError(formatMessage(opt, " has been removed" + (version2 ? " in " + version2 : "")), AxiosError.ERR_DEPRECATED);
+      throw new AxiosError(
+        formatMessage(opt, " has been removed" + (version2 ? " in " + version2 : "")),
+        AxiosError.ERR_DEPRECATED
+      );
     }
     if (version2 && !deprecatedWarnings[opt]) {
       deprecatedWarnings[opt] = true;
-      console.warn(formatMessage(opt, " has been deprecated since v" + version2 + " and will be removed in the near future"));
+      console.warn(
+        formatMessage(
+          opt,
+          " has been deprecated since v" + version2 + " and will be removed in the near future"
+        )
+      );
     }
     return validator2 ? validator2(value, opt, opts) : true;
   };
@@ -6952,13 +7027,19 @@ var implementation$1 = function bind3(that) {
   var bound;
   var binder = function() {
     if (this instanceof bound) {
-      var result = target.apply(this, args.concat(slice.call(arguments)));
+      var result = target.apply(
+        this,
+        args.concat(slice.call(arguments))
+      );
       if (Object(result) === result) {
         return result;
       }
       return this;
     } else {
-      return target.apply(that, args.concat(slice.call(arguments)));
+      return target.apply(
+        that,
+        args.concat(slice.call(arguments))
+      );
     }
   };
   var boundLength = Math.max(0, target.length - args.length);
@@ -7289,7 +7370,11 @@ var callBind$1 = { exports: {} };
     if ($gOPD2 && $defineProperty) {
       var desc = $gOPD2(func, "length");
       if (desc.configurable) {
-        $defineProperty(func, "length", { value: 1 + $max(0, originalFunction.length - (arguments.length - 1)) });
+        $defineProperty(
+          func,
+          "length",
+          { value: 1 + $max(0, originalFunction.length - (arguments.length - 1)) }
+        );
       }
     }
     return func;
@@ -8254,7 +8339,24 @@ var stringify$1 = function stringify2(object, prefix, generateArrayPrefix, comma
     sideChannel2.set(object, step);
     var valueSideChannel = getSideChannel();
     valueSideChannel.set(sentinel, sideChannel2);
-    pushToArray(values, stringify2(value, keyPrefix, generateArrayPrefix, commaRoundTrip, strictNullHandling, skipNulls, encoder, filter, sort, allowDots, serializeDate2, format, formatter, encodeValuesOnly, charset, valueSideChannel));
+    pushToArray(values, stringify2(
+      value,
+      keyPrefix,
+      generateArrayPrefix,
+      commaRoundTrip,
+      strictNullHandling,
+      skipNulls,
+      encoder,
+      filter,
+      sort,
+      allowDots,
+      serializeDate2,
+      format,
+      formatter,
+      encodeValuesOnly,
+      charset,
+      valueSideChannel
+    ));
   }
   return values;
 };
@@ -8340,7 +8442,24 @@ var stringify_1 = function(object, opts) {
     if (options.skipNulls && obj[key] === null) {
       continue;
     }
-    pushToArray(keys, stringify$1(obj[key], key, generateArrayPrefix, commaRoundTrip, options.strictNullHandling, options.skipNulls, options.encode ? options.encoder : null, options.filter, options.sort, options.allowDots, options.serializeDate, options.format, options.formatter, options.encodeValuesOnly, options.charset, sideChannel2));
+    pushToArray(keys, stringify$1(
+      obj[key],
+      key,
+      generateArrayPrefix,
+      commaRoundTrip,
+      options.strictNullHandling,
+      options.skipNulls,
+      options.encode ? options.encoder : null,
+      options.filter,
+      options.sort,
+      options.allowDots,
+      options.serializeDate,
+      options.format,
+      options.formatter,
+      options.encodeValuesOnly,
+      options.charset,
+      sideChannel2
+    ));
   }
   var joined = keys.join(options.delimiter);
   var prefix = options.addQueryPrefix === true ? "?" : "";
@@ -8421,9 +8540,12 @@ var parseValues = function parseQueryStringValues(str, options) {
       val = options.strictNullHandling ? null : "";
     } else {
       key = options.decoder(part.slice(0, pos), defaults.decoder, charset, "key");
-      val = utils.maybeMap(parseArrayValue(part.slice(pos + 1), options), function(encodedVal) {
-        return options.decoder(encodedVal, defaults.decoder, charset, "value");
-      });
+      val = utils.maybeMap(
+        parseArrayValue(part.slice(pos + 1), options),
+        function(encodedVal) {
+          return options.decoder(encodedVal, defaults.decoder, charset, "value");
+        }
+      );
     }
     if (val && options.interpretNumericEntities && charset === "iso-8859-1") {
       val = interpretNumericEntities(val);

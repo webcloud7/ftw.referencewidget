@@ -138,7 +138,7 @@ export default {
   methods: {
     async fetchData(url, options) {
       let params = {
-        metadata_fields: ["UID", "is_folderish", "portal_type"],
+        metadata_fields: ["UID", "is_folderish", "portal_type", "mime_type"],
         sort_on: this.formData.sortOn,
         sort_order: this.formData.sortOrder,
       };
