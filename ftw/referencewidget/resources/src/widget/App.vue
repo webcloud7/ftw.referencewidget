@@ -49,9 +49,9 @@
             type="checkbox"
             checked
             :name="fieldName"
-            :value="item.replace(portalURL, portalPath)"
+            :value="item.url.replace(portalURL, portalPath)"
           />
-          {{ item }}
+          {{ item.title }} ({{ item.url }})
         </li>
       </ul>
     </div>
@@ -210,9 +210,10 @@ export default {
       wrapperElement.parentElement
         .querySelectorAll(".selected_items input")
         .forEach((element) => {
-          this.selected.push(
-            this.portalURL + element.value.replace(this.portalPath, "")
-          );
+          this.selected.push({
+            title: element.getAttribute("data-title"),
+            url: this.portalURL + element.value.replace(this.portalPath, ""),
+          });
         });
       wrapperElement.parentElement.querySelector(".selected_items").remove();
     },

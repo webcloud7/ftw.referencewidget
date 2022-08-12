@@ -2,16 +2,15 @@
   <ul class="list-group">
     <template v-for="item in items" :key="item.UID">
       <li class="list-group-item">
-        <div class="form-check">
+        <div :class="this.inputType == 'checkbox' ? 'form-check form-switch' : 'form-check'">
           <input
             class="form-check-input me-1"
             :type="inputType"
-            :value="item['@id']"
-            :checked="item['@id'] in selectedProxy"
-            :selected="item['@id'] in selectedProxy"
+            :value="{ title: item.title, url: item['@id'] }"
             v-model="selectedProxy"
             @change="checked"
             :disabled="isDisabled(item)"
+            :role="this.inputType == 'checkbox' ? 'switch' : ''"
           />
           <label
             :class="
@@ -29,7 +28,8 @@
                 workflowTitleMapping[item["review_state"]]
               }}</span></a
             >
-            <span v-else> {{ item.title }}
+            <span v-else>
+              {{ item.title }}
               <span :class="`state-${item['review_state']}`">{{
                 workflowTitleMapping[item["review_state"]]
               }}</span>
@@ -126,7 +126,11 @@ export default {
   computed: {
     selectedProxy: {
       get() {
-        return this.selected;
+        if (this.inputType == "checkbox") {
+          return this.selected;
+        } else {
+          return this.selected[0];
+        }
       },
       set(value) {
         if (this.inputType == "checkbox") {

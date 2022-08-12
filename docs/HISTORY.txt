@@ -5,7 +5,9 @@ Changelog
 4.0.0b2 (unreleased)
 --------------------
 
-- Nothing changed yet.
+- Fix selected state in widget for selected items and add title to selected items. [mathias.leimgruber]
+
+- Use switch instead of checkboxes for better readability. [mathias.leimgruber]
 
 
 4.0.0b1 (2022-08-11)
