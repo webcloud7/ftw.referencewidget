@@ -25,7 +25,7 @@
             @previous="fetchData"
             :batching="data.batching"
           />
-          total {{ data.items_total }}
+          {{ $i18n("Total") }} {{ data.items_total }}
 
           <ListItems
             :fetchData="fetchData"

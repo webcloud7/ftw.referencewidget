@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2022-08-12 00:19+0000\n"
+"POT-Creation-Date: 2022-08-12 14:49+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -113,7 +113,7 @@ msgstr "Zurücksetzen"
 #. Default: "Search text"
 #: ./ftw/referencewidget/widget.py:94
 msgid "label_searchtext"
-msgstr "Suchtext"
+msgstr "Suche im aktuellen"
 
 #. Default: "Ascending"
 #: ./ftw/referencewidget/widget.py:88
@@ -159,4 +159,9 @@ msgstr "Reihenfolge"
 #: ./ftw/referencewidget/widget.py:91
 msgid "label_startpage"
 msgstr "Startseite"
+
+#. Default: "Total"
+#: ./ftw/referencewidget/widget.py:97
+msgid "label_total"
+msgstr "Total:"
 
