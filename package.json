@@ -19,6 +19,7 @@
     "lint": "eslint ./ftw/referencewidget/resources/src --ext .vue,.js,.jsx,.cjs,.mjs --fix --ignore-path .gitignore"
   },
     "dependencies": {
+        "@patternslib/patternslib": "9.0.0-beta.1",
         "axios": "^0.27.2",
         "qs": "^6.10.5",
         "vue": "^3.2.36",

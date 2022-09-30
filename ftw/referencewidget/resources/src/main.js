@@ -4,6 +4,7 @@ import VueAxios from "vue-axios";
 import axios from "axios";
 import qs from "qs";
 import i18n from "./widget/i18n.js";
+import Replace from "./relateditems/replace";
 
 function axiosInstance() {
   const instance = axios.create({
@@ -38,3 +39,4 @@ function initReferenceWidget() {
 
 initReferenceWidget();
 window.initReferenceWidget = initReferenceWidget;
+Replace.run();
