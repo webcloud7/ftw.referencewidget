@@ -6,6 +6,7 @@ from ftw.referencewidget.browser.utils import get_selectable_types
 from ftw.referencewidget.browser.utils import get_traversal_types
 from ftw.referencewidget.browser.utils import is_traversable
 from ftw.referencewidget.interfaces import IReferenceWidget
+from ftw.referencewidget.sources import ReferenceObjSourceBinder
 from plone import api
 from plone.app.redirector.interfaces import IRedirectionStorage
 from Products.CMFCore.Expression import createExprContext
@@ -15,11 +16,13 @@ from z3c.form.interfaces import IFieldWidget
 from z3c.form.interfaces import IFormLayer
 from z3c.form.widget import FieldWidget
 from z3c.form.widget import Widget
+from z3c.relationfield.schema import RelationChoice
 from zope.component import adapter
 from zope.component import queryUtility
 from zope.i18n import translate
 from zope.interface import implementer
 from zope.interface import implementer_only
+from zope.schema.interfaces import IContextSourceBinder
 from zope.schema.interfaces import IList
 import json
 
@@ -63,6 +66,11 @@ class ReferenceBrowserWidget(widget.HTMLTextInputWidget, Widget):
         super(ReferenceBrowserWidget, self).update()
         # if isinstance(self.form, DataGridFieldObjectSubForm):
         #     self.context = self.form.__parent__.__parent__.context
+
+        # Make supermodel with keywordwidget (single select) work
+        if isinstance(self.field, RelationChoice):
+            if not IContextSourceBinder.providedBy(self.field.vocabulary):
+                self.field.vocabulary = ReferenceObjSourceBinder()
 
         widget.addFieldClass(self)
 
