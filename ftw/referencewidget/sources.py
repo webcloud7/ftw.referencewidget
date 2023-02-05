@@ -53,6 +53,7 @@ class ReferenceObjSourceBinder(object):
         self.override = override or False
         self.allow_nonsearched_types = allow_nonsearched_types or False
         self.root_path = root_path
+        self.query = {}  # plone.supermodel compatibility
 
     def __call__(self, context):
 
