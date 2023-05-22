@@ -4,6 +4,7 @@ import VueAxios from "vue-axios";
 import axios from "axios";
 import qs from "qs";
 import i18n from "./widget/i18n.js";
+import Base from "@patternslib/patternslib/src/core/base";
 
 function axiosInstance() {
   const instance = axios.create({
@@ -18,23 +19,29 @@ function axiosInstance() {
   return instance;
 }
 
-function initReferenceWidget() {
-  document.querySelectorAll(".reference-widget-app").forEach((element) => {
-    if (element.classList.contains("initialized")) {
-      return;
-    }
+function initReferenceWidget(element) {
+  if (element.classList.contains("initialized")) {
+    return;
+  }
 
-    const app = createApp(App);
-    app.use(VueAxios, {
-      axios: axiosInstance(),
-    });
-
-    const messages = JSON.parse(element.getAttribute("data-translations"));
-    app.use(i18n, messages);
-    app.mount(element);
-    element.classList.add("initialized");
+  const app = createApp(App);
+  app.use(VueAxios, {
+    axios: axiosInstance(),
   });
+
+  const messages = JSON.parse(element.getAttribute("data-translations"));
+  app.use(i18n, messages);
+  app.mount(element);
+  element.classList.add("initialized");
 }
 
-initReferenceWidget();
 window.initReferenceWidget = initReferenceWidget;
+
+export default Base.extend({
+  name: "reference-browser-widget",
+  trigger: ".reference-widget-app",
+  parser: "mockup",
+  init() {
+    initReferenceWidget(this.$el[0]);
+  },
+});

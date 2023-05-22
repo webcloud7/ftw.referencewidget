@@ -10,6 +10,7 @@ from ftw.referencewidget.sources import ReferenceObjSourceBinder
 from plone import api
 from plone.app.redirector.interfaces import IRedirectionStorage
 from Products.CMFCore.Expression import createExprContext
+from Products.CMFPlone.resources.webresource import PloneScriptResource
 from Products.CMFPlone.utils import safe_unicode
 from z3c.form.browser import widget
 from z3c.form.interfaces import IFieldWidget
@@ -180,6 +181,18 @@ class ReferenceBrowserWidget(widget.HTMLTextInputWidget, Widget):
                 icon = icon(expr_context)
             mapping[fti.getId()] = icon
         return json.dumps(mapping)
+
+    def script_resource_url(self):
+        resource = PloneScriptResource(
+            context=self.context,
+            name="reference-browser-widget",
+            depends="",
+            resource='/++resource++ftw.referencewidget/dist/referencewidget.es.js',
+            include=True,
+            unique=True,
+            integrity=True,
+        )
+        return resource.resource_url(api.portal.get().absolute_url())
 
 
 @adapter(IReferenceWidget, IFormLayer)

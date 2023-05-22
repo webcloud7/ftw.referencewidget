@@ -125,7 +125,7 @@ endif
 
 # version ok?
 PYTHON_VERSION_MIN=3.9
-PYTHON_VERSION_OK=$(shell $(PYTHON) -c 'import sys; print(int(float("%d.%d"% sys.version_info[0:2]) >= float($(PYTHON_VERSION_MIN))))' )
+PYTHON_VERSION_OK=$(shell $(PYTHON) -c 'import sys; print((int(sys.version_info[0]), int(sys.version_info[1])) > tuple(map(int, "$(PYTHON_VERSION_MIN)".split("."))))')
 ifeq ($(PYTHON_VERSION_OK),0)
   $(error "Need python $(PYTHON_VERSION) >= $(PYTHON_VERSION_MIN)")
 endif
