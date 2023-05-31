@@ -189,7 +189,7 @@ export default {
       const currentURL = new URL(this.data["@id"]);
       let options = { "path.query": currentURL.pathname, "path.depth": 1 };
       if (this.formData.searchTerm.length > 2) {
-        options.SearchableText = "*" + this.formData.searchTerm + "*";
+        options.SearchableText = this.formData.searchTerm;
         options["path.depth"] = -1;
       }
       this.fetchData(url, options);
