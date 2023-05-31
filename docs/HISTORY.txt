@@ -2,10 +2,10 @@ Changelog
 =========
 
 
-4.0.0b3 (unreleased)
+4.0.0 (unreleased)
 --------------------
 
-- Nothing changed yet.
+- No longer add * to search term. [mathias.leimgruber]
 
 
 4.0.0b2 (2023-05-22)
