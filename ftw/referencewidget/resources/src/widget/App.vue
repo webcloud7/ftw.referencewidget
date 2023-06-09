@@ -24,6 +24,7 @@
             @next="fetchData"
             @previous="fetchData"
             :batching="data.batching"
+            :items_total="data.items_total"
           />
           {{ $i18n("Total") }} {{ data.items_total }}
 
