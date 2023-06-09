@@ -5,7 +5,7 @@ Changelog
 4.0.1 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Fix pagination querystring duplicates [mathias.leimgruber]
 
 
 4.0.0 (2023-05-30)

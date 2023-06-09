@@ -104,6 +104,8 @@ class ReferenceBrowserWidget(widget.HTMLTextInputWidget, Widget):
             'Close': self._translate(_(u"label_close", default="Close")),
             'Browse': self._translate(_(u"label_browse", default="Browse")),
             'Total': self._translate(_(u"label_total", default="Total")),
+            'Page': self._translate(_(u"label_page", default="Page")),
+            'of': self._translate(_(u"label_of", default="of")),
         }
         return json.dumps(messages)
 
