@@ -36,16 +36,6 @@ Usage
 Installation / Development
 --------------------------
 
-Option 1 - Using buildout
-
-.. code:: sh
-
-    $ ./bootstrap.sh development.cfg
-    $ ./bin/instance fg
-
-
-Option 2 - Using Makefile
-
 .. code:: sh
 
     $ make install
