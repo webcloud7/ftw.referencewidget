@@ -5,7 +5,9 @@ Changelog
 4.0.2 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Test against Plone 6.0.9 [mathias.leimgruber]
+- Remove buildout based setup [mathias.leimgruber]
+- Remove FakeEditView for plone root [mathias.leimgruber]
 
 
 4.0.1 (2023-06-09)
