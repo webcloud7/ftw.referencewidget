@@ -179,7 +179,7 @@ ${INSTALL_TARGET}: ${PREPARE_TARGET}
 COOKIECUTTER_SENTINEL=${SENTINELFOLDER}pip-cookiecutter.sentinel
 ${COOKIECUTTER_SENTINEL}:
 	@echo "$(OK_COLOR)Install cookiecutter$(NO_COLOR)"
-	@${PYBIN}pip install git+https://github.com/cookiecutter/cookiecutter.git#egg=cookiecutter
+	@${PYBIN}pip install cookiecutter
 	@touch ${COOKIECUTTER_SENTINEL}
 
 ${INSTANCE_YAML}:
@@ -190,7 +190,7 @@ instance: ${INSTANCE_TARGET} ## create configuration for an zope (plone) instanc
 
 ${INSTANCE_TARGET}: ${INSTANCE_PREREQUISITES} ${COOKIECUTTER_SENTINEL}
 	@echo "$(OK_COLOR)Create Plone/Zope configuration$(NO_COLOR)"
-	@${PYBIN}cookiecutter -f --no-input --config-file ${INSTANCE_YAML} https://github.com/bluedynamics/cookiecutter-zope-instance
+	@${PYBIN}cookiecutter -f --no-input --config-file ${INSTANCE_YAML} https://github.com/plone/cookiecutter-zope-instance
 ##############################################################################
 # TESTING
 
