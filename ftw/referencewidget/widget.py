@@ -120,6 +120,10 @@ class ReferenceBrowserWidget(widget.HTMLTextInputWidget, Widget):
             path = storage.get(path)
             obj = self.context.unrestrictedTraverse(path, None)
 
+        mtool = api.portal.get_tool('portal_membership')
+        if not mtool.checkPermission('View', obj):
+            return None
+
         return obj
 
     def get_items(self):
