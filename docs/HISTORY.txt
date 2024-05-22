@@ -2,10 +2,11 @@ Changelog
 =========
 
 
-4.0.4 (unreleased)
+4.1.0 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Refactor widget to use @search endpoint for all queries. [mathias.leimgruber]
+- Add new explicit_type_filter parameter. [mathias.leimgruber]
 
 
 4.0.3 (2024-05-14)

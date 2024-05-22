@@ -16,6 +16,7 @@ The widget takes the following parameters:
  - allow_nonsearched_types: If this is set to true all the types will be traversable and selectable.
  - override: Drops all global config and the base query if a list is passed to the widget. If this is set to true, `selectable` & `allow_traversal` are not additive but act as the complete configuration instead. `nonselectable` & `block_traversal` will be ignored.
  - traversal_query: Updates the query used vor traversing by the given dict. The dict passed will be updated after everything is allready done. So make sure not to override sort_on/sort_order attributes.
+ - explicit_type_filter: Makes it possible to exclude certain types from showing at all. IMPORTAN: For this the restapi needs to support NOT queries: Like portal_type.not=Image. 
 
 
 Usage
@@ -171,6 +172,46 @@ Links
 - Github: https://github.com/4teamwork/ftw.referencewidget
 - Issues: https://github.com/4teamwork/ftw.referencewidget/issues
 - Continuous integration: https://jenkins.4teamwork.ch/search?q=ftw.referencewidget
+
+
+Make restapi support NOT queries via @search endpoint
+-----------------------------------------------------
+
+..code:: python
+
+    def parse_complex_query(self, idx_query):
+        idx_query = idx_query.copy()
+        parsed_query = {}
+
+        if "query" not in idx_query and "not" not in idx_query:
+            raise QueryParsingError(
+                "Query for index %r is missing a 'query' or 'not' key!" % self.index
+            )
+        if "query" in idx_query:
+            qv = idx_query.pop("query")
+            parsed_query["query"] = self.parse_simple_query(qv)
+        if "not" in idx_query:
+            nt = idx_query.pop("not")
+            parsed_query["not"] = self.parse_simple_query(nt)
+
+        for opt_key, opt_value in idx_query.items():
+            if opt_key in self.query_options:
+                opt_type = self.query_options[opt_key]
+                try:
+                    parsed_query[opt_key] = opt_type(opt_value)
+                except ValueError:
+                    raise QueryParsingError(
+                        "Value %r for query option %r (index %r) could not be"
+                        " casted to %r" % (opt_value, opt_key, self.index, opt_type)
+                    )
+            else:
+                log.warning(
+                    f"Unrecognized query option {opt_key!r} for index {self.index!r}"
+                )
+                # Pass along unknown option without modification
+                parsed_query[opt_key] = opt_value
+
+        return parsed_query
 
 
 Copyright

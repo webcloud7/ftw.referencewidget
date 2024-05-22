@@ -40,6 +40,7 @@ class ReferenceBrowserWidget(widget.HTMLTextInputWidget, Widget):
     nonselectable = None
     start = None
     override = None
+    explicit_type_filter = None
 
     traversal_query = None
 
@@ -52,6 +53,7 @@ class ReferenceBrowserWidget(widget.HTMLTextInputWidget, Widget):
                  start='',
                  override=False,
                  allow_nonsearched_types=False,
+                 explicit_type_filter=[],
                  traversal_query={}):
         self.request = request
         self.block_traversal = block_traversal
@@ -61,6 +63,7 @@ class ReferenceBrowserWidget(widget.HTMLTextInputWidget, Widget):
         self.start = start
         self.override = override
         self.allow_nonsearched_types = allow_nonsearched_types
+        self.explicit_type_filter = explicit_type_filter
         self.traversal_query = traversal_query
 
     def update(self):
@@ -175,6 +178,9 @@ class ReferenceBrowserWidget(widget.HTMLTextInputWidget, Widget):
     def traversable_types(self):
         return json.dumps(get_traversal_types(self))
 
+    def get_explicit_type_filter(self):
+        return json.dumps(self.explicit_type_filter)
+
     def icon_mapping(self):
         portal = api.portal.get()
         expr_context = createExprContext(
@@ -212,6 +218,7 @@ def ReferenceWidgetFactory(field,
                            start='',
                            override=False,
                            allow_nonsearched_types=False,
+                           explicit_type_filter=[],
                            traversal_query={}):
     """IFieldWidget factory for DateTimePickerWidget."""
     return FieldWidget(field, ReferenceBrowserWidget(request,
@@ -222,4 +229,5 @@ def ReferenceWidgetFactory(field,
                                                      start,
                                                      override,
                                                      allow_nonsearched_types,
+                                                     explicit_type_filter,
                                                      traversal_query))
