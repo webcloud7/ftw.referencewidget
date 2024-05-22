@@ -87,6 +87,7 @@ export default {
       portalURL: "",
       baseURL: "",
       startURL: "",
+      contextURL: "",
       portalPath: "",
       fieldName: "",
       inputType: "",
@@ -138,24 +139,29 @@ export default {
   },
   methods: {
     async fetchData(url, options) {
+      this.contextURL = url.replace("@search", "");
       let params = {
         metadata_fields: ["UID", "is_folderish", "portal_type", "mime_type"],
         sort_on: this.formData.sortOn,
         sort_order: this.formData.sortOrder,
+        "path.query": new URL(url).pathname,
+        "path.depth": 1,
       };
 
-      if (!url) {
-        url = this.data["@id"];
-      }
-
       const isSearch = url.indexOf("/@search") != -1;
+      if (!isSearch) {
+        url = url + "/@search";
+      }
 
       if (options) {
         params = Object.assign(params, options);
       }
 
       if (!isSearch) {
-        params.expand = "breadcrumbs";
+        const breadcrumbs = await this.axios.get(
+          this.contextURL + "/@breadcrumbs"
+        );
+        this.breadcrumbs = breadcrumbs.data.items;
       }
 
       const response = await this.axios.get(url, { params: params });
@@ -165,10 +171,7 @@ export default {
       this.data.batching = response.data.batching;
 
       if (!isSearch) {
-        this.data["@id"] = response.data["@id"];
-      }
-      if (response.data["@components"]) {
-        this.breadcrumbs = response.data["@components"].breadcrumbs.items;
+        this.data["@id"] = url;
       }
       this.additionalContextData["review_state"] = response.data.review_state;
       this.additionalContextData["review_state_title"] =
@@ -186,14 +189,13 @@ export default {
     },
     search(formData) {
       this.formData = Object.assign({}, this.formData, formData);
-      const url = this.data["@id"] + "/@search";
-      const currentURL = new URL(this.data["@id"]);
-      let options = { "path.query": currentURL.pathname, "path.depth": 1 };
+      const contextURL = new URL(this.contextURL);
+      let options = { "path.query": contextURL.pathname, "path.depth": 1 };
       if (this.formData.searchTerm.length > 2) {
         options.SearchableText = this.formData.searchTerm;
         options["path.depth"] = -1;
       }
-      this.fetchData(url, options);
+      this.fetchData(this.contextURL, options);
     },
     reset(formData) {
       this.formData = formData;
