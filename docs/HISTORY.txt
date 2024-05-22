@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-4.1.0 (unreleased)
+4.1.0 (2024-05-22)
 ------------------
 
 - Refactor widget to use @search endpoint for all queries. [mathias.leimgruber]
