@@ -18,6 +18,7 @@
                              data-inputtype view/input_type;
                              data-selectabletypes view/selectable_types;
                              data-traversabletypes view/traversable_types;
+                             data-explicittypefilter view/get_explicit_type_filter;
                              data-icon-mapping view/icon_mapping;
                              data-translations view/translations;
                              data-script-source view/script_resource_url"/>

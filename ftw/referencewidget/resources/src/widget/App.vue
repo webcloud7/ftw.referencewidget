@@ -99,6 +99,7 @@ export default {
       iconMapping: {},
       workflowTitleMapping: {},
       additionalContextData: {},
+      explicitTypeFilter: [],
       formData: {
         searchTerm: "",
         sortOn: "getObjPositionInParent",
@@ -125,6 +126,9 @@ export default {
     this.traversableTypes = JSON.parse(
       wrapperElement.getAttribute("data-traversabletypes")
     );
+    this.explicitTypeFilter = JSON.parse(
+      wrapperElement.getAttribute("data-explicittypefilter")
+    );
 
     this.loadSelectedItems(wrapperElement);
 
@@ -140,12 +144,14 @@ export default {
   methods: {
     async fetchData(url, options) {
       this.contextURL = url.replace("@search", "");
+
       let params = {
         metadata_fields: ["UID", "is_folderish", "portal_type", "mime_type"],
         sort_on: this.formData.sortOn,
         sort_order: this.formData.sortOrder,
         "path.query": new URL(url).pathname,
         "path.depth": 1,
+        "portal_type.not": this.explicitTypeFilter,
       };
 
       const isSearch = url.indexOf("/@search") != -1;
