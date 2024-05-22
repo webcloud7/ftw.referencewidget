@@ -177,12 +177,11 @@ Links
 Make restapi support NOT queries via @search endpoint
 -----------------------------------------------------
 
-..code:: python
+.. code:: python
 
     def parse_complex_query(self, idx_query):
         idx_query = idx_query.copy()
         parsed_query = {}
-
         if "query" not in idx_query and "not" not in idx_query:
             raise QueryParsingError(
                 "Query for index %r is missing a 'query' or 'not' key!" % self.index
