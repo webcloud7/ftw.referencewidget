@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-4.2.0 (unreleased)
+4.2.0 (2024-05-29)
 ------------------
 
 - Make referenced items draggable. [mathias.leimgruber]
