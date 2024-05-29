@@ -9,6 +9,7 @@ from ftw.referencewidget.interfaces import IReferenceWidget
 from ftw.referencewidget.sources import ReferenceObjSourceBinder
 from plone import api
 from plone.app.redirector.interfaces import IRedirectionStorage
+from plone.base.defaultpage import is_default_page
 from Products.CMFCore.Expression import createExprContext
 from Products.CMFPlone.resources.webresource import PloneScriptResource
 from Products.CMFPlone.utils import safe_unicode
@@ -162,6 +163,10 @@ class ReferenceBrowserWidget(widget.HTMLTextInputWidget, Widget):
             obj = self.context
             while api.portal.get() != obj and not is_traversable(self, obj):
                 obj = aq_parent(obj)
+
+            if is_default_page(aq_parent(obj), obj):
+                obj = aq_parent(obj)
+
             effective_path = '/'.join(obj.getPhysicalPath())
         return effective_path
 
