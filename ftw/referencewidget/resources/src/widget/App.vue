@@ -45,15 +45,28 @@
 
     <div class="widget-selected-items">
       <ul class="list-group">
-        <li class="list-group-item" v-for="item in selected" :key="item">
-          <input
-            type="checkbox"
-            checked
-            :name="fieldName"
-            :value="item.url.replace(portalURL, portalPath)"
-          />
-          {{ item.title }} ({{ item.url }})
-        </li>
+        <draggable
+          v-model="selected"
+          @start="drag = true"
+          @end="drag = false"
+          handle=".moveButton"
+          :itemKey="`url`"
+        >
+          <template #item="{ element }">
+            <li class="list-group-item">
+              <button class="btn btn-light moveButton me-2" title="Move item">
+                <img :src="`${portalURL}/@@iconresolver/arrows-move`" />
+              </button>
+              <input
+                type="checkbox"
+                checked
+                :name="fieldName"
+                :value="element.url.replace(portalURL, portalPath)"
+              />
+              {{ element.title }} ({{ element.url }})
+            </li>
+          </template>
+        </draggable>
       </ul>
     </div>
     <button
@@ -73,6 +86,7 @@ import Pagination from "@/components/Pagination.vue";
 import SearchForm from "@/components/searchForm.vue";
 import Breadcrumbs from "@/components/Breadcrumbs.vue";
 import ListItems from "@/components/ListItems.vue";
+import draggable from "vuedraggable";
 
 export default {
   components: {
@@ -80,10 +94,12 @@ export default {
     SearchForm,
     Breadcrumbs,
     ListItems,
+    draggable,
   },
   data() {
     return {
       open: false,
+      drag: false,
       portalURL: "",
       baseURL: "",
       startURL: "",
