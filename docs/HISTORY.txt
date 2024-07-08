@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-4.2.1 (unreleased)
+4.2.1 (2024-07-08)
 ------------------
 
 - Add ignore_nav_root parameter to breadcrumbs endpoint [mathias.leimgruber]
