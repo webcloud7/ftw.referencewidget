@@ -181,7 +181,7 @@ export default {
 
       if (!isSearch) {
         const breadcrumbs = await this.axios.get(
-          this.contextURL + "/@breadcrumbs"
+          this.contextURL + "/@breadcrumbs?ignore_nav_root=1"
         );
         this.breadcrumbs = breadcrumbs.data.items;
       }
