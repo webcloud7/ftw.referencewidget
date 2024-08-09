@@ -17390,7 +17390,7 @@ const _sfc_main = {
   }
 };
 const _hoisted_1 = { ref: "root" };
-const _hoisted_2 = ["id"];
+const _hoisted_2 = ["id", "aria-hidden"];
 const _hoisted_3 = { class: "card" };
 const _hoisted_4 = { class: "card-header" };
 const _hoisted_5 = { class: "card-body" };
@@ -17416,7 +17416,7 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
       class: "collapse",
       tabindex: "-1",
       "aria-labelledby": "ref-modal-title",
-      "aria-hidden": "true",
+      "aria-hidden": !$data.open,
       ref: "browser"
     }, [
       createBaseVNode("div", _hoisted_3, [

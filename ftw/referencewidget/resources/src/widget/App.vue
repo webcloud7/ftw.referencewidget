@@ -5,7 +5,7 @@
       class="collapse"
       tabindex="-1"
       aria-labelledby="ref-modal-title"
-      aria-hidden="true"
+      :aria-hidden="!open"
       ref="browser"
     >
       <div class="card">
@@ -152,6 +152,7 @@ export default {
       this.fetchData(this.startURL);
       this.fetchWorkflowTitles();
       this.open = true;
+
     });
     this.$refs.browser.addEventListener("hidden.bs.collapse", () => {
       this.open = false;
