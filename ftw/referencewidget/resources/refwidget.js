@@ -114,8 +114,9 @@
       
       var refbrowser_template = Handlebars.compile($("#refbrowser-template", widget.field).html());
       $("body").append(refbrowser_template(widget.translations));
-      widget.build_pathbar(widget, "");
-      widget.get_data(widget, "");
+
+      widget.build_pathbar(widget, widget.request_path);
+      widget.get_data(widget, widget.request_path);
 
       var overlay = $(".refbrowser");
       overlay.on("click", ".path a", widget.jump_to.bind(null, widget));
