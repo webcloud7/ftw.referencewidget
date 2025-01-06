@@ -1,5 +1,3 @@
-from Products.CMFCore.utils import getToolByName
-from Products.Five import BrowserView
 from ftw.referencewidget.browser.utils import extend_with_batching
 from ftw.referencewidget.browser.utils import get_root_path_from_source
 from ftw.referencewidget.browser.utils import get_selectable_types
@@ -8,7 +6,10 @@ from ftw.referencewidget.browser.utils import get_sort_order_options
 from ftw.referencewidget.browser.utils import get_traversal_types
 from ftw.referencewidget.widget import ReferenceBrowserWidget
 from plone import api
+from plone.dexterity.utils import safe_utf8
 from plone.portlets.interfaces import IPortletAssignment
+from Products.CMFCore.utils import getToolByName
+from Products.Five import BrowserView
 import json
 
 
@@ -81,7 +82,7 @@ class SearchView(BrowserView):
 
             date = ' (%s)' % plone.toLocalizedTime(item.start) if item.start else ''
 
-            label = '{0}{1}'.format(item.Title, date)
+            label = '{0}{1}'.format(safe_utf8(item.Title), safe_utf8(date))
             if not uid:
                 label += ' ({0})'.format(item.getPath())
 
