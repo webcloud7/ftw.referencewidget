@@ -12,7 +12,7 @@ from plone.app.redirector.interfaces import IRedirectionStorage
 from plone.base.defaultpage import is_default_page
 from Products.CMFCore.Expression import createExprContext
 from Products.CMFPlone.resources.webresource import PloneScriptResource
-from Products.CMFPlone.utils import safe_unicode
+from plone.base.utils import safe_text
 from z3c.form.browser import widget
 from z3c.form.interfaces import IFieldWidget
 from z3c.form.interfaces import IFormLayer
@@ -138,7 +138,7 @@ class ReferenceBrowserWidget(widget.HTMLTextInputWidget, Widget):
 
         def obj_to_dict(obj):
             return {'path': '/'.join(obj.getPhysicalPath()),
-                    'title': safe_unicode(obj.Title())}
+                    'title': safe_text(obj.Title())}
 
         if isinstance(self.value, list):
             for item in self.value:

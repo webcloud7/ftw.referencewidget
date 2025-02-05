@@ -24,12 +24,12 @@ class TestWidgetConfig(TestCase):
         self.widget.allow_traversal = ['Folder']
 
         result = get_traversal_types(self.widget)
-        self.assertEquals(1, len(result))
-        self.assertEquals(['Folder'], result)
+        self.assertEqual(1, len(result))
+        self.assertEqual(['Folder'], result)
 
     def test_selectable_types_allowed(self):
         self.widget.selectable = ['Folder']
 
         result = get_selectable_types(self.widget)
-        self.assertEquals(1, len(result))
-        self.assertEquals(['Folder'], result)
+        self.assertEqual(1, len(result))
+        self.assertEqual(['Folder'], result)

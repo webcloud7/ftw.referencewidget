@@ -5,7 +5,7 @@ from plone.autoform import directives
 from plone.autoform.interfaces import IFormFieldProvider
 from plone.supermodel import model
 from plone.supermodel.model import fieldset
-from Products.CMFPlone import PloneMessageFactory as pmf
+from plone.base import PloneMessageFactory as pmf
 from ftw.referencewidget import _
 from z3c.relationfield.schema import RelationChoice, RelationList
 from zope.interface import provider

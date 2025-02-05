@@ -29,14 +29,14 @@ class TestDataGridField(FunctionalTestCase):
             ]
         }).save()
 
-        self.assertEquals(
+        self.assertEqual(
             [folder],
             [row['link'].to_object for row in content.the_data_grid]
         )
 
         browser.login().visit(content, view='@@edit')
         selected = browser.css('.selected_items [type="hidden"]')
-        self.assertEquals(
+        self.assertEqual(
             ['/plone/some-folder'],
             [node.attrib['value'] for node in selected]
         )

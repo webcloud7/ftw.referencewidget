@@ -33,7 +33,7 @@ endif
 ##############################################################################
 # SETTINGS AND VARIABLE
 # adjust to your project needs
-PROJECT_NAME=ftw.topics
+PROJECT_NAME=ftw.referencewidget
 IMAGE_NAME=${PROJECT_NAME}
 CONSTRAINTS_IN=constraints.txt
 CONSTRAINTS_IN=constraints.txt

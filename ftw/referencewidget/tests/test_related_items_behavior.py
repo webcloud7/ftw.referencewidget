@@ -23,7 +23,7 @@ class TestRelatedItemsReplacement(FunctionalTestCase):
         browser.fill({'Related Items': folder})
         browser.find_button_by_label('Save').click()
 
-        self.assertEquals(
+        self.assertEqual(
             [folder],
             [relation.to_object for relation in content.relatedItems])
 
@@ -39,7 +39,7 @@ class TestRelatedItemsReplacement(FunctionalTestCase):
         browser.fill({'Related Items': [folder1, folder2]})
         browser.find_button_by_label('Save').click()
 
-        self.assertEquals(
+        self.assertEqual(
             [folder1, folder2],
             [relation.to_object for relation in content.relatedItems])
 
@@ -57,14 +57,14 @@ class TestRelatedItemsReplacement(FunctionalTestCase):
 
         browser.login().visit(content, view='@@edit')
 
-        self.assertEquals(
+        self.assertEqual(
             [folder1, None],
             [relation.to_object for relation in content.relatedItems])
 
         selected = browser.css('.selected_items [type="hidden"]')
-        self.assertEquals(1, len(selected), 'Expect only one item')
-        self.assertEquals(['/'.join(folder1.getPhysicalPath())],
-                          [item.attrib['value'] for item in selected])
+        self.assertEqual(1, len(selected), 'Expect only one item')
+        self.assertEqual(['/'.join(folder1.getPhysicalPath())],
+                         [item.attrib['value'] for item in selected])
 
     @browsing
     def test_render_stored_related_items(self, browser):
@@ -78,17 +78,17 @@ class TestRelatedItemsReplacement(FunctionalTestCase):
         browser.login().visit(content, view='@@edit')
         selected_items = browser.css('.selected_items input')
 
-        self.assertEquals(2, len(selected_items))
+        self.assertEqual(2, len(selected_items))
 
-        self.assertEquals(folder1.Title(),
-                          selected_items[0].attrib['data-title'])
-        self.assertEquals('/'.join(folder1.getPhysicalPath()),
-                          selected_items[0].attrib['value'])
+        self.assertEqual(folder1.Title(),
+                         selected_items[0].attrib['data-title'])
+        self.assertEqual('/'.join(folder1.getPhysicalPath()),
+                         selected_items[0].attrib['value'])
 
-        self.assertEquals(folder2.Title(),
-                          selected_items[1].attrib['data-title'])
-        self.assertEquals('/'.join(folder2.getPhysicalPath()),
-                          selected_items[1].attrib['value'])
+        self.assertEqual(folder2.Title(),
+                         selected_items[1].attrib['data-title'])
+        self.assertEqual('/'.join(folder2.getPhysicalPath()),
+                         selected_items[1].attrib['value'])
 
     @browsing
     def test_multi_value_display_mode(self, browser):
@@ -102,10 +102,10 @@ class TestRelatedItemsReplacement(FunctionalTestCase):
         browser.login().visit(content)
 
         links = browser.css('.reference-widget.relationlist-field a')
-        self.assertEquals(2, len(links), 'Expect two links')
+        self.assertEqual(2, len(links), 'Expect two links')
 
         link1, link2 = links
-        self.assertEquals(folder1.Title(), link1.text)
-        self.assertEquals(folder1.absolute_url(), link1.attrib['href'].replace(':80', ''))
-        self.assertEquals(folder2.Title(), link2.text)
-        self.assertEquals(folder2.absolute_url(), link2.attrib['href'].replace(':80', ''))
+        self.assertEqual(folder1.Title(), link1.text)
+        self.assertEqual(folder1.absolute_url(), link1.attrib['href'].replace(':80', ''))
+        self.assertEqual(folder2.Title(), link2.text)
+        self.assertEqual(folder2.absolute_url(), link2.attrib['href'].replace(':80', ''))

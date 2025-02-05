@@ -27,12 +27,12 @@ class TestRelationChoice(FunctionalTestCase):
         browser.fill({'Related Choice': folder})
         browser.find_button_by_label('Save').click()
 
-        self.assertEquals(folder, content.realtionchoice.to_object)
+        self.assertEqual(folder, content.realtionchoice.to_object)
 
         browser.login().visit(content, view='@@edit')
         selected = browser.css('.selected_items [type="hidden"]')
-        self.assertEquals('/'.join(folder.getPhysicalPath()),
-                          selected[0].attrib['value'])
+        self.assertEqual('/'.join(folder.getPhysicalPath()),
+                         selected[0].attrib['value'])
 
     @browsing
     def test_relation_choice_with_removed_relation(self, browser):
@@ -62,8 +62,8 @@ class TestRelationChoice(FunctionalTestCase):
         browser.login().visit(content)
 
         link = browser.css('.reference-widget.relationchoice-field a').first
-        self.assertEquals(folder.Title(), link.text)
-        self.assertEquals(folder.absolute_url(), link.attrib['href'].replace(':80', ''))
+        self.assertEqual(folder.Title(), link.text)
+        self.assertEqual(folder.absolute_url(), link.attrib['href'].replace(':80', ''))
 
 
 class TestRelationChoiceRestricted(FunctionalTestCase):
@@ -84,8 +84,8 @@ class TestRelationChoiceRestricted(FunctionalTestCase):
         browser.fill({'Related Choice Restricted': folder})
         browser.find_button_by_label('Save').click()
 
-        self.assertEquals('Constraint not satisfied',
-                          browser.css('.error .invalid-feedback').first.text)
+        self.assertEqual('Constraint not satisfied',
+                         browser.css('.error .invalid-feedback').first.text)
         self.assertIn('There were some errors',
                       browser.css('.statusmessage-error').first.text)
 
@@ -99,8 +99,8 @@ class TestRelationChoiceRestricted(FunctionalTestCase):
         browser.fill({'Related Choice Restricted': content2})
         browser.find_button_by_label('Save').click()
 
-        self.assertEquals(content2,
-                          content1.realtionchoice_restricted.to_object)
+        self.assertEqual(content2,
+                         content1.realtionchoice_restricted.to_object)
 
     @browsing
     def test_custom_selectable_class_for_source_binder(self, browser):
@@ -123,5 +123,5 @@ class TestRelationChoiceRestricted(FunctionalTestCase):
         browser.fill({'Related Choice Restricted Title': folder})
         browser.find_button_by_label('Save').click()
 
-        self.assertEquals(folder,
-                          content.realtionchoice_restricted_title.to_object)
+        self.assertEqual(folder,
+                         content.realtionchoice_restricted_title.to_object)

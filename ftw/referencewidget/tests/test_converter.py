@@ -29,13 +29,13 @@ class TestFieldConverter(TestCase):
         payload = ['/'.join(self.folder.getPhysicalPath()),
                    '/'.join(self.file2.getPhysicalPath())]
         result = self.converter.toFieldValue(payload)
-        self.assertEquals(self.folder, result[0])
-        self.assertEquals(self.file2, result[1])
+        self.assertEqual(self.folder, result[0])
+        self.assertEqual(self.file2, result[1])
 
     def test_field_to_widget(self):
         expected = ['/'.join(self.folder.getPhysicalPath()),
                     '/'.join(self.file2.getPhysicalPath())]
         payload = [self.folder, self.file2]
         result = self.converter.toWidgetValue(payload)
-        self.assertEquals(expected[0], result[0])
-        self.assertEquals(expected[1], result[1])
+        self.assertEqual(expected[0], result[0])
+        self.assertEqual(expected[1], result[1])
