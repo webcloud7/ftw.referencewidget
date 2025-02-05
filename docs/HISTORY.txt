@@ -2,10 +2,10 @@ Changelog
 =========
 
 
-4.2.3 (unreleased)
+4.3.0 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Plone 6.1.x compatibility [mathias.leimgruber]
 
 
 4.2.2 (2024-08-09)
