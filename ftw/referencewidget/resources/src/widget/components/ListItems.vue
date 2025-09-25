@@ -36,6 +36,10 @@
             </a>
             <span v-else>
               {{ item.title }}
+              <template v-if="item.portal_type === 'SubTopic'">
+                {{ (getMainTopcis(item), null) }}
+                ({{ item.main_topics }})
+              </template>
               <span :class="`state-${item['review_state']}`"
                 >{{ workflowTitleMapping[item["review_state"]] }}
                 <span class="portal-type">({{ item["portal_type"] }})</span>
@@ -133,6 +137,14 @@ export default {
     },
     isTraversable(item) {
       return this.traversableTypes.indexOf(item.portal_type) != -1;
+    },
+    async getMainTopcis(item) {
+      const response = await this.axios.get(item["@id"], {
+        params: { include_items: "0" },
+      });
+      item.main_topics = response.data.main_topics
+        .map((topic) => topic.title)
+        .join(", ");
     },
   },
   computed: {

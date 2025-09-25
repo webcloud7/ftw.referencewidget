@@ -5,6 +5,10 @@ Changelog
 4.3.0 (unreleased)
 ------------------
 
+- Add SubTopic support. [mathias.leimgruber]
+  This is a tmp. third party integration. Will be removed once there is a better solution
+
+
 - Plone 6.1.x compatibility [mathias.leimgruber]
 
 
