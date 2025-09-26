@@ -13030,12 +13030,6 @@ const _sfc_main$1 = {
     },
     isTraversable(item) {
       return this.traversableTypes.indexOf(item.portal_type) != -1;
-    },
-    async getMainTopcis(item) {
-      const response = await this.axios.get(item["@id"], {
-        params: { include_items: "0" }
-      });
-      item.main_topics = response.data.main_topics.map((topic) => topic.title).join(", ");
     }
   },
   computed: {
@@ -13111,7 +13105,7 @@ function _sfc_render$1(_ctx, _cache, $props, $setup, $data, $options) {
             ], 8, _hoisted_3$1)) : (openBlock(), createElementBlock("span", _hoisted_5$1, [
               createTextVNode(toDisplayString(item.title) + " ", 1),
               item.portal_type === "SubTopic" ? (openBlock(), createElementBlock(Fragment, { key: 0 }, [
-                createTextVNode(toDisplayString(($options.getMainTopcis(item), null)) + " (" + toDisplayString(item.main_topics) + ") ", 1)
+                createTextVNode(" (" + toDisplayString(item.main_topics) + ") ", 1)
               ], 64)) : createCommentVNode("", true),
               createBaseVNode("span", {
                 class: normalizeClass(`state-${item["review_state"]}`)
@@ -19544,6 +19538,17 @@ const _sfc_main = {
       }
       this.additionalContextData["review_state"] = response.data.review_state;
       this.additionalContextData["review_state_title"] = this.workflowTitleMapping[response.data.review_state];
+      this.data.items.forEach((item) => {
+        if (item.portal_type === "SubTopic") {
+          this.getMainTopcis(item);
+        }
+      });
+    },
+    async getMainTopcis(item) {
+      const response = await this.axios.get(item["@id"], {
+        params: { include_items: "0" }
+      });
+      item.main_topics = response.data.main_topics.map((topic) => topic.title).join(", ");
     },
     async fetchWorkflowTitles() {
       const response = await this.axios.get(

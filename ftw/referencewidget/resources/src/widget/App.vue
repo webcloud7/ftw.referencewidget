@@ -199,6 +199,21 @@ export default {
       this.additionalContextData["review_state"] = response.data.review_state;
       this.additionalContextData["review_state_title"] =
         this.workflowTitleMapping[response.data.review_state];
+
+      // Add main topics to subtopics
+      this.data.items.forEach((item) => {
+        if (item.portal_type === "SubTopic") {
+          this.getMainTopcis(item);
+        }
+      });
+    },
+    async getMainTopcis(item) {
+      const response = await this.axios.get(item["@id"], {
+        params: { include_items: "0" },
+      });
+      item.main_topics = response.data.main_topics
+        .map((topic) => topic.title)
+        .join(", ");
     },
     async fetchWorkflowTitles() {
       const response = await this.axios.get(
