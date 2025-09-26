@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-4.3.1 (unreleased)
+4.3.1 (2025-09-26)
 ------------------
 
 - Adapt SupTopic integration to not send too many requests. [mathias.leimgruber]
