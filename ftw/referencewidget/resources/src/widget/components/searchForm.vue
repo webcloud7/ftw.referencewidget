@@ -52,7 +52,9 @@
       </div>
     </div>
     <div class="col">
-      <button type="submit" class="btn btn-primary">{{ $i18n("Search") }}</button>
+      <button type="submit" class="btn btn-primary">
+        {{ $i18n("Search") }}
+      </button>
       <button @click.stop.prevent="reset" class="btn btn-danger">
         {{ $i18n("Reset") }}
       </button>
@@ -67,6 +69,7 @@ export default {
       sortOn: "getObjPositionInParent",
       sortOrder: "ascending",
       sortAttribute: [
+        { title: this.$i18n("Relevance"), value: "" },
         { title: this.$i18n("Position"), value: "getObjPositionInParent" },
         { title: this.$i18n("Title"), value: "sortable_title" },
         { title: this.$i18n("Created"), value: "created" },
@@ -76,6 +79,10 @@ export default {
   },
   methods: {
     search() {
+      if (this.searchTerm && this.sortOn == "getObjPositionInParent") {
+        this.sortOn = "";
+      }
+
       this.$emit("search", {
         searchTerm: this.searchTerm,
         sortOn: this.sortOn,
@@ -83,6 +90,9 @@ export default {
       });
     },
     reset() {
+      this.searchTerm = "";
+      this.sortOn = "getObjPositionInParent";
+      this.sortOrder = "ascending";
       this.$emit("reset", {
         searchTerm: "",
         sortOn: "getObjPositionInParent",

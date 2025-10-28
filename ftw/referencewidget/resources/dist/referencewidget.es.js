@@ -12721,6 +12721,7 @@ const _sfc_main$4 = {
       sortOn: "getObjPositionInParent",
       sortOrder: "ascending",
       sortAttribute: [
+        { title: this.$i18n("Relevance"), value: "" },
         { title: this.$i18n("Position"), value: "getObjPositionInParent" },
         { title: this.$i18n("Title"), value: "sortable_title" },
         { title: this.$i18n("Created"), value: "created" },
@@ -12730,6 +12731,9 @@ const _sfc_main$4 = {
   },
   methods: {
     search() {
+      if (this.searchTerm && this.sortOn == "getObjPositionInParent") {
+        this.sortOn = "";
+      }
       this.$emit("search", {
         searchTerm: this.searchTerm,
         sortOn: this.sortOn,
@@ -12737,6 +12741,9 @@ const _sfc_main$4 = {
       });
     },
     reset() {
+      this.searchTerm = "";
+      this.sortOn = "getObjPositionInParent";
+      this.sortOrder = "ascending";
       this.$emit("reset", {
         searchTerm: "",
         sortOn: "getObjPositionInParent",
