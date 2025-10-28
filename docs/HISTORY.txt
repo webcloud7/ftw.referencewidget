@@ -5,7 +5,7 @@ Changelog
 4.4.1 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Remove additional dirs under src. [mathias.leimgruber]
 
 
 4.4.0 (2025-10-28)
