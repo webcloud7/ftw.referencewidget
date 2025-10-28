@@ -4,21 +4,9 @@ version: 2.1
 workflows:
   tests:
     jobs:
-      - plone6py311
       - plone61py312
 
 jobs:
-  plone6py311:
-    resource_class: medium
-    docker:
-      - image: webcloud7/plone-test:6.1.2-py311
-    environment:
-      PIP_FIND_LINKS: /wheelhouse/
-    steps:
-      - checkout
-      - run: make install VENV_FOLDER=.
-      - run: make test VENV_FOLDER=.
-
   plone61py312:
     resource_class: medium
     docker:
