@@ -67,6 +67,7 @@ export default {
       sortOn: "getObjPositionInParent",
       sortOrder: "ascending",
       sortAttribute: [
+        { title: this.$i18n("Relevance"), value: "" },
         { title: this.$i18n("Position"), value: "getObjPositionInParent" },
         { title: this.$i18n("Title"), value: "sortable_title" },
         { title: this.$i18n("Created"), value: "created" },
@@ -78,7 +79,7 @@ export default {
     search() {
       this.$emit("search", {
         searchTerm: this.searchTerm,
-        sortOn: this.sortOn,
+        sortOn: this.searchTerm ? this.sortOn : "",
         sortOrder: this.sortOrder,
       });
     },
