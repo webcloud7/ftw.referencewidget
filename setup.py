@@ -1,4 +1,4 @@
-from setuptools import setup, find_packages
+from setuptools import setup, find_namespace_packages
 import os
 
 version = '4.4.2.dev0'
@@ -37,7 +37,7 @@ setup(name='ftw.referencewidget',
       url='https://github.com/webcloud7/ftw.referencewidget',
 
       license='GPL2',
-      packages=find_packages('src'),
+      packages=find_namespace_packages('src', exclude=['ftw']),
       package_dir={'': 'src'},
       include_package_data=True,
       zip_safe=False,
