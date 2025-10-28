@@ -5,6 +5,7 @@ Changelog
 4.3.2 (unreleased)
 ------------------
 
+- Update package to use native namespace and move code to src drectory. [mathias.leimgruber]
 - Sort by relevance if search is triggered with a search term. [mathias.leimgruber]
 
 

@@ -37,8 +37,8 @@ setup(name='ftw.referencewidget',
       url='https://github.com/webcloud7/ftw.referencewidget',
 
       license='GPL2',
-      packages=find_packages(exclude=['ez_setup']),
-      namespace_packages=['ftw'],
+      packages=find_packages('src'),
+      package_dir={'': 'src'},
       include_package_data=True,
       zip_safe=False,
 

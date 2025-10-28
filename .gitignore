@@ -17,7 +17,7 @@ develop-eggs/
 /dist/
 eggs/
 parts/
-/src/
+/sources/
 var/
 etc/
 var/
