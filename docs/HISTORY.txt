@@ -5,7 +5,7 @@ Changelog
 4.3.2 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Sort by relevance if search is triggered with a search term. [mathias.leimgruber]
 
 
 4.3.1 (2025-09-26)
