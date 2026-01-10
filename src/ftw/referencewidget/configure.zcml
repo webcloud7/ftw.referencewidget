@@ -104,4 +104,9 @@
         provides=".datagridfield.IDataGridFieldExample"
         />
 
+    <utility
+        provides="plone.autoform.interfaces.IWidgetExportImportHandler"
+        name="ftw.referencewidget.widget.ReferenceBrowserWidget"
+        component=".referencewidget_handler.ReferenceBrowserWidgetHandler"
+        />
 </configure>

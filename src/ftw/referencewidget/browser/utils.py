@@ -47,6 +47,10 @@ def get_selectable_types_by_source(source):
 
 
 def get_selectable_types(widget):
+
+    if widget.override and widget.selectable:
+        return widget.selectable
+
     source = widget
     field = widget.field
     if isinstance(field, RelationList) or isinstance(field, List):

@@ -3,16 +3,11 @@ from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
 from plone.dexterity.content import Container
 from plone.dexterity.fti import DexterityFTI
-from plone.supermodel import model
 from unittest import TestCase
 from zope.interface import implementer
 from zope.interface import Interface
 import transaction
 from . import widgets  # noqa
-
-
-class ISampleContentSchema(model.Schema):
-    pass
 
 
 class ISampleContententMarker(Interface):
@@ -51,7 +46,6 @@ class FunctionalTestCase(TestCase):
             default_behaviors += additional_behaviors
 
         fti = DexterityFTI('SampleContent')
-        fti.schema = 'ftw.referencewidget.tests.ISampleContentSchema'
         fti.klass = 'ftw.referencewidget.tests.SampleContent'
         fti.behaviors = tuple(default_behaviors)
         fti.default_view = 'view'
