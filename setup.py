@@ -1,7 +1,7 @@
 from setuptools import setup, find_namespace_packages
 import os
 
-version = '4.4.3.dev0'
+version = '4.5.0'
 maintainer = 'Mathias Leimgruber'
 
 tests_require = [
