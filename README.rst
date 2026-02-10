@@ -79,13 +79,6 @@ Javascript public API:
 You can run "window.initReferenceWidget" in your code. It will scan for all referencebrowser widgets an if not yet initialized it will initialized the JS widget.
 
 
-Upgrading from 1.x to 2.x
--------------------------
-
-There was no version number set for the ``ftw.referencewidget`` package. As a result of this upgradesteps wont be shown in ``../@@manage-upgrades`` from `ftw.upgrade <https://github.com/4teamwork/ftw.upgrade>`_.
-So the first upgradesetp ``Upgrade ftw.referencewidget:default to 20181112105705: Fix registry field frontend edit`` must be installed via the ZMI under ``../portal_setup/manage_fullImport``. This sets the version for the package and so further upgrades can be installed via ``../@@manage-upgrades``.
-
-
 Version 4.x
 -----------
 Version 4.x of ftw.referencewidget is only compatible with Plone 6 and Python 3.9 (maybe 3.7 and 3.8 as well).
