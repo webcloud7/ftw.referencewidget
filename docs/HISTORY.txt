@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-4.5.2 (unreleased)
+4.5.2 (2026-11-09)
 ------------------
 
 - Fix widget buttons (search, reset, move) being disabled and Enter not
