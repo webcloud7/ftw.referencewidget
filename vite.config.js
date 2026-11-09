@@ -8,11 +8,11 @@ import path from "path";
 export default defineConfig({
   plugins: [vue()],
   build: {
-    outDir: path.resolve(__dirname, "ftw/referencewidget/resources/dist"),
+    outDir: path.resolve(__dirname, "src/ftw/referencewidget/resources/dist"),
     lib: {
       entry: path.resolve(
         __dirname,
-        "ftw/referencewidget/resources/src/main.js"
+        "src/ftw/referencewidget/resources/src/main.js"
       ),
       name: "Referencewidget",
       fileName: (format) => `referencewidget.${format}.js`,
@@ -31,7 +31,10 @@ export default defineConfig({
   resolve: {
     alias: {
       "@": fileURLToPath(
-        new URL("./ftw/referencewidget/resources/src/widget", import.meta.url)
+        new URL(
+          "./src/ftw/referencewidget/resources/src/widget",
+          import.meta.url
+        )
       ),
     },
   },

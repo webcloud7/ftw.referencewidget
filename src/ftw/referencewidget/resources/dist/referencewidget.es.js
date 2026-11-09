@@ -12752,38 +12752,32 @@ const _sfc_main$4 = {
     }
   }
 };
-const _hoisted_1$4 = { class: "col" };
-const _hoisted_2$4 = { class: "form-floating" };
-const _hoisted_3$4 = ["aria-label"];
-const _hoisted_4$4 = ["selected", "value"];
-const _hoisted_5$3 = { for: "sortattr" };
-const _hoisted_6$3 = { class: "col" };
-const _hoisted_7$3 = { class: "form-floating" };
-const _hoisted_8$1 = ["aria-label"];
-const _hoisted_9$1 = {
+const _hoisted_1$4 = { class: "row my-2 gy-2 gx-3 align-items-center" };
+const _hoisted_2$4 = { class: "col" };
+const _hoisted_3$4 = { class: "form-floating" };
+const _hoisted_4$4 = ["aria-label"];
+const _hoisted_5$3 = ["selected", "value"];
+const _hoisted_6$3 = { for: "sortattr" };
+const _hoisted_7$3 = { class: "col" };
+const _hoisted_8$1 = { class: "form-floating" };
+const _hoisted_9$1 = ["aria-label"];
+const _hoisted_10$1 = {
   selected: "",
   value: "ascending"
 };
-const _hoisted_10$1 = {
+const _hoisted_11$1 = {
   selected: "",
   value: "descending"
 };
-const _hoisted_11$1 = { for: "sortorder" };
-const _hoisted_12$1 = { class: "col" };
-const _hoisted_13 = { class: "form-floating" };
-const _hoisted_14 = { for: "searchFilter" };
-const _hoisted_15 = { class: "col" };
-const _hoisted_16 = {
-  type: "submit",
-  class: "btn btn-primary"
-};
+const _hoisted_12$1 = { for: "sortorder" };
+const _hoisted_13 = { class: "col" };
+const _hoisted_14 = { class: "form-floating" };
+const _hoisted_15 = { for: "searchFilter" };
+const _hoisted_16 = { class: "col" };
 function _sfc_render$4(_ctx, _cache, $props, $setup, $data, $options) {
-  return openBlock(), createElementBlock("form", {
-    onSubmit: _cache[6] || (_cache[6] = withModifiers((...args) => $options.search && $options.search(...args), ["stop", "prevent"])),
-    class: "row my-2 gy-2 gx-3 align-items-center"
-  }, [
-    createBaseVNode("div", _hoisted_1$4, [
-      createBaseVNode("div", _hoisted_2$4, [
+  return openBlock(), createElementBlock("div", _hoisted_1$4, [
+    createBaseVNode("div", _hoisted_2$4, [
+      createBaseVNode("div", _hoisted_3$4, [
         withDirectives(createBaseVNode("select", {
           class: "form-select",
           id: "sortattr",
@@ -12796,16 +12790,16 @@ function _sfc_render$4(_ctx, _cache, $props, $setup, $data, $options) {
               key: option2.value,
               selected: index2 == 0,
               value: option2.value
-            }, toDisplayString(option2.title), 9, _hoisted_4$4);
+            }, toDisplayString(option2.title), 9, _hoisted_5$3);
           }), 128))
-        ], 40, _hoisted_3$4), [
+        ], 40, _hoisted_4$4), [
           [vModelSelect, $data.sortOn]
         ]),
-        createBaseVNode("label", _hoisted_5$3, toDisplayString(_ctx.$i18n("Sort on")), 1)
+        createBaseVNode("label", _hoisted_6$3, toDisplayString(_ctx.$i18n("Sort on")), 1)
       ])
     ]),
-    createBaseVNode("div", _hoisted_6$3, [
-      createBaseVNode("div", _hoisted_7$3, [
+    createBaseVNode("div", _hoisted_7$3, [
+      createBaseVNode("div", _hoisted_8$1, [
         withDirectives(createBaseVNode("select", {
           class: "form-select",
           id: "sortorder",
@@ -12813,36 +12807,42 @@ function _sfc_render$4(_ctx, _cache, $props, $setup, $data, $options) {
           "onUpdate:modelValue": _cache[2] || (_cache[2] = ($event) => $data.sortOrder = $event),
           onChange: _cache[3] || (_cache[3] = () => $options.search())
         }, [
-          createBaseVNode("option", _hoisted_9$1, toDisplayString(_ctx.$i18n("Ascending")), 1),
-          createBaseVNode("option", _hoisted_10$1, toDisplayString(_ctx.$i18n("Descending")), 1)
-        ], 40, _hoisted_8$1), [
+          createBaseVNode("option", _hoisted_10$1, toDisplayString(_ctx.$i18n("Ascending")), 1),
+          createBaseVNode("option", _hoisted_11$1, toDisplayString(_ctx.$i18n("Descending")), 1)
+        ], 40, _hoisted_9$1), [
           [vModelSelect, $data.sortOrder]
         ]),
-        createBaseVNode("label", _hoisted_11$1, toDisplayString(_ctx.$i18n("Sort order")), 1)
+        createBaseVNode("label", _hoisted_12$1, toDisplayString(_ctx.$i18n("Sort order")), 1)
       ])
     ]),
-    createBaseVNode("div", _hoisted_12$1, [
-      createBaseVNode("div", _hoisted_13, [
+    createBaseVNode("div", _hoisted_13, [
+      createBaseVNode("div", _hoisted_14, [
         withDirectives(createBaseVNode("input", {
           type: "text",
           class: "form-control",
           id: "searchFilter",
           placeholder: "Text",
-          "onUpdate:modelValue": _cache[4] || (_cache[4] = ($event) => $data.searchTerm = $event)
-        }, null, 512), [
+          "onUpdate:modelValue": _cache[4] || (_cache[4] = ($event) => $data.searchTerm = $event),
+          onKeydown: _cache[5] || (_cache[5] = withKeys(withModifiers((...args) => $options.search && $options.search(...args), ["prevent"]), ["enter"]))
+        }, null, 544), [
           [vModelText, $data.searchTerm]
         ]),
-        createBaseVNode("label", _hoisted_14, toDisplayString(_ctx.$i18n("Search text")), 1)
+        createBaseVNode("label", _hoisted_15, toDisplayString(_ctx.$i18n("Search text")), 1)
       ])
     ]),
-    createBaseVNode("div", _hoisted_15, [
-      createBaseVNode("button", _hoisted_16, toDisplayString(_ctx.$i18n("Search")), 1),
+    createBaseVNode("div", _hoisted_16, [
       createBaseVNode("button", {
-        onClick: _cache[5] || (_cache[5] = withModifiers((...args) => $options.reset && $options.reset(...args), ["stop", "prevent"])),
-        class: "btn btn-danger"
+        type: "button",
+        class: "btn btn-primary",
+        onClick: _cache[6] || (_cache[6] = (...args) => $options.search && $options.search(...args))
+      }, toDisplayString(_ctx.$i18n("Search")), 1),
+      createBaseVNode("button", {
+        type: "button",
+        class: "btn btn-danger",
+        onClick: _cache[7] || (_cache[7] = (...args) => $options.reset && $options.reset(...args))
       }, toDisplayString(_ctx.$i18n("Reset")), 1)
     ])
-  ], 32);
+  ]);
 }
 var SearchForm = /* @__PURE__ */ _export_sfc(_sfc_main$4, [["render", _sfc_render$4]]);
 const _sfc_main$3 = {
@@ -19615,6 +19615,7 @@ const _hoisted_6 = { class: "widget-selected-items" };
 const _hoisted_7 = { class: "list-group" };
 const _hoisted_8 = { class: "list-group-item" };
 const _hoisted_9 = {
+  type: "button",
   class: "btn btn-light moveButton me-2",
   title: "Move item"
 };

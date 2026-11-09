@@ -1,8 +1,5 @@
 <template>
-  <form
-    @submit.stop.prevent="search"
-    class="row my-2 gy-2 gx-3 align-items-center"
-  >
+  <div class="row my-2 gy-2 gx-3 align-items-center">
     <div class="col">
       <div class="form-floating">
         <select
@@ -47,19 +44,20 @@
           id="searchFilter"
           placeholder="Text"
           v-model="searchTerm"
+          @keydown.enter.prevent="search"
         />
         <label for="searchFilter">{{ $i18n("Search text") }}</label>
       </div>
     </div>
     <div class="col">
-      <button type="submit" class="btn btn-primary">
+      <button type="button" class="btn btn-primary" @click="search">
         {{ $i18n("Search") }}
       </button>
-      <button @click.stop.prevent="reset" class="btn btn-danger">
+      <button type="button" class="btn btn-danger" @click="reset">
         {{ $i18n("Reset") }}
       </button>
     </div>
-  </form>
+  </div>
 </template>
 <script>
 export default {

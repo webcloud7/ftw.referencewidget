@@ -54,7 +54,11 @@
         >
           <template #item="{ element }">
             <li class="list-group-item">
-              <button class="btn btn-light moveButton me-2" title="Move item">
+              <button
+                type="button"
+                class="btn btn-light moveButton me-2"
+                title="Move item"
+              >
                 <img :src="`${portalURL}/@@iconresolver/arrows-move`" />
               </button>
               <input

@@ -2,21 +2,21 @@
   "name": "referencewidget",
   "version": "0.0.0",
   "files": [
-    "ftw/referencewidget/resources/src"
+    "src/ftw/referencewidget/resources/src"
   ],
-  "main": "./ftw/referencewidget/resources/dist/referencewidget.umd.js",
-  "module": "./ftw/referencewidget/resources/dist/referencewidget.es.js",
+  "main": "./src/ftw/referencewidget/resources/dist/referencewidget.umd.js",
+  "module": "./src/ftw/referencewidget/resources/dist/referencewidget.es.js",
   "exports": {
     ".": {
-      "import": "./ftw/referencewidget/resources/dist/referencewidget.es.js",
-      "require": "./ftw/referencewidget/resources/dist/referencewidget.umd.js"
+      "import": "./src/ftw/referencewidget/resources/dist/referencewidget.es.js",
+      "require": "./src/ftw/referencewidget/resources/dist/referencewidget.umd.js"
     }
   },
   "scripts": {
     "dev": "vite build --watch --mode=development",
     "build": "vite build",
     "preview": "vite preview --port 5050",
-    "lint": "eslint ./ftw/referencewidget/resources/src --ext .vue,.js,.jsx,.cjs,.mjs --fix --ignore-path .gitignore"
+    "lint": "eslint ./src/ftw/referencewidget/resources/src --ext .vue,.js,.jsx,.cjs,.mjs --fix --ignore-path .gitignore"
   },
   "dependencies": {
     "@patternslib/patternslib": "^9.8.3",
